@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Pesanan berhasil! Terima kasih sudah belanja di Dakingo.">
+    <title>Pesanan Berhasil — Dakingo</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/components.css">
+    <style>
+        body {
+            padding-top: calc(var(--nav-height) + var(--announcement-height));
+            min-height: 100vh;
+        }
+
+        .success-section {
+            padding: 60px 0 80px;
+        }
+
+        /* Celebration */
+        .confetti-wrap {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            pointer-events: none;
+            z-index: 999;
+            overflow: hidden;
+            height: 100vh;
+        }
+
+        .confetti-piece {
+            position: absolute;
+            top: -20px;
+            width: 10px;
+            height: 10px;
+            border-radius: 2px;
+            animation: confettiFall linear forwards;
+        }
+
+        @keyframes confettiFall {
+            to {
+                transform: translateY(110vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        /* Success Card */
+        .success-card {
+            max-width: 680px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .success-icon-wrap {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #22C55E, #16A34A);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.8rem;
+            margin: 0 auto 24px;
+            box-shadow: 0 8px 32px rgba(34, 197, 94, 0.3);
+            animation: bounceIn 0.6s cubic-bezier(0.36, 0.07, 0.19, 0.97);
+        }
+
+        @keyframes bounceIn {
+            0% {
+                transform: scale(0);
+                opacity: 0;
+            }
+
+            60% {
+                transform: scale(1.15);
+                opacity: 1;
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .success-title {
+            font-size: clamp(1.6rem, 4vw, 2.2rem);
+            font-weight: 900;
+            color: var(--text-dark);
+            margin-bottom: 10px;
+        }
+
+        .success-subtitle {
+            font-size: 0.95rem;
+            color: var(--text-light);
+            margin-bottom: 32px;
+        }
+
+        /* Order Summary Box */
+        .order-summary-box {
+            background: #fff;
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-sm);
+            padding: 24px 28px;
+            margin-bottom: 28px;
+            text-align: left;
+        }
+
+        .order-summary-box h3 {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+        }
+
+        @media (max-width: 480px) {
+            .summary-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .summary-item-label {
+            font-size: 0.78rem;
+            color: var(--text-light);
+            margin-bottom: 3px;
+        }
+
+        .summary-item-val {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        /* Items in order */
+        .ordered-items {
+            background: var(--bg);
+            border-radius: var(--radius-sm);
+            padding: 14px;
+            margin-top: 16px;
+        }
+
+        .ordered-item-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .ordered-item-row:last-child {
+            border-bottom: none;
+        }
+
+        .ordered-item-thumb {
+            width: 48px;
+            height: 48px;
+            border-radius: var(--radius-sm);
+            background: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .ordered-item-name {
+            font-size: 0.825rem;
+            font-weight: 600;
+            flex: 1;
+        }
+
+        .ordered-item-qty {
+            font-size: 0.75rem;
+            color: var(--text-light);
+        }
+
+        .ordered-item-price {
+            font-size: 0.875rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        /* Total highlight */
+        .total-highlight {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--accent-light);
+            border-radius: var(--radius-sm);
+            padding: 14px 18px;
+            margin-top: 16px;
+        }
+
+        .total-highlight-label {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .total-highlight-val {
+            font-size: 1.2rem;
+            font-weight: 900;
+            color: var(--primary);
+        }
+
+        /* Action buttons */
+        .success-actions {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* Estimated delivery */
+        .delivery-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #ECFDF5;
+            border: 1px solid #BBF7D0;
+            color: #065F46;
+            padding: 10px 20px;
+            border-radius: var(--radius-full);
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 32px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Confetti -->
+    <div class="confetti-wrap" id="confetti"></div>
+
+    <div class="announcement-bar">🍫 Free Eagle Tray | E-commerce Homepage — Order Now & Get 10% Off!</div>
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-inner">
+                <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+                <a href="index.html" class="nav-logo">Dakingo</a>
+                <nav class="nav-links">
+                    <a href="index.html" class="nav-link active">Home</a>
+                    <div class="nav-dropdown">
+                        <a href="catalog.html" class="nav-link">Product</a>
+                        <div class="dropdown-menu">
+                            <a href="catalog.html" class="dropdown-item">🍰 All Products</a>
+                            <a href="catalog.html?cat=classic" class="dropdown-item">🎂 Classic Cakes</a>
+                            <a href="catalog.html?cat=gourmet" class="dropdown-item">✨ Gourmet</a>
+                            <a href="catalog.html?cat=designer" class="dropdown-item">🎨 Designer</a>
+                            <a href="catalog.html?cat=desserts" class="dropdown-item">🍮 Desserts</a>
+                        </div>
+                    </div>
+                    <div class="nav-dropdown">
+                        <a href="#" class="nav-link">Resources</a>
+                        <div class="dropdown-menu">
+                            <a href="#" class="dropdown-item">📖 Blog</a>
+                            <a href="#" class="dropdown-item">📸 Gallery</a>
+                        </div>
+                    </div>
+                    <div class="nav-dropdown">
+                        <a href="contact.html" class="nav-link">Contact</a>
+                        <div class="dropdown-menu">
+                            <a href="contact.html" class="dropdown-item">📞 Contact Us</a>
+                            <a href="#" class="dropdown-item">❓ FAQ</a>
+                        </div>
+                    </div>
+                </nav>
+                <div class="nav-spacer"></div>
+                <div class="nav-search">
+                    <button>🔍</button>
+                    <input type="text" placeholder="Search cakes...">
+                </div>
+                <div class="nav-icons">
+                    <a href="profile.html" class="nav-icon-btn" title="Profile" style="color:var(--primary)">👤</a>
+                    <a href="#" class="nav-icon-btn" title="Wishlist">🤍</a>
+                    <a href="checkout.html" class="nav-icon-btn" title="Cart">🛒<span class="nav-badge">0</span></a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <div class="overlay" id="overlay"></div>
+    <div class="mobile-nav" id="mobileNav">
+        <div class="mobile-nav-header"><span class="mobile-nav-logo">Dakingo</span><button class="mobile-nav-close"
+                id="navClose">✕</button></div>
+        <div class="mobile-nav-links">
+            <a href="index.html" class="mobile-nav-link active"><span class="icon">🏠</span>Home</a>
+            <a href="catalog.html" class="mobile-nav-link"><span class="icon">🛍️</span>Catalog</a>
+            <a href="contact.html" class="mobile-nav-link"><span class="icon">📞</span>Contact</a>
+            <a href="profile.html" class="mobile-nav-link"><span class="icon">👤</span>Profile</a>
+            <a href="pesanan.html" class="mobile-nav-link"><span class="icon">📦</span>Pesanan</a>
+            <a href="checkout.html" class="mobile-nav-link"><span class="icon">🛒</span>Cart (0)</a>
+            <a href="login.html" class="mobile-nav-link"><span class="icon">🔑</span>Login</a>
+            <a href="register.html" class="mobile-nav-link"><span class="icon">✏️</span>Register</a>
+        </div>
+    </div>
+
+    <section class="success-section">
+        <div class="container">
+            <div class="success-card">
+
+                <div class="success-icon-wrap">✅</div>
+                <h1 class="success-title">Pesanan Berhasil! 🎉</h1>
+                <p class="success-subtitle">Terima kasih sudah memesan di Dakingo! Kami akan segera memproses pesananmu.
+                </p>
+
+                <div class="delivery-badge">
+                    🚚 Estimasi tiba <strong style="margin-left:4px">8 – 9 Maret 2024</strong>
+                </div>
+
+                <!-- Summary box -->
+                <div class="order-summary-box">
+                    <h3>🧾 Ringkasan Pesanan</h3>
+                    <div class="summary-grid">
+                        <div>
+                            <div class="summary-item-label">Nomor Order</div>
+                            <div class="summary-item-val" style="color:var(--primary)">#DKG-2024-00934</div>
+                        </div>
+                        <div>
+                            <div class="summary-item-label">Tanggal Pesan</div>
+                            <div class="summary-item-val">6 Mar 2024, 13:05 WIB</div>
+                        </div>
+                        <div>
+                            <div class="summary-item-label">Metode Bayar</div>
+                            <div class="summary-item-val">Transfer Bank BCA</div>
+                        </div>
+                        <div>
+                            <div class="summary-item-label">Alamat Kirim</div>
+                            <div class="summary-item-val">Kebayoran Baru, Jakarta Selatan</div>
+                        </div>
+                    </div>
+
+                    <div class="ordered-items">
+                        <div class="ordered-item-row">
+                            <div class="ordered-item-thumb">🎂</div>
+                            <div style="flex:1">
+                                <div class="ordered-item-name">Choco Lava Cake Premium</div>
+                                <div class="ordered-item-qty">x2 • Medium</div>
+                            </div>
+                            <div class="ordered-item-price">Rp 170.000</div>
+                        </div>
+                        <div class="ordered-item-row">
+                            <div class="ordered-item-thumb">🧁</div>
+                            <div style="flex:1">
+                                <div class="ordered-item-name">Red Velvet Cupcake Box</div>
+                                <div class="ordered-item-qty">x1 • 6 pcs</div>
+                            </div>
+                            <div class="ordered-item-price">Rp 55.000</div>
+                        </div>
+                        <div class="ordered-item-row">
+                            <div class="ordered-item-thumb">🍫</div>
+                            <div style="flex:1">
+                                <div class="ordered-item-name">Dark Chocolate Brownies</div>
+                                <div class="ordered-item-qty">x1 • 4 pcs</div>
+                            </div>
+                            <div class="ordered-item-price">Rp 23.000</div>
+                        </div>
+                    </div>
+
+                    <div class="total-highlight">
+                        <span class="total-highlight-label">Total Dibayar</span>
+                        <span class="total-highlight-val">Rp 250.000</span>
+                    </div>
+                </div>
+
+                <div class="info-box success" style="margin-bottom:28px;text-align:left">
+                    <span class="info-box-icon">📧</span>
+                    <span>Konfirmasi pesanan sudah dikirim ke <strong>sari@email.com</strong>. Cek inbox kamu ya!</span>
+                </div>
+
+                <div class="success-actions">
+                    <a href="detail-pesanan.html" class="btn btn-primary">📋 Lihat Detail Pesanan</a>
+                    <a href="catalog.html" class="btn btn-outline">🛍️ Belanja Lagi</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mobile Bottom Nav -->
+    <nav class="mobile-bottom-nav">
+        <div class="mbn-items">
+            <div class="mbn-group">
+                <a href="index.html" class="mbn-item"><span class="mbn-icon">🏠</span><span
+                        class="mbn-label">Home</span></a>
+                <a href="catalog.html" class="mbn-item"><span class="mbn-icon">🛍️</span><span
+                        class="mbn-label">Katalog</span></a>
+            </div>
+            <div class="mbn-fab-space"></div>
+            <div class="mbn-group">
+                <a href="pesanan.html" class="mbn-item active"><span class="mbn-icon">📦</span><span
+                        class="mbn-label">Pesanan</span></a>
+                <a href="profile.html" class="mbn-item"><span class="mbn-icon">👤</span><span
+                        class="mbn-label">Profil</span></a>
+            </div>
+        </div>
+        <a href="checkout.html" class="mbn-fab">🛒<span class="mbn-badge">0</span></a>
+    </nav>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <div class="logo">Dakingo</div>
+                    <p>Sign up to our newsletter.</p>
+                    <form class="newsletter-form" onsubmit="return false"><input type="email"
+                            placeholder="Enter email"><button>Sign Up</button></form>
+                </div>
+                <div>
+                    <p class="footer-heading">Links</p>
+                    <ul class="footer-links">
+                        <li><a href="catalog.html">Katalog</a></li>
+                        <li><a href="profile.html">Profil</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <p class="footer-heading">Help</p>
+                    <ul class="footer-links">
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#">Terms</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <p class="footer-heading">Account</p>
+                    <ul class="footer-links">
+                        <li><a href="login.html">Login</a></li>
+                        <li><a href="register.html">Register</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>Copyright Dakingo.</p>
+            </div>
+        </div>
+    </footer>
+    <div class="toast" id="toast"></div>
+
+    <script>
+        const hamburger = document.getElementById('hamburger'); const mobileNav = document.getElementById('mobileNav'); const overlay = document.getElementById('overlay'); const navClose = document.getElementById('navClose');
+        hamburger.addEventListener('click', () => { mobileNav.classList.toggle('open'); overlay.classList.toggle('active'); hamburger.classList.toggle('open'); });
+        navClose.addEventListener('click', () => { mobileNav.classList.remove('open'); overlay.classList.remove('active'); hamburger.classList.remove('open'); });
+        overlay.addEventListener('click', () => { mobileNav.classList.remove('open'); overlay.classList.remove('active'); hamburger.classList.remove('open'); });
+
+        // Confetti
+        const colors = ['#E63946', '#FFB3BA', '#F59E0B', '#22C55E', '#3B82F6', '#A855F7', '#EC4899'];
+        const wrap = document.getElementById('confetti');
+        for (let i = 0; i < 60; i++) {
+            const p = document.createElement('div');
+            p.className = 'confetti-piece';
+            p.style.left = Math.random() * 100 + 'vw';
+            p.style.background = colors[Math.floor(Math.random() * colors.length)];
+            p.style.width = (Math.random() * 8 + 6) + 'px';
+            p.style.height = (Math.random() * 8 + 6) + 'px';
+            p.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+            p.style.animationDuration = (Math.random() * 2 + 2) + 's';
+            p.style.animationDelay = (Math.random() * 1.5) + 's';
+            wrap.appendChild(p);
+        }
+        setTimeout(() => wrap.remove(), 5000);
+
+        function showToast(msg) { const t = document.getElementById('toast'); t.textContent = msg; t.className = 'toast show toast-success'; setTimeout(() => t.className = 'toast', 2500); }
+    </script>
+</body>
+
+</html>

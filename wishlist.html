@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Produk favorit yang kamu simpan di Dakingo.">
+    <title>Wishlist — Dakingo</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/components.css">
+    <style>
+        body {
+            padding-top: calc(var(--nav-height) + var(--announcement-height));
+        }
+
+        .wishlist-section {
+            padding: 40px 0 80px;
+        }
+
+        .wishlist-layout {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 28px;
+            align-items: start;
+        }
+
+        @media (min-width: 1024px) {
+            .wishlist-layout {
+                grid-template-columns: 260px 1fr;
+            }
+        }
+
+        .avatar-wrap {
+            text-align: center;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 16px;
+        }
+
+        .avatar-ring {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin: 0 auto 10px;
+        }
+
+        .avatar-name {
+            font-size: 0.95rem;
+            font-weight: 700;
+            margin-bottom: 2px;
+        }
+
+        .avatar-email {
+            font-size: 0.75rem;
+            color: var(--text-light);
+        }
+
+        .wishlist-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .wishlist-count {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            font-weight: 500;
+        }
+
+        .wishlist-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        @media (min-width: 768px) {
+            .wishlist-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        .wish-card {
+            background: #fff;
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .wish-card:hover {
+            box-shadow: var(--shadow-md);
+            transform: translateY(-4px);
+        }
+
+        .wish-remove {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 32px;
+            height: 32px;
+            background: rgba(255, 255, 255, 0.92);
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+            z-index: 2;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .wish-remove:hover {
+            background: #FEE2E2;
+            color: var(--primary);
+        }
+
+        .wish-img {
+            aspect-ratio: 1/1;
+            background: var(--bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3.5rem;
+        }
+
+        .wish-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            padding: 3px 10px;
+            border-radius: var(--radius-full);
+            font-size: 0.65rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .wish-body {
+            padding: 12px 14px;
+        }
+
+        .wish-name {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 4px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .wish-price-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 8px;
+        }
+
+        .wish-price {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .wish-price-old {
+            font-size: 0.73rem;
+            color: var(--text-light);
+            text-decoration: line-through;
+        }
+
+        .wish-cart-btn {
+            width: 32px;
+            height: 32px;
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .wish-cart-btn:hover {
+            background: var(--primary-dark);
+            transform: scale(1.1);
+        }
+
+        .wish-stars {
+            display: flex;
+            gap: 2px;
+            margin-bottom: 6px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="announcement-bar">🍫 Free Eagle Tray | E-commerce Homepage — Order Now & Get 10% Off!</div>
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-inner">
+                <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+                <a href="index.html" class="nav-logo">Dakingo</a>
+                <nav class="nav-links">
+                    <a href="index.html" class="nav-link">Home</a>
+                    <div class="nav-dropdown">
+                        <a href="catalog.html" class="nav-link">Product</a>
+                        <div class="dropdown-menu">
+                            <a href="catalog.html" class="dropdown-item">🍰 All Products</a>
+                            <a href="catalog.html?cat=classic" class="dropdown-item">🎂 Classic Cakes</a>
+                            <a href="catalog.html?cat=gourmet" class="dropdown-item">✨ Gourmet</a>
+                            <a href="catalog.html?cat=designer" class="dropdown-item">🎨 Designer</a>
+                            <a href="catalog.html?cat=desserts" class="dropdown-item">🍮 Desserts</a>
+                        </div>
+                    </div>
+                    <div class="nav-dropdown">
+                        <a href="#" class="nav-link">Resources</a>
+                        <div class="dropdown-menu">
+                            <a href="#" class="dropdown-item">📖 Blog</a>
+                            <a href="#" class="dropdown-item">📸 Gallery</a>
+                        </div>
+                    </div>
+                    <div class="nav-dropdown">
+                        <a href="contact.html" class="nav-link">Contact</a>
+                        <div class="dropdown-menu">
+                            <a href="contact.html" class="dropdown-item">📞 Contact Us</a>
+                            <a href="#" class="dropdown-item">❓ FAQ</a>
+                        </div>
+                    </div>
+                </nav>
+                <div class="nav-spacer"></div>
+                <div class="nav-search">
+                    <button>🔍</button>
+                    <input type="text" placeholder="Search cakes...">
+                </div>
+                <div class="nav-icons">
+                    <a href="profile.html" class="nav-icon-btn" title="Profile" style="color:var(--primary)">👤</a>
+                    <a href="wishlist.html" class="nav-icon-btn" title="Wishlist" style="color:var(--primary)">🤍</a>
+                    <a href="checkout.html" class="nav-icon-btn" title="Cart">🛒<span class="nav-badge">3</span></a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <div class="overlay" id="overlay"></div>
+    <div class="mobile-nav" id="mobileNav">
+        <div class="mobile-nav-header"><span class="mobile-nav-logo">Dakingo</span><button class="mobile-nav-close"
+                id="navClose">✕</button></div>
+        <div class="mobile-nav-links">
+            <a href="index.html" class="mobile-nav-link"><span class="icon">🏠</span>Home</a>
+            <a href="catalog.html" class="mobile-nav-link"><span class="icon">🛍️</span>Catalog</a>
+            <a href="contact.html" class="mobile-nav-link"><span class="icon">📞</span>Contact</a>
+            <a href="profile.html" class="mobile-nav-link"><span class="icon">👤</span>Profile</a>
+            <a href="wishlist.html" class="mobile-nav-link active"><span class="icon">🤍</span>Wishlist</a>
+            <a href="checkout.html" class="mobile-nav-link"><span class="icon">🛒</span>Cart (3)</a>
+            <a href="login.html" class="mobile-nav-link"><span class="icon">🔑</span>Login</a>
+            <a href="register.html" class="mobile-nav-link"><span class="icon">✏️</span>Register</a>
+        </div>
+    </div>
+
+    <div class="page-header">
+        <div class="container">
+            <nav class="breadcrumb"><a href="index.html">Home</a> / <a href="profile.html">Profil</a> /
+                <span>Wishlist</span>
+            </nav>
+            <h1>Wishlist 🤍</h1>
+            <p>Produk favorit yang kamu simpan</p>
+        </div>
+    </div>
+
+    <section class="wishlist-section">
+        <div class="container">
+            <div class="wishlist-layout">
+                <!-- Sidebar -->
+                <aside class="sidebar">
+                    <div class="avatar-wrap">
+                        <div class="avatar-ring">👤</div>
+                        <div class="avatar-name">Sari Dewi</div>
+                        <div class="avatar-email">sari@email.com</div>
+                    </div>
+                    <nav class="sidebar-nav">
+                        <a href="profile.html" class="sidebar-link"><span class="icon">👤</span>Profil Saya</a>
+                        <a href="pesanan.html" class="sidebar-link"><span class="icon">📦</span>Pesanan Saya</a>
+                        <a href="ganti-alamat.html" class="sidebar-link"><span class="icon">📍</span>Alamat</a>
+                        <a href="wishlist.html" class="sidebar-link active"><span class="icon">🤍</span>Wishlist</a>
+                        <a href="ubah-password.html" class="sidebar-link"><span class="icon">🔑</span>Ubah Password</a>
+                        <div class="divider"></div>
+                        <a href="login.html" class="sidebar-link danger"><span class="icon">🚪</span>Logout</a>
+                    </nav>
+                </aside>
+
+                <!-- Main -->
+                <div>
+                    <div class="wishlist-header">
+                        <h2 style="font-size:1.1rem;font-weight:700">Tersimpan</h2>
+                        <span class="wishlist-count" id="wishCount">5 produk</span>
+                    </div>
+
+                    <div class="wishlist-grid" id="wishGrid">
+
+                        <!-- Item 1 -->
+                        <div class="wish-card" id="wish1">
+                            <button class="wish-remove" onclick="removeWish('wish1')"
+                                title="Hapus dari wishlist">🗑️</button>
+                            <span class="wish-badge badge badge-sale">SALE</span>
+                            <div class="wish-img">🎂</div>
+                            <div class="wish-body">
+                                <div class="wish-name">Choco Lava Cake Premium</div>
+                                <div class="wish-stars">⭐⭐⭐⭐⭐</div>
+                                <div class="wish-price-row">
+                                    <div>
+                                        <div class="wish-price">Rp 85.000</div>
+                                        <div class="wish-price-old">Rp 110.000</div>
+                                    </div>
+                                    <button class="wish-cart-btn" onclick="addToCart('Choco Lava Cake')">🛒</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Item 2 -->
+                        <div class="wish-card" id="wish2">
+                            <button class="wish-remove" onclick="removeWish('wish2')"
+                                title="Hapus dari wishlist">🗑️</button>
+                            <span class="wish-badge badge badge-new">NEW</span>
+                            <div class="wish-img">🍰</div>
+                            <div class="wish-body">
+                                <div class="wish-name">Strawberry Cheesecake</div>
+                                <div class="wish-stars">⭐⭐⭐⭐⭐</div>
+                                <div class="wish-price-row">
+                                    <div>
+                                        <div class="wish-price">Rp 120.000</div>
+                                    </div>
+                                    <button class="wish-cart-btn"
+                                        onclick="addToCart('Strawberry Cheesecake')">🛒</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Item 3 -->
+                        <div class="wish-card" id="wish3">
+                            <button class="wish-remove" onclick="removeWish('wish3')"
+                                title="Hapus dari wishlist">🗑️</button>
+                            <div class="wish-img">🧁</div>
+                            <div class="wish-body">
+                                <div class="wish-name">Red Velvet Cupcake Box</div>
+                                <div class="wish-stars">⭐⭐⭐⭐</div>
+                                <div class="wish-price-row">
+                                    <div>
+                                        <div class="wish-price">Rp 55.000</div>
+                                    </div>
+                                    <button class="wish-cart-btn" onclick="addToCart('Red Velvet Cupcake')">🛒</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Item 4 -->
+                        <div class="wish-card" id="wish4">
+                            <button class="wish-remove" onclick="removeWish('wish4')"
+                                title="Hapus dari wishlist">🗑️</button>
+                            <span class="wish-badge badge badge-sale">SALE</span>
+                            <div class="wish-img">🍫</div>
+                            <div class="wish-body">
+                                <div class="wish-name">Dark Chocolate Brownies</div>
+                                <div class="wish-stars">⭐⭐⭐⭐⭐</div>
+                                <div class="wish-price-row">
+                                    <div>
+                                        <div class="wish-price">Rp 48.000</div>
+                                        <div class="wish-price-old">Rp 65.000</div>
+                                    </div>
+                                    <button class="wish-cart-btn"
+                                        onclick="addToCart('Dark Chocolate Brownies')">🛒</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Item 5 -->
+                        <div class="wish-card" id="wish5">
+                            <button class="wish-remove" onclick="removeWish('wish5')"
+                                title="Hapus dari wishlist">🗑️</button>
+                            <div class="wish-img">🥐</div>
+                            <div class="wish-body">
+                                <div class="wish-name">Butter Croissant</div>
+                                <div class="wish-stars">⭐⭐⭐⭐</div>
+                                <div class="wish-price-row">
+                                    <div>
+                                        <div class="wish-price">Rp 32.000</div>
+                                    </div>
+                                    <button class="wish-cart-btn" onclick="addToCart('Butter Croissant')">🛒</button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mobile Bottom Nav -->
+    <nav class="mobile-bottom-nav">
+        <div class="mbn-items">
+            <div class="mbn-group">
+                <a href="index.html" class="mbn-item"><span class="mbn-icon">🏠</span><span
+                        class="mbn-label">Home</span></a>
+                <a href="catalog.html" class="mbn-item"><span class="mbn-icon">🛍️</span><span
+                        class="mbn-label">Katalog</span></a>
+            </div>
+            <div class="mbn-fab-space"></div>
+            <div class="mbn-group">
+                <a href="pesanan.html" class="mbn-item"><span class="mbn-icon">📦</span><span
+                        class="mbn-label">Pesanan</span></a>
+                <a href="profile.html" class="mbn-item active"><span class="mbn-icon">👤</span><span
+                        class="mbn-label">Profil</span></a>
+            </div>
+        </div>
+        <a href="checkout.html" class="mbn-fab">🛒<span class="mbn-badge">3</span></a>
+    </nav>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <div class="logo">Dakingo</div>
+                    <p>Sign up to our newsletter.</p>
+                    <form class="newsletter-form" onsubmit="return false"><input type="email"
+                            placeholder="Enter email"><button>Sign Up</button></form>
+                </div>
+                <div>
+                    <p class="footer-heading">Links</p>
+                    <ul class="footer-links">
+                        <li><a href="catalog.html">Katalog</a></li>
+                        <li><a href="profile.html">Profil</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <p class="footer-heading">Help</p>
+                    <ul class="footer-links">
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#">Terms</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <p class="footer-heading">Account</p>
+                    <ul class="footer-links">
+                        <li><a href="login.html">Login</a></li>
+                        <li><a href="register.html">Register</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>Copyright Dakingo.</p>
+            </div>
+        </div>
+    </footer>
+    <div class="toast" id="toast"></div>
+    <button class="back-top" id="backTop">↑</button>
+
+    <script>
+        const hamburger = document.getElementById('hamburger'); const mobileNav = document.getElementById('mobileNav'); const overlay = document.getElementById('overlay'); const navClose = document.getElementById('navClose');
+        hamburger.addEventListener('click', () => { mobileNav.classList.toggle('open'); overlay.classList.toggle('active'); hamburger.classList.toggle('open'); });
+        navClose.addEventListener('click', () => { mobileNav.classList.remove('open'); overlay.classList.remove('active'); hamburger.classList.remove('open'); });
+        overlay.addEventListener('click', () => { mobileNav.classList.remove('open'); overlay.classList.remove('active'); hamburger.classList.remove('open'); });
+
+        let count = 5;
+        function removeWish(id) {
+            if (!confirm('Hapus dari wishlist?')) return;
+            const el = document.getElementById(id);
+            if (el) { el.style.opacity = '0'; el.style.transform = 'scale(0.8)'; el.style.transition = 'all 0.3s'; setTimeout(() => { el.remove(); count--; document.getElementById('wishCount').textContent = count + ' produk'; }, 300); }
+            showToast('🗑️ Dihapus dari wishlist');
+        }
+        function addToCart(name) { showToast('🛒 ' + name + ' ditambahkan ke keranjang!'); }
+        function showToast(msg) { const t = document.getElementById('toast'); t.textContent = msg; t.className = 'toast show toast-success'; setTimeout(() => t.className = 'toast', 2500); }
+        const bt = document.getElementById('backTop'); window.addEventListener('scroll', () => bt.classList.toggle('show', window.scrollY > 300)); bt.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+    </script>
+</body>
+
+</html>

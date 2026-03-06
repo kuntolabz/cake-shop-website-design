@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Hubungi kami untuk pertanyaan, saran, atau pesanan khusus kue Dakingo.">
+    <title>Kontak — Dakingo</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/components.css">
+    <style>
+        body {
+            padding-top: calc(var(--nav-height) + var(--announcement-height));
+        }
+
+        .contact-section {
+            padding: 60px 0 80px;
+        }
+
+        .contact-layout {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 48px;
+            align-items: start;
+        }
+
+        @media (min-width: 1024px) {
+            .contact-layout {
+                grid-template-columns: 1fr 1.4fr;
+            }
+        }
+
+        /* Info Cards */
+        .info-cards {
+            display: grid;
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+
+        .info-card {
+            background: #fff;
+            border-radius: var(--radius-md);
+            padding: 20px;
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            transition: var(--transition);
+        }
+
+        .info-card:hover {
+            box-shadow: var(--shadow-md);
+            transform: translateY(-3px);
+        }
+
+        .info-card-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--accent-light);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            flex-shrink: 0;
+        }
+
+        .info-card h4 {
+            font-size: 0.875rem;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .info-card p {
+            font-size: 0.875rem;
+            color: var(--text-medium);
+        }
+
+        .info-card a {
+            color: var(--primary);
+            font-weight: 500;
+            font-size: 0.875rem;
+        }
+
+        /* Social */
+        .social-row {
+            display: flex;
+            gap: 12px;
+            margin-top: 8px;
+        }
+
+        .social-link {
+            width: 42px;
+            height: 42px;
+            background: var(--primary);
+            color: #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            font-weight: 700;
+            transition: var(--transition);
+        }
+
+        .social-link:hover {
+            background: var(--primary-dark);
+            transform: translateY(-3px);
+        }
+
+        /* Map Placeholder */
+        .map-placeholder {
+            background: linear-gradient(135deg, var(--accent-light) 0%, #ffe0e0 100%);
+            border-radius: var(--radius-md);
+            height: 200px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-size: 2.5rem;
+            margin-top: 24px;
+        }
+
+        .map-placeholder p {
+            font-size: 0.875rem;
+            color: var(--text-medium);
+            margin-top: 8px;
+            font-size: 0.95rem;
+        }
+
+        /* Form Card */
+        .contact-form-card {
+            background: #fff;
+            border-radius: var(--radius-xl);
+            padding: 40px;
+            box-shadow: var(--shadow-md);
+        }
+
+        .form-2col {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 0;
+        }
+
+        @media (min-width: 640px) {
+            .form-2col {
+                grid-template-columns: 1fr 1fr;
+                gap: 16px;
+            }
+        }
+
+        .form-2col .form-group {
+            margin-bottom: 0;
+        }
+
+        .contact-select {
+            padding: 12px 16px;
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius-sm);
+            font-size: 0.9rem;
+            background: #fff;
+            width: 100%;
+            color: var(--text-dark);
+        }
+
+        .contact-select:focus {
+            border-color: var(--primary);
+            outline: none;
+        }
+
+        textarea.form-input {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        /* FAQ */
+        .faq-section {
+            padding: 60px 0;
+            background: #fff;
+        }
+
+        .faq-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 14px;
+        }
+
+        @media (min-width: 768px) {
+            .faq-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .faq-item {
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+        }
+
+        .faq-q {
+            width: 100%;
+            padding: 16px 20px;
+            background: #fff;
+            border: none;
+            text-align: left;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            transition: var(--transition);
+        }
+
+        .faq-q:hover {
+            background: var(--accent-light);
+            color: var(--primary);
+        }
+
+        .faq-q.open {
+            background: var(--accent-light);
+            color: var(--primary);
+        }
+
+        .faq-icon {
+            flex-shrink: 0;
+            transition: transform 0.3s;
+        }
+
+        .faq-q.open .faq-icon {
+            transform: rotate(45deg);
+        }
+
+        .faq-a {
+            display: none;
+            padding: 0 20px 16px;
+            font-size: 0.875rem;
+            color: var(--text-medium);
+            line-height: 1.7;
+        }
+
+        .faq-a.open {
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="announcement-bar">🍫 Free Eagle Tray | E-commerce Homepage — Order Now & Get 10% Off!</div>
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-inner">
+                <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+                <a href="index.html" class="nav-logo">Dakingo</a>
+                <nav class="nav-links">
+                    <a href="index.html" class="nav-link">Home</a>
+                    <div class="nav-dropdown">
+                        <a href="catalog.html" class="nav-link">Product</a>
+                        <div class="dropdown-menu">
+                            <a href="catalog.html" class="dropdown-item">🍰 All Products</a>
+                            <a href="catalog.html?cat=classic" class="dropdown-item">🎂 Classic Cakes</a>
+                            <a href="catalog.html?cat=gourmet" class="dropdown-item">✨ Gourmet</a>
+                            <a href="catalog.html?cat=designer" class="dropdown-item">🎨 Designer</a>
+                            <a href="catalog.html?cat=desserts" class="dropdown-item">🍮 Desserts</a>
+                        </div>
+                    </div>
+                    <div class="nav-dropdown">
+                        <a href="#" class="nav-link">Resources</a>
+                        <div class="dropdown-menu">
+                            <a href="#" class="dropdown-item">📖 Blog</a>
+                            <a href="#" class="dropdown-item">📸 Gallery</a>
+                        </div>
+                    </div>
+                    <div class="nav-dropdown">
+                        <a href="contact.html" class="nav-link active">Contact</a>
+                        <div class="dropdown-menu">
+                            <a href="contact.html" class="dropdown-item">📞 Contact Us</a>
+                            <a href="#" class="dropdown-item">❓ FAQ</a>
+                        </div>
+                    </div>
+                </nav>
+                <div class="nav-spacer"></div>
+                <div class="nav-search"><button>🔍</button><input type="text" placeholder="Search cakes..."></div>
+                <div class="nav-icons">
+                    <a href="profile.html" class="nav-icon-btn" title="Profile">👤</a>
+                    <a href="#" class="nav-icon-btn" title="Wishlist">🤍</a>
+                    <a href="checkout.html" class="nav-icon-btn" title="Cart">🛒<span class="nav-badge">3</span></a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <div class="overlay" id="overlay"></div>
+    <div class="mobile-nav" id="mobileNav">
+        <div class="mobile-nav-header"><span class="mobile-nav-logo">Dakingo</span><button class="mobile-nav-close"
+                id="navClose">✕</button></div>
+        <div class="mobile-nav-links">
+            <a href="index.html" class="mobile-nav-link"><span class="icon">🏠</span>Home</a>
+            <a href="catalog.html" class="mobile-nav-link"><span class="icon">🛍️</span>Catalog</a>
+            <a href="contact.html" class="mobile-nav-link active"><span class="icon">📞</span>Contact</a>
+            <a href="profile.html" class="mobile-nav-link"><span class="icon">👤</span>Profile</a>
+            <a href="checkout.html" class="mobile-nav-link"><span class="icon">🛒</span>Cart (3)</a>
+            <a href="login.html" class="mobile-nav-link"><span class="icon">🔑</span>Login</a>
+            <a href="register.html" class="mobile-nav-link"><span class="icon">✏️</span>Register</a>
+        </div>
+    </div>
+
+    <div class="page-header">
+        <div class="container">
+            <nav class="breadcrumb"><a href="index.html">Home</a> / <span>Kontak</span></nav>
+            <h1>Hubungi Kami 📞</h1>
+            <p>Kami siap membantu kamu menemukan kue yang sempurna</p>
+        </div>
+    </div>
+
+    <section class="contact-section">
+        <div class="container">
+            <div class="contact-layout">
+                <!-- Info Side -->
+                <div>
+                    <div class="info-cards">
+                        <div class="info-card">
+                            <div class="info-card-icon">📍</div>
+                            <div>
+                                <h4>Alamat Toko</h4>
+                                <p>Jl. Raya Cokelat No. 88<br>Jakarta Selatan, 12345<br>Indonesia</p>
+                            </div>
+                        </div>
+                        <div class="info-card">
+                            <div class="info-card-icon">📞</div>
+                            <div>
+                                <h4>Nomor Telepon</h4>
+                                <a href="tel:+628001234567">+62 800 1234 567</a>
+                                <p style="margin-top:4px">Senin – Sabtu, 08:00 – 20:00</p>
+                            </div>
+                        </div>
+                        <div class="info-card">
+                            <div class="info-card-icon">✉️</div>
+                            <div>
+                                <h4>Email</h4>
+                                <a href="mailto:halo@dakingo.com">halo@dakingo.com</a>
+                                <p style="margin-top:4px">Balas dalam 2-4 jam kerja</p>
+                            </div>
+                        </div>
+                        <div class="info-card">
+                            <div class="info-card-icon">⏰</div>
+                            <div>
+                                <h4>Jam Operasional</h4>
+                                <p>Senin – Jumat: 08:00 – 20:00</p>
+                                <p>Sabtu – Minggu: 09:00 – 18:00</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Social -->
+                    <div>
+                        <h4 style="margin-bottom:12px;font-size:0.875rem;font-weight:700">Ikuti Kami</h4>
+                        <div class="social-row">
+                            <a href="#" class="social-link">f</a>
+                            <a href="#" class="social-link" style="font-style:italic">ig</a>
+                            <a href="#" class="social-link">tw</a>
+                            <a href="#" class="social-link">yt</a>
+                        </div>
+                    </div>
+
+                    <div class="map-placeholder">
+                        <span>🗺️</span>
+                        <p>Jl. Raya Cokelat No. 88, Jakarta Selatan</p>
+                    </div>
+                </div>
+
+                <!-- Form Side -->
+                <div class="contact-form-card">
+                    <h2 style="margin-bottom:6px">Kirim Pesan 💬</h2>
+                    <p style="margin-bottom:28px;color:var(--text-medium)">Ada pertanyaan atau ingin pesan kue custom?
+                    </p>
+
+                    <form onsubmit="sendMessage(event)">
+                        <div class="form-2col">
+                            <div class="form-group">
+                                <label class="form-label" for="cname">Nama Lengkap</label>
+                                <input class="form-input" type="text" id="cname" placeholder="Nama kamu" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="cphone">No. Telepon</label>
+                                <input class="form-input" type="tel" id="cphone" placeholder="08xxx">
+                            </div>
+                        </div>
+                        <div class="form-group" style="margin-top:16px">
+                            <label class="form-label" for="cemail">Email</label>
+                            <input class="form-input" type="email" id="cemail" placeholder="nama@email.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="csubject">Subjek</label>
+                            <select class="contact-select" id="csubject">
+                                <option>Pertanyaan Umum</option>
+                                <option>Pemesanan Kue Custom</option>
+                                <option>Masalah Pesanan</option>
+                                <option>Kerjasama / Partnership</option>
+                                <option>Lainnya</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="cmessage">Pesan</label>
+                            <textarea class="form-input" id="cmessage" placeholder="Tulis pesan kamu di sini..."
+                                required></textarea>
+                        </div>
+                        <label class="custom-check" style="margin-bottom:24px">
+                            <input type="checkbox" required>
+                            <span style="font-size:0.8rem;color:var(--text-medium)">Saya menyetujui <a href="#"
+                                    style="color:var(--primary)">Kebijakan Privasi</a> Dakingo</span>
+                        </label>
+                        <button type="submit" class="btn btn-primary btn-block btn-lg">📨 Kirim Pesan</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq-section">
+        <div class="container">
+            <h2 class="section-title" style="margin-bottom:8px">Pertanyaan Umum (FAQ)</h2>
+            <p class="section-subtitle">Temukan jawaban untuk pertanyaan paling umum</p>
+            <div class="faq-grid">
+                <div class="faq-item">
+                    <button class="faq-q" onclick="toggleFaq(this)"><span>Berapa lama waktu pengiriman?</span><span
+                            class="faq-icon">+</span></button>
+                    <div class="faq-a">Kami mengantarkan dalam 2-4 jam setelah pesanan dikonfirmasi. Untuk area Jakarta
+                        dan sekitarnya, pengiriman bisa dalam 1-2 jam.</div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-q" onclick="toggleFaq(this)"><span>Apakah tersedia kue custom?</span><span
+                            class="faq-icon">+</span></button>
+                    <div class="faq-a">Tentu! Kami menerima pesanan kue custom dengan desain, rasa, dan ukuran sesuai
+                        keinginan. Minimal order 2 hari sebelumnya.</div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-q" onclick="toggleFaq(this)"><span>Bagaimana cara pembayaran?</span><span
+                            class="faq-icon">+</span></button>
+                    <div class="faq-a">Kami menerima transfer bank, kartu kredit/debit, GoPay, OVO, Dana, dan COD (bayar
+                        di tempat) untuk area tertentu.</div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-q" onclick="toggleFaq(this)"><span>Apakah ada garansi kualitas?</span><span
+                            class="faq-icon">+</span></button>
+                    <div class="faq-a">Ya! Semua kue kami dilengkapi garansi kesegaran 24 jam. Jika ada masalah, hubungi
+                        kami dan kami akan segera mengganti.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mobile Bottom Nav -->
+    <nav class="mobile-bottom-nav">
+        <div class="mbn-items">
+            <div class="mbn-group">
+                <a href="index.html" class="mbn-item">
+                    <span class="mbn-icon">🏠</span>
+                    <span class="mbn-label">Home</span>
+                </a>
+                <a href="catalog.html" class="mbn-item">
+                    <span class="mbn-icon">🛍️</span>
+                    <span class="mbn-label">Katalog</span>
+                </a>
+            </div>
+            <div class="mbn-fab-space"></div>
+            <div class="mbn-group">
+                <a href="pesanan.html" class="mbn-item">
+                    <span class="mbn-icon">📦</span>
+                    <span class="mbn-label">Pesanan</span>
+                </a>
+                <a href="profile.html" class="mbn-item">
+                    <span class="mbn-icon">👤</span>
+                    <span class="mbn-label">Profil</span>
+                </a>
+            </div>
+        </div>
+        <a href="checkout.html" class="mbn-fab">
+            🛒<span class="mbn-badge">3</span>
+        </a>
+    </nav>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <div class="logo">Dakingo</div>
+                    <p>Sign up to our newsletter.</p>
+                    <form class="newsletter-form" onsubmit="return false"><input type="email"
+                            placeholder="Enter email"><button>Sign Up</button></form>
+                </div>
+                <div>
+                    <p class="footer-heading">Links</p>
+                    <ul class="footer-links">
+                        <li><a href="catalog.html">Katalog</a></li>
+                        <li><a href="profile.html">Profil</a></li>
+                        <li><a href="login.html">Login</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <p class="footer-heading">Help</p>
+                    <ul class="footer-links">
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#">Return Policy</a></li>
+                        <li><a href="#">Terms</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <p class="footer-heading">Social</p>
+                    <ul class="footer-links">
+                        <li><a href="#">Instagram</a></li>
+                        <li><a href="#">Facebook</a></li>
+                        <li><a href="#">TikTok</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>Copyright Dakingo.</p>
+            </div>
+        </div>
+    </footer>
+    <div class="toast" id="toast"></div>
+    <button class="back-top" id="backTop">↑</button>
+
+    <script>
+        const hamburger = document.getElementById('hamburger'); const mobileNav = document.getElementById('mobileNav'); const overlay = document.getElementById('overlay'); const navClose = document.getElementById('navClose');
+        hamburger.addEventListener('click', () => { mobileNav.classList.toggle('open'); overlay.classList.toggle('active'); hamburger.classList.toggle('open'); });
+        navClose.addEventListener('click', () => { mobileNav.classList.remove('open'); overlay.classList.remove('active'); hamburger.classList.remove('open'); });
+        overlay.addEventListener('click', () => { mobileNav.classList.remove('open'); overlay.classList.remove('active'); hamburger.classList.remove('open'); });
+        function sendMessage(e) { e.preventDefault(); const t = document.getElementById('toast'); t.textContent = '✅ Pesan berhasil dikirim! Kami akan menghubungi kamu segera.'; t.className = 'toast show toast-success'; setTimeout(() => t.className = 'toast', 3000); e.target.reset(); }
+        function toggleFaq(btn) { const a = btn.nextElementSibling; btn.classList.toggle('open'); a.classList.toggle('open'); }
+        const bt = document.getElementById('backTop'); window.addEventListener('scroll', () => bt.classList.toggle('show', window.scrollY > 300)); bt.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Login ke akun Dakingo kamu dan nikmati berbagai promo eksklusif.">
+    <title>Login — Dakingo</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/components.css">
+    <style>
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background: linear-gradient(135deg, #fff0f0 0%, #ffe8e8 60%, #fff5f5 100%);
+            padding: 0;
+        }
+
+        .auth-wrapper {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 100px 20px 60px;
+        }
+
+        .auth-box {
+            background: #fff;
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-lg);
+            overflow: hidden;
+            width: 100%;
+            max-width: 900px;
+            display: grid;
+            grid-template-columns: 1fr;
+        }
+
+        @media (min-width: 768px) {
+            .auth-box {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .auth-side {
+            background: linear-gradient(160deg, var(--primary) 0%, var(--primary-dark) 100%);
+            padding: 50px 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .auth-side::before {
+            content: '';
+            position: absolute;
+            top: -60px;
+            right: -60px;
+            width: 200px;
+            height: 200px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+        }
+
+        .auth-side::after {
+            content: '';
+            position: absolute;
+            bottom: -40px;
+            left: -40px;
+            width: 160px;
+            height: 160px;
+            background: rgba(255, 255, 255, 0.07);
+            border-radius: 50%;
+        }
+
+        .auth-side-logo {
+            font-size: 2.2rem;
+            font-weight: 900;
+            color: #fff;
+            margin-bottom: 24px;
+        }
+
+        .auth-side h2 {
+            color: #fff;
+            font-family: var(--font-heading);
+            font-size: 1.8rem;
+            margin-bottom: 12px;
+        }
+
+        .auth-side p {
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.7;
+            margin-bottom: 24px;
+        }
+
+        .auth-side-img {
+            width: 200px;
+            margin: 0 auto;
+            filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.2));
+            animation: float 4s ease-in-out infinite;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0)
+            }
+
+            50% {
+                transform: translateY(-10px)
+            }
+        }
+
+        .auth-form-wrap {
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .auth-title {
+            font-size: 1.6rem;
+            font-weight: 800;
+            margin-bottom: 6px;
+        }
+
+        .auth-subtitle {
+            color: var(--text-light);
+            font-size: 0.875rem;
+            margin-bottom: 28px;
+        }
+
+        .social-login {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .social-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 10px;
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius-sm);
+            font-size: 0.875rem;
+            font-weight: 600;
+            cursor: pointer;
+            background: #fff;
+            transition: var(--transition);
+            color: var(--text-dark);
+        }
+
+        .social-btn:hover {
+            border-color: var(--primary);
+            background: var(--accent-light);
+        }
+
+        .divider-or {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .divider-or span {
+            font-size: 0.78rem;
+            color: var(--text-light);
+            white-space: nowrap;
+        }
+
+        .divider-or::before,
+        .divider-or::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--border);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 0;
+        }
+
+        .form-forgot {
+            text-align: right;
+            margin-top: -12px;
+            margin-bottom: 18px;
+        }
+
+        .form-forgot a {
+            font-size: 0.8rem;
+            color: var(--primary);
+            font-weight: 500;
+        }
+
+        .auth-footer-text {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 0.875rem;
+            color: var(--text-medium);
+        }
+
+        .auth-footer-text a {
+            color: var(--primary);
+            font-weight: 600;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="announcement-bar">🍫 Free Eagle Tray | E-commerce Homepage — Order Now & Get 10% Off!</div>
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-inner">
+                <a href="index.html" class="nav-logo">Dakingo</a>
+                <div class="nav-spacer"></div>
+                <div class="nav-icons">
+                    <a href="register.html" class="btn btn-outline btn-sm">Register</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="auth-wrapper">
+        <div class="auth-box">
+            <!-- Side Panel -->
+            <div class="auth-side">
+                <div class="auth-side-logo">Dakingo</div>
+                <h2>Welcome Back! 🎂</h2>
+                <p>Login dan nikmati koleksi kue premium kami. Ribuan pilihan rasa menanti kamu!</p>
+                <img src="assets/img/cake_truffle.png" alt="Cake" class="auth-side-img">
+            </div>
+            <!-- Form -->
+            <div class="auth-form-wrap">
+                <h1 class="auth-title">Masuk ke Akun</h1>
+                <p class="auth-subtitle">Belum punya akun? <a href="register.html">Daftar gratis</a></p>
+
+                <div class="social-login">
+                    <button class="social-btn">🇬 Google</button>
+                    <button class="social-btn">📘 Facebook</button>
+                </div>
+
+                <div class="divider-or"><span>atau masuk dengan email</span></div>
+
+                <form onsubmit="handleLogin(event)">
+                    <div class="form-group">
+                        <label class="form-label" for="email">Email Address</label>
+                        <input class="form-input" type="email" id="email" placeholder="nama@email.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="password">Password</label>
+                        <input class="form-input" type="password" id="password" placeholder="Masukkan password"
+                            required>
+                    </div>
+                    <div class="form-forgot">
+                        <a href="#">Lupa password?</a>
+                    </div>
+                    <label class="custom-check" style="margin-bottom:20px">
+                        <input type="checkbox" id="remember">
+                        <span style="font-size:0.875rem;color:var(--text-medium)">Ingat saya selama 30 hari</span>
+                    </label>
+                    <button type="submit" class="btn btn-primary btn-block btn-lg">Masuk →</button>
+                </form>
+
+                <p class="auth-footer-text">Belum punya akun? <a href="register.html">Daftar sekarang</a></p>
+            </div>
+        </div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+        function handleLogin(e) {
+            e.preventDefault();
+            const toast = document.getElementById('toast');
+            toast.textContent = '✅ Login berhasil! Mengarahkan...';
+            toast.classList.add('show', 'toast-success');
+            setTimeout(() => { window.location.href = 'index.html'; }, 1500);
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Detail produk kue premium Dakingo — Chocolate Truffle dengan cokelat terbaik.">
+    <title>Chocolate Truffle — Dakingo</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/components.css">
+    <style>
+        body {
+            padding-top: calc(var(--nav-height) + var(--announcement-height));
+        }
+
+        .detail-section {
+            padding: 40px 0 80px;
+        }
+
+        .detail-layout {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 48px;
+            align-items: start;
+        }
+
+        @media (min-width: 1024px) {
+            .detail-layout {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        /* Gallery */
+        .gallery-main {
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            background: var(--bg);
+            aspect-ratio: 1/1;
+            margin-bottom: 14px;
+        }
+
+        .gallery-main img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .gallery-thumbs {
+            display: flex;
+            gap: 10px;
+        }
+
+        .gallery-thumb {
+            width: 72px;
+            height: 72px;
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+            background: var(--bg);
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: var(--transition);
+            flex-shrink: 0;
+        }
+
+        .gallery-thumb:hover,
+        .gallery-thumb.active {
+            border-color: var(--primary);
+        }
+
+        .gallery-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Info */
+        .detail-badge {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 14px;
+        }
+
+        .detail-name {
+            font-size: clamp(1.6rem, 3vw, 2.4rem);
+            font-weight: 800;
+            margin-bottom: 10px;
+            line-height: 1.2;
+        }
+
+        .detail-rating {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+
+        .detail-reviews {
+            font-size: 0.875rem;
+            color: var(--text-light);
+        }
+
+        .detail-price-wrap {
+            margin-bottom: 20px;
+        }
+
+        .detail-price-new {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--primary);
+        }
+
+        .detail-price-old {
+            font-size: 1rem;
+            color: var(--text-light);
+            text-decoration: line-through;
+            margin-left: 10px;
+        }
+
+        .detail-price-save {
+            font-size: 0.78rem;
+            background: #22c55e;
+            color: #fff;
+            padding: 2px 8px;
+            border-radius: var(--radius-full);
+            margin-left: 8px;
+            font-weight: 600;
+        }
+
+        .detail-desc {
+            color: var(--text-medium);
+            line-height: 1.7;
+            margin-bottom: 24px;
+            font-size: 0.95rem;
+        }
+
+        .detail-options {
+            margin-bottom: 24px;
+        }
+
+        .option-title {
+            font-size: 0.875rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .size-options {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .size-opt {
+            padding: 8px 18px;
+            border: 2px solid var(--border);
+            border-radius: var(--radius-full);
+            font-size: 0.875rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            background: #fff;
+            color: var(--text-medium);
+        }
+
+        .size-opt:hover,
+        .size-opt.active {
+            border-color: var(--primary);
+            color: var(--primary);
+            background: var(--accent-light);
+        }
+
+        .action-row {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .wish-btn {
+            width: 50px;
+            height: 50px;
+            border: 2px solid var(--border);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            background: #fff;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .wish-btn:hover {
+            border-color: var(--primary);
+            background: var(--accent-light);
+        }
+
+        .detail-features {
+            background: var(--bg);
+            border-radius: var(--radius-md);
+            padding: 20px;
+            margin-bottom: 24px;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.85rem;
+            color: var(--text-medium);
+        }
+
+        .feature-item span {
+            font-size: 1.2rem;
+        }
+
+        /* Tabs */
+        .tabs {
+            margin-top: 60px;
+        }
+
+        .tab-list {
+            display: flex;
+            gap: 0;
+            border-bottom: 2px solid var(--border);
+            margin-bottom: 32px;
+            overflow-x: auto;
+        }
+
+        .tab-btn {
+            padding: 12px 24px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--text-light);
+            background: none;
+            border: none;
+            border-bottom: 2px solid transparent;
+            cursor: pointer;
+            transition: var(--transition);
+            white-space: nowrap;
+            margin-bottom: -2px;
+        }
+
+        .tab-btn:hover {
+            color: var(--primary);
+        }
+
+        .tab-btn.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+        }
+
+        .tab-panel {
+            display: none;
+        }
+
+        .tab-panel.active {
+            display: block;
+        }
+
+        /* Reviews */
+        .review-summary {
+            display: flex;
+            gap: 32px;
+            align-items: center;
+            margin-bottom: 32px;
+            flex-wrap: wrap;
+        }
+
+        .review-score {
+            text-align: center;
+        }
+
+        .review-score .big {
+            font-size: 3.5rem;
+            font-weight: 900;
+            color: var(--primary);
+            line-height: 1;
+        }
+
+        .review-bars {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .review-card {
+            background: #fff;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 20px;
+            margin-bottom: 14px;
+        }
+
+        .reviewer-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 10px;
+        }
+
+        .reviewer-avatar {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: var(--accent-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+        }
+
+        .reviewer-name {
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+
+        .reviewer-date {
+            font-size: 0.75rem;
+            color: var(--text-light);
+        }
+
+        .review-text {
+            font-size: 0.875rem;
+            color: var(--text-medium);
+            line-height: 1.7;
+        }
+
+        /* Related */
+        .related-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+        }
+
+        @media (min-width: 640px) {
+            .related-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="announcement-bar">🍫 Free Eagle Tray | E-commerce Homepage — Order Now & Get 10% Off!</div>
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-inner">
+                <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+                <a href="index.html" class="nav-logo">Dakingo</a>
+                <nav class="nav-links">
+                    <a href="index.html" class="nav-link">Home</a>
+                    <div class="nav-dropdown">
+                        <a href="catalog.html" class="nav-link active">Product</a>
+                        <div class="dropdown-menu">
+                            <a href="catalog.html" class="dropdown-item">🍰 All Products</a>
+                            <a href="catalog.html?cat=classic" class="dropdown-item">🎂 Classic Cakes</a>
+                            <a href="catalog.html?cat=gourmet" class="dropdown-item">✨ Gourmet</a>
+                            <a href="catalog.html?cat=designer" class="dropdown-item">🎨 Designer</a>
+                            <a href="catalog.html?cat=desserts" class="dropdown-item">🍮 Desserts</a>
+                        </div>
+                    </div>
+                    <div class="nav-dropdown">
+                        <a href="#" class="nav-link">Resources</a>
+                        <div class="dropdown-menu">
+                            <a href="#" class="dropdown-item">📖 Blog</a>
+                            <a href="#" class="dropdown-item">📸 Gallery</a>
+                        </div>
+                    </div>
+                    <div class="nav-dropdown">
+                        <a href="contact.html" class="nav-link">Contact</a>
+                        <div class="dropdown-menu">
+                            <a href="contact.html" class="dropdown-item">📞 Contact Us</a>
+                            <a href="#" class="dropdown-item">❓ FAQ</a>
+                        </div>
+                    </div>
+                </nav>
+                <div class="nav-spacer"></div>
+                <div class="nav-search"><button>🔍</button><input type="text" placeholder="Search cakes..."></div>
+                <div class="nav-icons">
+                    <a href="profile.html" class="nav-icon-btn" title="Profile">👤</a>
+                    <a href="#" class="nav-icon-btn" title="Wishlist">🤍</a>
+                    <a href="checkout.html" class="nav-icon-btn" title="Cart">🛒<span class="nav-badge">3</span></a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <div class="overlay" id="overlay"></div>
+    <div class="mobile-nav" id="mobileNav">
+        <div class="mobile-nav-header"><span class="mobile-nav-logo">Dakingo</span><button class="mobile-nav-close"
+                id="navClose">✕</button></div>
+        <div class="mobile-nav-links">
+            <a href="index.html" class="mobile-nav-link"><span class="icon">🏠</span>Home</a>
+            <a href="catalog.html" class="mobile-nav-link active"><span class="icon">🛍️</span>Catalog</a>
+            <a href="contact.html" class="mobile-nav-link"><span class="icon">📞</span>Contact</a>
+            <a href="profile.html" class="mobile-nav-link"><span class="icon">👤</span>Profile</a>
+            <a href="checkout.html" class="mobile-nav-link"><span class="icon">🛒</span>Cart (3)</a>
+            <a href="login.html" class="mobile-nav-link"><span class="icon">🔑</span>Login</a>
+            <a href="register.html" class="mobile-nav-link"><span class="icon">✏️</span>Register</a>
+        </div>
+    </div>
+
+    <!-- Page Header -->
+    <div class="page-header">
+        <div class="container">
+            <nav class="breadcrumb">
+                <a href="index.html">Home</a> /
+                <a href="catalog.html">Katalog</a> /
+                <span>Chocolate Truffle</span>
+            </nav>
+        </div>
+    </div>
+
+    <section class="detail-section">
+        <div class="container">
+            <div class="detail-layout">
+                <!-- Gallery -->
+                <div>
+                    <div class="gallery-main">
+                        <img src="assets/img/cake_truffle.png" alt="Chocolate Truffle" id="mainImg">
+                    </div>
+                    <div class="gallery-thumbs">
+                        <div class="gallery-thumb active" onclick="setImg('assets/img/cake_truffle.png', this)"><img
+                                src="assets/img/cake_truffle.png" alt=""></div>
+                        <div class="gallery-thumb" onclick="setImg('assets/img/cake_hero.png', this)"><img
+                                src="assets/img/cake_hero.png" alt=""></div>
+                        <div class="gallery-thumb" onclick="setImg('assets/img/cake_butterscotch.png', this)"><img
+                                src="assets/img/cake_butterscotch.png" alt=""></div>
+                        <div class="gallery-thumb" onclick="setImg('assets/img/cake_tropical.png', this)"><img
+                                src="assets/img/cake_tropical.png" alt=""></div>
+                    </div>
+                </div>
+
+                <!-- Product Info -->
+                <div>
+                    <div class="detail-badge">
+                        <span class="badge badge-primary">🔥 Bestseller</span>
+                        <span class="badge badge-new">✓ In Stock</span>
+                    </div>
+                    <h1 class="detail-name">Chocolate Truffle Deluxe 🍫</h1>
+                    <div class="detail-rating">
+                        <div class="stars"><span class="star">★</span><span class="star">★</span><span
+                                class="star">★</span><span class="star">★</span><span class="star empty">★</span></div>
+                        <strong>4.0</strong>
+                        <span class="detail-reviews">120 ulasan · 890 terjual</span>
+                    </div>
+                    <div class="detail-price-wrap">
+                        <span class="detail-price-new">Rp 198.000</span>
+                        <span class="detail-price-old">Rp 280.000</span>
+                        <span class="detail-price-save">Hemat 29%</span>
+                    </div>
+                    <p class="detail-desc">Kue cokelat premium dengan lapisan truffle murni. Dibuat dari cokelat Belgia
+                        pilihan, dicampur dengan krim segar dan vanila asli. Sempurna untuk perayaan ulang tahun,
+                        anniversary, atau sekadar memanjakan diri.</p>
+
+                    <!-- Size -->
+                    <div class="detail-options">
+                        <p class="option-title">Ukuran / Berat:</p>
+                        <div class="size-options">
+                            <button class="size-opt">0.5 kg</button>
+                            <button class="size-opt active">1 kg</button>
+                            <button class="size-opt">1.5 kg</button>
+                            <button class="size-opt">2 kg</button>
+                        </div>
+                    </div>
+
+                    <!-- Flavour variant -->
+                    <div class="detail-options">
+                        <p class="option-title">Varian Rasa:</p>
+                        <div class="size-options">
+                            <button class="size-opt active">Dark Chocolate</button>
+                            <button class="size-opt">Milk Chocolate</button>
+                            <button class="size-opt">White Chocolate</button>
+                        </div>
+                    </div>
+
+                    <!-- Quantity + CTA -->
+                    <div class="action-row">
+                        <div class="qty-control">
+                            <button class="qty-btn" onclick="changeQty(-1)">−</button>
+                            <input class="qty-num" type="number" id="qty" value="1" min="1">
+                            <button class="qty-btn" onclick="changeQty(1)">+</button>
+                        </div>
+                        <button class="btn btn-primary" style="flex:1;min-width:180px" onclick="addToCart()">🛒 Tambah
+                            ke Keranjang</button>
+                        <button class="wish-btn" onclick="toggleWish(this)" title="Wishlist">🤍</button>
+                    </div>
+
+                    <!-- Buy Now -->
+                    <a href="checkout.html" class="btn btn-outline btn-block btn-lg" style="margin-bottom:20px">⚡ Beli
+                        Sekarang</a>
+
+                    <!-- Features -->
+                    <div class="detail-features">
+                        <div class="feature-item"><span>🚚</span> Gratis Ongkir >Rp 200k</div>
+                        <div class="feature-item"><span>🧁</span> Baked Fresh Daily</div>
+                        <div class="feature-item"><span>📦</span> Packaging Premium</div>
+                        <div class="feature-item"><span>✅</span> Garansi Kesegaran</div>
+                    </div>
+
+                    <!-- Share -->
+                    <div style="display:flex;align-items:center;gap:10px;font-size:0.85rem;color:var(--text-light)">
+                        <span>Bagikan:</span>
+                        <a href="#" style="color:var(--primary)">WhatsApp</a>
+                        <a href="#" style="color:var(--primary)">Instagram</a>
+                        <a href="#" style="color:var(--primary)">Facebook</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tabs -->
+            <div class="tabs">
+                <div class="tab-list">
+                    <button class="tab-btn active" onclick="switchTab('desc', this)">Deskripsi</button>
+                    <button class="tab-btn" onclick="switchTab('ingredients', this)">Bahan</button>
+                    <button class="tab-btn" onclick="switchTab('reviews', this)">Ulasan (120)</button>
+                </div>
+
+                <div class="tab-panel active" id="tab-desc">
+                    <div class="grid-2">
+                        <div>
+                            <h3 style="margin-bottom:12px">Tentang Produk</h3>
+                            <p style="margin-bottom:12px;color:var(--text-medium);line-height:1.8">Chocolate Truffle
+                                Deluxe adalah mahakarya kuliner dari dapur Dakingo. Setiap lapisan dibuat dengan penuh
+                                perhatian menggunakan cokelat Belgia grade A, krim segar 36%, dan vanila Madagaskar
+                                asli.</p>
+                            <p style="color:var(--text-medium);line-height:1.8">Tersedia dalam berbagai ukuran dan
+                                varian cokelat — hitam, susu, atau putih. Cocok untuk hadiah spesial, perayaan, atau
+                                dinikmati sendiri!</p>
+                        </div>
+                        <div>
+                            <h3 style="margin-bottom:12px">Informasi Pengiriman</h3>
+                            <ul
+                                style="display:flex;flex-direction:column;gap:10px;color:var(--text-medium);font-size:0.9rem">
+                                <li>⏱ Dikirim dalam 2-4 jam setelah order</li>
+                                <li>🌡 Dikemas dengan box berpendingin</li>
+                                <li>📦 Bubble wrap premium + kartu ucapan</li>
+                                <li>🚚 Gratis ongkir untuk pembelian > Rp 200.000</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-panel" id="tab-ingredients">
+                    <h3 style="margin-bottom:16px">Bahan-bahan</h3>
+                    <div class="grid-2" style="gap:16px">
+                        <ul
+                            style="display:flex;flex-direction:column;gap:8px;color:var(--text-medium);font-size:0.9rem">
+                            <li>🍫 Cokelat Belgia 70% (Callebaut)</li>
+                            <li>🥛 Krim segar 36%</li>
+                            <li>🧈 Mentega tawar berkualitas</li>
+                            <li>🥚 Telur omega-3 segar</li>
+                        </ul>
+                        <ul
+                            style="display:flex;flex-direction:column;gap:8px;color:var(--text-medium);font-size:0.9rem">
+                            <li>🌿 Vanila Madagaskar asli</li>
+                            <li>🍬 Gula pasir halus</li>
+                            <li>🌾 Tepung terigu protein tinggi</li>
+                            <li>🧂 Garam Himalaya</li>
+                        </ul>
+                    </div>
+                    <div class="info-box info" style="margin-top:20px"><span
+                            class="info-box-icon">ℹ️</span><span><strong>Alergen:</strong> Mengandung susu, telur,
+                            gluten, dan cokelat. Tidak cocok untuk penderita alergi laktosa berat.</span></div>
+                </div>
+
+                <div class="tab-panel" id="tab-reviews">
+                    <div class="review-summary">
+                        <div class="review-score">
+                            <div class="big">4.0</div>
+                            <div class="stars"><span class="star">★</span><span class="star">★</span><span
+                                    class="star">★</span><span class="star">★</span><span class="star empty">★</span>
+                            </div>
+                            <div style="font-size:0.78rem;color:var(--text-light);margin-top:4px">120 ulasan</div>
+                        </div>
+                        <div class="review-bars">
+                            <div class="rating-bar"><span class="rating-label">5</span>
+                                <div class="rating-track">
+                                    <div class="rating-fill" style="width:45%"></div>
+                                </div><span class="rating-count">54</span>
+                            </div>
+                            <div class="rating-bar"><span class="rating-label">4</span>
+                                <div class="rating-track">
+                                    <div class="rating-fill" style="width:30%"></div>
+                                </div><span class="rating-count">36</span>
+                            </div>
+                            <div class="rating-bar"><span class="rating-label">3</span>
+                                <div class="rating-track">
+                                    <div class="rating-fill" style="width:15%"></div>
+                                </div><span class="rating-count">18</span>
+                            </div>
+                            <div class="rating-bar"><span class="rating-label">2</span>
+                                <div class="rating-track">
+                                    <div class="rating-fill" style="width:7%"></div>
+                                </div><span class="rating-count">8</span>
+                            </div>
+                            <div class="rating-bar"><span class="rating-label">1</span>
+                                <div class="rating-track">
+                                    <div class="rating-fill" style="width:3%"></div>
+                                </div><span class="rating-count">4</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Review Cards -->
+                    <div class="review-card">
+                        <div class="reviewer-info">
+                            <div class="reviewer-avatar">👤</div>
+                            <div>
+                                <div class="reviewer-name">Sari Dewi</div>
+                                <div class="reviewer-date">28 Februari 2026</div>
+                            </div>
+                            <div class="stars" style="margin-left:auto"><span class="star">★</span><span
+                                    class="star">★</span><span class="star">★</span><span class="star">★</span><span
+                                    class="star">★</span></div>
+                        </div>
+                        <p class="review-text">Kuenya lezat banget! Cokelatnya rich dan tidak terlalu manis. Pengiriman
+                            cepat dan packaging sangat rapi. Pasti pesan lagi! 🎂</p>
+                    </div>
+                    <div class="review-card">
+                        <div class="reviewer-info">
+                            <div class="reviewer-avatar">👤</div>
+                            <div>
+                                <div class="reviewer-name">Budi Santoso</div>
+                                <div class="reviewer-date">15 Februari 2026</div>
+                            </div>
+                            <div class="stars" style="margin-left:auto"><span class="star">★</span><span
+                                    class="star">★</span><span class="star">★</span><span class="star">★</span><span
+                                    class="star empty">★</span></div>
+                        </div>
+                        <p class="review-text">Enak tapi agak terlambat 30 menit dari jadwal. Soal rasa tidak ada
+                            komplen, chocolatenya premium banget.</p>
+                    </div>
+                    <div class="review-card">
+                        <div class="reviewer-info">
+                            <div class="reviewer-avatar">👤</div>
+                            <div>
+                                <div class="reviewer-name">Maya Putri</div>
+                                <div class="reviewer-date">10 Januari 2026</div>
+                            </div>
+                            <div class="stars" style="margin-left:auto"><span class="star">★</span><span
+                                    class="star">★</span><span class="star">★</span><span class="star">★</span><span
+                                    class="star">★</span></div>
+                        </div>
+                        <p class="review-text">Ini kue terbaik yang pernah saya coba! Dijadikan hadiah ulang tahun suami
+                            dan dia sangat suka. Terima kasih Dakingo! ❤️</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Related Products -->
+            <div style="margin-top:60px">
+                <h2 style="margin-bottom:24px">Produk Serupa</h2>
+                <div class="related-grid">
+                    <div class="product-card">
+                        <div class="product-card-img"><img src="assets/img/cake_hero.png" alt="Choco Berry"></div>
+                        <div class="product-card-body">
+                            <p class="product-card-name">Choco Berry</p>
+                            <div class="product-card-footer"><span class="product-price-new">Rp 250.000</span><button
+                                    class="product-cart-btn" onclick="addToCart2()"><svg class="cart-icon"
+                                        viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"
+                                        stroke-linecap="round" stroke-linejoin="round">
+                                        <circle cx="9" cy="21" r="1" />
+                                        <circle cx="20" cy="21" r="1" />
+                                        <path d="M1 1h4l2.68 13.39a2 2 0 001.99 1.61h9.72a2 2 0 001.98-1.68L23 6H6" />
+                                    </svg></button></div>
+                        </div>
+                    </div>
+                    <div class="product-card">
+                        <div class="product-card-img"><img src="assets/img/cake_tropical.png" alt="Tropical Fruit">
+                        </div>
+                        <div class="product-card-body">
+                            <p class="product-card-name">Tropical Fruit</p>
+                            <div class="product-card-footer"><span class="product-price-new">Rp 260.000</span><button
+                                    class="product-cart-btn" onclick="addToCart2()"><svg class="cart-icon"
+                                        viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"
+                                        stroke-linecap="round" stroke-linejoin="round">
+                                        <circle cx="9" cy="21" r="1" />
+                                        <circle cx="20" cy="21" r="1" />
+                                        <path d="M1 1h4l2.68 13.39a2 2 0 001.99 1.61h9.72a2 2 0 001.98-1.68L23 6H6" />
+                                    </svg></button></div>
+                        </div>
+                    </div>
+                    <div class="product-card">
+                        <div class="product-card-img"><img src="assets/img/cake_butterscotch.png" alt="Butterscotch">
+                        </div>
+                        <div class="product-card-body">
+                            <p class="product-card-name">Butterscotch</p>
+                            <div class="product-card-footer"><span class="product-price-new">Rp 250.000</span><button
+                                    class="product-cart-btn" onclick="addToCart2()"><svg class="cart-icon"
+                                        viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"
+                                        stroke-linecap="round" stroke-linejoin="round">
+                                        <circle cx="9" cy="21" r="1" />
+                                        <circle cx="20" cy="21" r="1" />
+                                        <path d="M1 1h4l2.68 13.39a2 2 0 001.99 1.61h9.72a2 2 0 001.98-1.68L23 6H6" />
+                                    </svg></button></div>
+                        </div>
+                    </div>
+                    <div class="product-card">
+                        <div class="product-card-img"><img src="assets/img/cake_pineapple.png" alt="Pineapple"></div>
+                        <div class="product-card-body">
+                            <p class="product-card-name">Pineapple Fresh</p>
+                            <div class="product-card-footer"><span class="product-price-new">Rp 200.000</span><button
+                                    class="product-cart-btn" onclick="addToCart2()"><svg class="cart-icon"
+                                        viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"
+                                        stroke-linecap="round" stroke-linejoin="round">
+                                        <circle cx="9" cy="21" r="1" />
+                                        <circle cx="20" cy="21" r="1" />
+                                        <path d="M1 1h4l2.68 13.39a2 2 0 001.99 1.61h9.72a2 2 0 001.98-1.68L23 6H6" />
+                                    </svg></button></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mobile Bottom Nav -->
+    <nav class="mobile-bottom-nav">
+        <div class="mbn-items">
+            <div class="mbn-group">
+                <a href="index.html" class="mbn-item"><span class="mbn-icon">🏠</span><span
+                        class="mbn-label">Home</span></a>
+                <a href="catalog.html" class="mbn-item active"><span class="mbn-icon">🛍️</span><span
+                        class="mbn-label">Katalog</span></a>
+            </div>
+            <div class="mbn-fab-space"></div>
+            <div class="mbn-group">
+                <a href="pesanan.html" class="mbn-item"><span class="mbn-icon">📦</span><span
+                        class="mbn-label">Pesanan</span></a>
+                <a href="profile.html" class="mbn-item"><span class="mbn-icon">👤</span><span
+                        class="mbn-label">Profil</span></a>
+            </div>
+        </div>
+        <a href="checkout.html" class="mbn-fab">🛒<span class="mbn-badge">3</span></a>
+    </nav>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <div class="logo">Dakingo</div>
+                    <p>Sign up to our newsletter.</p>
+                    <form class="newsletter-form" onsubmit="return false"><input type="email"
+                            placeholder="Enter email"><button>Sign Up</button></form>
+                </div>
+                <div>
+                    <p class="footer-heading">Links</p>
+                    <ul class="footer-links">
+                        <li><a href="catalog.html">Katalog</a></li>
+                        <li><a href="contact.html">Kontak</a></li>
+                        <li><a href="profile.html">Profil</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <p class="footer-heading">Categories</p>
+                    <ul class="footer-links">
+                        <li><a href="#">Cookies</a></li>
+                        <li><a href="#">Blog</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <p class="footer-heading">Help</p>
+                    <ul class="footer-links">
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#">Terms</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>Copyright Dakingo.</p>
+            </div>
+        </div>
+    </footer>
+
+    <div class="toast" id="toast"></div>
+    <button class="back-top" id="backTop">↑</button>
+
+    <script>
+        const hamburger = document.getElementById('hamburger'); const mobileNav = document.getElementById('mobileNav'); const overlay = document.getElementById('overlay'); const navClose = document.getElementById('navClose');
+        hamburger.addEventListener('click', () => { mobileNav.classList.toggle('open'); overlay.classList.toggle('active'); hamburger.classList.toggle('open'); });
+        navClose.addEventListener('click', () => { mobileNav.classList.remove('open'); overlay.classList.remove('active'); hamburger.classList.remove('open'); });
+        overlay.addEventListener('click', () => { mobileNav.classList.remove('open'); overlay.classList.remove('active'); hamburger.classList.remove('open'); });
+        function setImg(src, el) { document.getElementById('mainImg').src = src; document.querySelectorAll('.gallery-thumb').forEach(t => t.classList.remove('active')); el.classList.add('active'); }
+        function changeQty(d) { const q = document.getElementById('qty'); q.value = Math.max(1, parseInt(q.value) + d); }
+        function switchTab(id, el) { document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active')); document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active')); document.getElementById('tab-' + id).classList.add('active'); el.classList.add('active'); }
+        function addToCart() { showToast('🛒 Chocolate Truffle ditambahkan ke keranjang!'); }
+        function addToCart2() { showToast('🛒 Produk ditambahkan!'); }
+        function toggleWish(btn) { btn.textContent = btn.textContent === '🤍' ? '❤️' : '🤍'; showToast(btn.textContent === '❤️' ? '❤️ Ditambahkan ke wishlist!' : '🤍 Dihapus dari wishlist'); }
+        function showToast(msg) { const t = document.getElementById('toast'); t.textContent = msg; t.className = 'toast show toast-success'; setTimeout(() => t.className = 'toast', 2500); }
+        document.querySelectorAll('.size-opt').forEach(btn => { btn.addEventListener('click', () => { btn.closest('.size-options').querySelectorAll('.size-opt').forEach(b => b.classList.remove('active')); btn.classList.add('active'); }); });
+        const bt = document.getElementById('backTop'); window.addEventListener('scroll', () => bt.classList.toggle('show', window.scrollY > 300)); bt.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+    </script>
+</body>
+
+</html>

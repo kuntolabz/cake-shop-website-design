@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Halaman tidak ditemukan — Dakingo">
+    <title>404 — Halaman Tidak Ditemukan | Dakingo</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/components.css">
+    <style>
+        body {
+            padding-top: calc(var(--nav-height) + var(--announcement-height));
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .not-found-section {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 60px 0 80px;
+        }
+
+        .not-found-inner {
+            text-align: center;
+            max-width: 520px;
+            margin: 0 auto;
+        }
+
+        .not-found-art {
+            font-size: clamp(5rem, 20vw, 9rem);
+            line-height: 1;
+            margin-bottom: 16px;
+            animation: float 3s ease-in-out infinite;
+            user-select: none;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-16px);
+            }
+        }
+
+        .not-found-code {
+            font-size: clamp(5rem, 16vw, 8rem);
+            font-weight: 900;
+            line-height: 1;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 12px;
+            letter-spacing: -4px;
+        }
+
+        .not-found-title {
+            font-size: clamp(1.2rem, 3vw, 1.6rem);
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 10px;
+        }
+
+        .not-found-sub {
+            font-size: 0.95rem;
+            color: var(--text-light);
+            margin-bottom: 32px;
+            line-height: 1.7;
+        }
+
+        .not-found-actions {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 40px;
+        }
+
+        /* Quick links */
+        .quick-links {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            text-align: left;
+        }
+
+        @media (min-width: 480px) {
+            .quick-links {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        .quick-link-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            padding: 16px 12px;
+            background: #fff;
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-sm);
+            text-align: center;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-medium);
+            transition: var(--transition);
+            border: 1.5px solid transparent;
+        }
+
+        .quick-link-item:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .quick-link-icon {
+            font-size: 1.6rem;
+        }
+
+        .search-hint {
+            margin-top: 28px;
+            padding: 16px 20px;
+            background: #fff;
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .search-hint input {
+            flex: 1;
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius-full);
+            padding: 10px 16px;
+            font-size: 0.875rem;
+            font-family: inherit;
+            transition: var(--transition);
+        }
+
+        .search-hint input:focus {
+            border-color: var(--primary);
+            outline: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="announcement-bar">🍫 Free Eagle Tray | E-commerce Homepage — Order Now & Get 10% Off!</div>
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-inner">
+                <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+                <a href="index.html" class="nav-logo">Dakingo</a>
+                <nav class="nav-links">
+                    <a href="index.html" class="nav-link">Home</a>
+                    <div class="nav-dropdown">
+                        <a href="catalog.html" class="nav-link">Product</a>
+                        <div class="dropdown-menu">
+                            <a href="catalog.html" class="dropdown-item">🍰 All Products</a>
+                            <a href="catalog.html?cat=classic" class="dropdown-item">🎂 Classic Cakes</a>
+                            <a href="catalog.html?cat=gourmet" class="dropdown-item">✨ Gourmet</a>
+                            <a href="catalog.html?cat=designer" class="dropdown-item">🎨 Designer</a>
+                            <a href="catalog.html?cat=desserts" class="dropdown-item">🍮 Desserts</a>
+                        </div>
+                    </div>
+                    <div class="nav-dropdown">
+                        <a href="#" class="nav-link">Resources</a>
+                        <div class="dropdown-menu">
+                            <a href="#" class="dropdown-item">📖 Blog</a>
+                            <a href="#" class="dropdown-item">📸 Gallery</a>
+                        </div>
+                    </div>
+                    <div class="nav-dropdown">
+                        <a href="contact.html" class="nav-link">Contact</a>
+                        <div class="dropdown-menu">
+                            <a href="contact.html" class="dropdown-item">📞 Contact Us</a>
+                            <a href="#" class="dropdown-item">❓ FAQ</a>
+                        </div>
+                    </div>
+                </nav>
+                <div class="nav-spacer"></div>
+                <div class="nav-search">
+                    <button>🔍</button>
+                    <input type="text" placeholder="Search cakes...">
+                </div>
+                <div class="nav-icons">
+                    <a href="profile.html" class="nav-icon-btn" title="Profile">👤</a>
+                    <a href="#" class="nav-icon-btn" title="Wishlist">🤍</a>
+                    <a href="checkout.html" class="nav-icon-btn" title="Cart">🛒<span class="nav-badge">3</span></a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <div class="overlay" id="overlay"></div>
+    <div class="mobile-nav" id="mobileNav">
+        <div class="mobile-nav-header"><span class="mobile-nav-logo">Dakingo</span><button class="mobile-nav-close"
+                id="navClose">✕</button></div>
+        <div class="mobile-nav-links">
+            <a href="index.html" class="mobile-nav-link"><span class="icon">🏠</span>Home</a>
+            <a href="catalog.html" class="mobile-nav-link"><span class="icon">🛍️</span>Catalog</a>
+            <a href="contact.html" class="mobile-nav-link"><span class="icon">📞</span>Contact</a>
+            <a href="profile.html" class="mobile-nav-link"><span class="icon">👤</span>Profile</a>
+            <a href="checkout.html" class="mobile-nav-link"><span class="icon">🛒</span>Cart (3)</a>
+            <a href="login.html" class="mobile-nav-link"><span class="icon">🔑</span>Login</a>
+            <a href="register.html" class="mobile-nav-link"><span class="icon">✏️</span>Register</a>
+        </div>
+    </div>
+
+    <section class="not-found-section">
+        <div class="container">
+            <div class="not-found-inner">
+                <div class="not-found-art">🎂</div>
+                <div class="not-found-code">404</div>
+                <h1 class="not-found-title">Aduh, halaman tidak ditemukan!</h1>
+                <p class="not-found-sub">Sepertinya kue yang kamu cari sudah habis terjual 😅<br>
+                    Halaman ini mungkin dipindahkan, dihapus, atau tidak pernah ada.</p>
+
+                <div class="not-found-actions">
+                    <a href="index.html" class="btn btn-primary">🏠 Ke Beranda</a>
+                    <a href="catalog.html" class="btn btn-outline">🛍️ Lihat Katalog</a>
+                </div>
+
+                <p
+                    style="font-size:0.8rem;color:var(--text-light);margin-bottom:14px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em">
+                    Atau kunjungi halaman lain</p>
+                <div class="quick-links">
+                    <a href="catalog.html" class="quick-link-item">
+                        <span class="quick-link-icon">🛍️</span>Katalog
+                    </a>
+                    <a href="profile.html" class="quick-link-item">
+                        <span class="quick-link-icon">👤</span>Profil
+                    </a>
+                    <a href="pesanan.html" class="quick-link-item">
+                        <span class="quick-link-icon">📦</span>Pesanan
+                    </a>
+                    <a href="contact.html" class="quick-link-item">
+                        <span class="quick-link-icon">📞</span>Kontak
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <div class="logo">Dakingo</div>
+                    <p>Sign up to our newsletter.</p>
+                    <form class="newsletter-form" onsubmit="return false"><input type="email"
+                            placeholder="Enter email"><button>Sign Up</button></form>
+                </div>
+                <div>
+                    <p class="footer-heading">Links</p>
+                    <ul class="footer-links">
+                        <li><a href="catalog.html">Katalog</a></li>
+                        <li><a href="profile.html">Profil</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <p class="footer-heading">Help</p>
+                    <ul class="footer-links">
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#">Terms</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <p class="footer-heading">Account</p>
+                    <ul class="footer-links">
+                        <li><a href="login.html">Login</a></li>
+                        <li><a href="register.html">Register</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>Copyright Dakingo.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const hamburger = document.getElementById('hamburger'); const mobileNav = document.getElementById('mobileNav'); const overlay = document.getElementById('overlay'); const navClose = document.getElementById('navClose');
+        hamburger.addEventListener('click', () => { mobileNav.classList.toggle('open'); overlay.classList.toggle('active'); hamburger.classList.toggle('open'); });
+        navClose.addEventListener('click', () => { mobileNav.classList.remove('open'); overlay.classList.remove('active'); hamburger.classList.remove('open'); });
+        overlay.addEventListener('click', () => { mobileNav.classList.remove('open'); overlay.classList.remove('active'); hamburger.classList.remove('open'); });
+    </script>
+</body>
+
+</html>

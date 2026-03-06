@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Kelola dan ubah alamat pengiriman akun Dakingo kamu.">
+    <title>Ganti Alamat — Dakingo</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/components.css">
+    <style>
+        body {
+            padding-top: calc(var(--nav-height) + var(--announcement-height));
+        }
+
+        .address-section {
+            padding: 40px 0 80px;
+        }
+
+        .address-layout {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 28px;
+            align-items: start;
+        }
+
+        @media (min-width: 1024px) {
+            .address-layout {
+                grid-template-columns: 260px 1fr;
+            }
+        }
+
+        .avatar-wrap {
+            text-align: center;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 16px;
+        }
+
+        .avatar-ring {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin: 0 auto 10px;
+        }
+
+        .avatar-name {
+            font-size: 0.95rem;
+            font-weight: 700;
+            margin-bottom: 2px;
+        }
+
+        .avatar-email {
+            font-size: 0.75rem;
+            color: var(--text-light);
+        }
+
+        .content-card {
+            background: #fff;
+            border-radius: var(--radius-md);
+            padding: 28px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .content-card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .content-card-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+
+        .addresses-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 14px;
+            margin-bottom: 24px;
+        }
+
+        @media (min-width: 640px) {
+            .addresses-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        /* Add Address Form Overlay */
+        .form-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 200;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+        }
+
+        .form-overlay.open {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .form-modal {
+            background: #fff;
+            border-radius: var(--radius-xl);
+            padding: 32px;
+            width: 100%;
+            max-width: 560px;
+            max-height: 90vh;
+            overflow-y: auto;
+            transform: scale(0.95);
+            transition: transform 0.3s;
+        }
+
+        .form-overlay.open .form-modal {
+            transform: scale(1);
+        }
+
+        .modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 24px;
+        }
+
+        .modal-close {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: 1.5px solid var(--border);
+            background: none;
+            cursor: pointer;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+
+        .modal-close:hover {
+            background: var(--accent-light);
+            color: var(--primary);
+        }
+
+        .form-row-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+        }
+
+        .region-select {
+            padding: 12px 16px;
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius-sm);
+            font-size: 0.9rem;
+            width: 100%;
+            color: var(--text-dark);
+            background: #fff;
+        }
+
+        .region-select:focus {
+            border-color: var(--primary);
+            outline: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="announcement-bar">🍫 Free Eagle Tray | E-commerce Homepage — Order Now & Get 10% Off!</div>
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-inner">
+                <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+                <a href="index.html" class="nav-logo">Dakingo</a>
+                <nav class="nav-links">
+                    <a href="index.html" class="nav-link">Home</a>
+                    <div class="nav-dropdown">
+                        <a href="catalog.html" class="nav-link">Product</a>
+                        <div class="dropdown-menu">
+                            <a href="catalog.html" class="dropdown-item">🍰 All Products</a>
+                            <a href="catalog.html?cat=classic" class="dropdown-item">🎂 Classic Cakes</a>
+                            <a href="catalog.html?cat=gourmet" class="dropdown-item">✨ Gourmet</a>
+                            <a href="catalog.html?cat=designer" class="dropdown-item">🎨 Designer</a>
+                            <a href="catalog.html?cat=desserts" class="dropdown-item">🍮 Desserts</a>
+                        </div>
+                    </div>
+                    <div class="nav-dropdown">
+                        <a href="#" class="nav-link">Resources</a>
+                        <div class="dropdown-menu">
+                            <a href="#" class="dropdown-item">📖 Blog</a>
+                            <a href="#" class="dropdown-item">📸 Gallery</a>
+                        </div>
+                    </div>
+                    <div class="nav-dropdown">
+                        <a href="contact.html" class="nav-link">Contact</a>
+                        <div class="dropdown-menu">
+                            <a href="contact.html" class="dropdown-item">📞 Contact Us</a>
+                            <a href="#" class="dropdown-item">❓ FAQ</a>
+                        </div>
+                    </div>
+                </nav>
+                <div class="nav-spacer"></div>
+                <div class="nav-search">
+                    <button>🔍</button>
+                    <input type="text" placeholder="Search cakes...">
+                </div>
+                <div class="nav-icons">
+                    <a href="profile.html" class="nav-icon-btn" title="Profile" style="color:var(--primary)">👤</a>
+                    <a href="#" class="nav-icon-btn" title="Wishlist">🤍</a>
+                    <a href="checkout.html" class="nav-icon-btn" title="Cart">🛒<span class="nav-badge">3</span></a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <div class="overlay" id="overlay"></div>
+    <div class="mobile-nav" id="mobileNav">
+        <div class="mobile-nav-header"><span class="mobile-nav-logo">Dakingo</span><button class="mobile-nav-close"
+                id="navClose">✕</button></div>
+        <div class="mobile-nav-links">
+            <a href="index.html" class="mobile-nav-link"><span class="icon">🏠</span>Home</a>
+            <a href="catalog.html" class="mobile-nav-link"><span class="icon">🛍️</span>Catalog</a>
+            <a href="contact.html" class="mobile-nav-link"><span class="icon">📞</span>Contact</a>
+            <a href="profile.html" class="mobile-nav-link"><span class="icon">👤</span>Profile</a>
+            <a href="ganti-alamat.html" class="mobile-nav-link active"><span class="icon">📍</span>Alamat</a>
+            <a href="checkout.html" class="mobile-nav-link"><span class="icon">🛒</span>Cart (3)</a>
+            <a href="login.html" class="mobile-nav-link"><span class="icon">🔑</span>Login</a>
+            <a href="register.html" class="mobile-nav-link"><span class="icon">✏️</span>Register</a>
+        </div>
+    </div>
+
+    <div class="page-header">
+        <div class="container">
+            <nav class="breadcrumb"><a href="index.html">Home</a> / <a href="profile.html">Profil</a> /
+                <span>Alamat</span>
+            </nav>
+            <h1>Kelola Alamat 📍</h1>
+            <p>Tambah, edit, atau hapus alamat pengiriman kamu</p>
+        </div>
+    </div>
+
+    <section class="address-section">
+        <div class="container">
+            <div class="address-layout">
+                <!-- Sidebar -->
+                <aside class="sidebar">
+                    <div class="avatar-wrap">
+                        <div class="avatar-ring">👤</div>
+                        <div class="avatar-name">Sari Dewi</div>
+                        <div class="avatar-email">sari@email.com</div>
+                    </div>
+                    <nav class="sidebar-nav">
+                        <a href="profile.html" class="sidebar-link"><span class="icon">👤</span>Profil Saya</a>
+                        <a href="pesanan.html" class="sidebar-link"><span class="icon">📦</span>Pesanan Saya</a>
+                        <a href="ganti-alamat.html" class="sidebar-link active"><span class="icon">📍</span>Alamat</a>
+                        <a href="wishlist.html" class="sidebar-link"><span class="icon">🤍</span>Wishlist</a>
+                        <a href="ubah-password.html" class="sidebar-link"><span class="icon">🔑</span>Ubah Password</a>
+                        <div class="divider"></div>
+                        <a href="login.html" class="sidebar-link danger"><span class="icon">🚪</span>Logout</a>
+                    </nav>
+                </aside>
+
+                <!-- Main -->
+                <div>
+                    <div class="content-card">
+                        <div class="content-card-header">
+                            <h2 class="content-card-title">Alamat Tersimpan</h2>
+                            <button class="btn btn-primary btn-sm" onclick="openModal()">+ Tambah Alamat</button>
+                        </div>
+
+                        <div class="info-box info" style="margin-bottom:20px">
+                            <span class="info-box-icon">ℹ️</span>
+                            <span>Kamu dapat menyimpan hingga <strong>5 alamat</strong> pengiriman. Pilih alamat utama
+                                untuk mempercepat checkout.</span>
+                        </div>
+
+                        <div class="addresses-grid" id="addressList">
+                            <!-- Address 1 (selected/primary) -->
+                            <div class="address-card selected" id="addr1" onclick="selectAddr('addr1')">
+                                <div class="address-card-header">
+                                    <span class="address-card-label">🏠 Rumah (Utama)</span>
+                                    <div class="address-card-actions">
+                                        <button class="address-action-btn edit" onclick="editAddr(event, 'addr1')"
+                                            title="Edit">✏️</button>
+                                        <button class="address-action-btn delete" onclick="deleteAddr(event, 'addr1')"
+                                            title="Hapus">🗑️</button>
+                                    </div>
+                                </div>
+                                <div class="address-name">Sari Dewi</div>
+                                <div class="address-text">Jl. Mawar Indah No. 12, RT 03/RW 04<br>Kebayoran Baru, Jakarta
+                                    Selatan<br>DKI Jakarta 12180</div>
+                                <div class="address-phone">📞 0812-3456-7890</div>
+                            </div>
+
+                            <!-- Address 2 -->
+                            <div class="address-card" id="addr2" onclick="selectAddr('addr2')">
+                                <div class="address-card-header">
+                                    <span class="address-card-label">🏢 Kantor</span>
+                                    <div class="address-card-actions">
+                                        <button class="address-action-btn edit" onclick="editAddr(event, 'addr2')"
+                                            title="Edit">✏️</button>
+                                        <button class="address-action-btn delete" onclick="deleteAddr(event, 'addr2')"
+                                            title="Hapus">🗑️</button>
+                                    </div>
+                                </div>
+                                <div class="address-name">Sari Dewi (Kantor)</div>
+                                <div class="address-text">Gedung Graha Permata Lt. 8<br>Jl. Sudirman No. 77<br>Jakarta
+                                    Pusat 10220</div>
+                                <div class="address-phone">📞 0812-3456-7890</div>
+                            </div>
+
+                            <!-- Add New Placeholder -->
+                            <div class="address-card"
+                                style="border-style:dashed;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:10px;min-height:150px;cursor:pointer"
+                                onclick="openModal()">
+                                <span style="font-size:2rem;color:var(--text-light)">➕</span>
+                                <span style="font-size:0.875rem;color:var(--text-light);font-weight:600">Tambah Alamat
+                                    Baru</span>
+                            </div>
+                        </div>
+
+                        <div style="display:flex;gap:12px;flex-wrap:wrap">
+                            <a href="checkout.html" class="btn btn-primary">✓ Gunakan Alamat Ini</a>
+                            <a href="profile.html" class="btn btn-outline">← Kembali ke Profil</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Add/Edit Address Modal -->
+    <div class="form-overlay" id="formOverlay">
+        <div class="form-modal">
+            <div class="modal-header">
+                <h3 id="modalTitle">Tambah Alamat Baru</h3>
+                <button class="modal-close" onclick="closeModal()">✕</button>
+            </div>
+            <form onsubmit="saveAddress(event)">
+                <div class="form-group">
+                    <label class="form-label">Label Alamat</label>
+                    <select class="region-select">
+                        <option>🏠 Rumah</option>
+                        <option>🏢 Kantor</option>
+                        <option>📦 Lainnya</option>
+                    </select>
+                </div>
+                <div class="form-row-2">
+                    <div class="form-group">
+                        <label class="form-label">Nama Penerima</label>
+                        <input class="form-input" type="text" placeholder="Nama lengkap" required id="aname">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Nomor HP</label>
+                        <input class="form-input" type="tel" placeholder="08xxx" required id="aphone">
+                    </div>
+                </div>
+                <div class="form-group" style="margin-top:16px">
+                    <label class="form-label">Alamat Lengkap</label>
+                    <textarea class="form-input" placeholder="Jl. ..., RT/RW, Kelurahan" rows="2" required
+                        id="astreet"></textarea>
+                </div>
+                <div class="form-row-2">
+                    <div class="form-group">
+                        <label class="form-label">Provinsi</label>
+                        <select class="region-select" id="aprovince">
+                            <option>DKI Jakarta</option>
+                            <option>Jawa Barat</option>
+                            <option>Jawa Tengah</option>
+                            <option>Jawa Timur</option>
+                            <option>Banten</option>
+                            <option>Bali</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Kota / Kabupaten</label>
+                        <input class="form-input" type="text" placeholder="Kota/Kab." id="acity">
+                    </div>
+                </div>
+                <div class="form-row-2">
+                    <div class="form-group">
+                        <label class="form-label">Kecamatan</label>
+                        <input class="form-input" type="text" placeholder="Kecamatan" id="adistrict">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Kode Pos</label>
+                        <input class="form-input" type="text" placeholder="12345" maxlength="5" id="azip">
+                    </div>
+                </div>
+                <label class="custom-check" style="margin:16px 0">
+                    <input type="checkbox" id="setPrimary">
+                    <span style="font-size:0.875rem;color:var(--text-medium)">Jadikan sebagai alamat utama</span>
+                </label>
+                <div style="display:flex;gap:12px">
+                    <button type="submit" class="btn btn-primary" style="flex:1">💾 Simpan Alamat</button>
+                    <button type="button" class="btn btn-outline" onclick="closeModal()">Batal</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Mobile Bottom Nav -->
+    <nav class="mobile-bottom-nav">
+        <div class="mbn-items">
+            <div class="mbn-group">
+                <a href="index.html" class="mbn-item">
+                    <span class="mbn-icon">🏠</span>
+                    <span class="mbn-label">Home</span>
+                </a>
+                <a href="catalog.html" class="mbn-item">
+                    <span class="mbn-icon">🛍️</span>
+                    <span class="mbn-label">Katalog</span>
+                </a>
+            </div>
+            <div class="mbn-fab-space"></div>
+            <div class="mbn-group">
+                <a href="pesanan.html" class="mbn-item">
+                    <span class="mbn-icon">📦</span>
+                    <span class="mbn-label">Pesanan</span>
+                </a>
+                <a href="profile.html" class="mbn-item active">
+                    <span class="mbn-icon">👤</span>
+                    <span class="mbn-label">Profil</span>
+                </a>
+            </div>
+        </div>
+        <a href="checkout.html" class="mbn-fab">
+            🛒<span class="mbn-badge">3</span>
+        </a>
+    </nav>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <div class="logo">Dakingo</div>
+                    <p>Sign up to our newsletter.</p>
+                    <form class="newsletter-form" onsubmit="return false"><input type="email"
+                            placeholder="Enter email"><button>Sign Up</button></form>
+                </div>
+                <div>
+                    <p class="footer-heading">Links</p>
+                    <ul class="footer-links">
+                        <li><a href="catalog.html">Katalog</a></li>
+                        <li><a href="profile.html">Profil</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <p class="footer-heading">Help</p>
+                    <ul class="footer-links">
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#">Terms</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <p class="footer-heading">Account</p>
+                    <ul class="footer-links">
+                        <li><a href="login.html">Login</a></li>
+                        <li><a href="register.html">Register</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>Copyright Dakingo.</p>
+            </div>
+        </div>
+    </footer>
+    <div class="toast" id="toast"></div>
+    <button class="back-top" id="backTop">↑</button>
+
+    <script>
+        const hamburger = document.getElementById('hamburger'); const mobileNav = document.getElementById('mobileNav'); const overlay = document.getElementById('overlay'); const navClose = document.getElementById('navClose');
+        hamburger.addEventListener('click', () => { mobileNav.classList.toggle('open'); overlay.classList.toggle('active'); hamburger.classList.toggle('open'); });
+        navClose.addEventListener('click', () => { mobileNav.classList.remove('open'); overlay.classList.remove('active'); hamburger.classList.remove('open'); });
+        overlay.addEventListener('click', () => { mobileNav.classList.remove('open'); overlay.classList.remove('active'); hamburger.classList.remove('open'); });
+
+        function openModal(title) { document.getElementById('modalTitle').textContent = title || 'Tambah Alamat Baru'; document.getElementById('formOverlay').classList.add('open'); document.body.style.overflow = 'hidden'; }
+        function closeModal() { document.getElementById('formOverlay').classList.remove('open'); document.body.style.overflow = ''; }
+        function selectAddr(id) { document.querySelectorAll('.address-card').forEach(c => { if (c.id) c.classList.remove('selected'); }); const el = document.getElementById(id); if (el) el.classList.add('selected'); showToast('📍 Alamat utama diperbarui!'); }
+        function editAddr(e, id) { e.stopPropagation(); openModal('Edit Alamat'); }
+        function deleteAddr(e, id) { e.stopPropagation(); if (confirm('Hapus alamat ini?')) { const el = document.getElementById(id); if (el) el.remove(); showToast('🗑️ Alamat dihapus!'); } }
+        function saveAddress(e) { e.preventDefault(); closeModal(); showToast('✅ Alamat berhasil disimpan!'); e.target.reset(); }
+        function showToast(msg) { const t = document.getElementById('toast'); t.textContent = msg; t.className = 'toast show toast-success'; setTimeout(() => t.className = 'toast', 2500); }
+        const bt = document.getElementById('backTop'); window.addEventListener('scroll', () => bt.classList.toggle('show', window.scrollY > 300)); bt.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+    </script>
+</body>
+
+</html>

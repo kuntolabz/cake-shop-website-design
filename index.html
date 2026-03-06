@@ -1,0 +1,977 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description"
+    content="Dakingo — Toko kue premium online. Nikmati cokelat, buah, dan kue spesial yang dibuat dengan cinta.">
+  <title>Dakingo — Ultimate Chocolate Dream</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/components.css">
+  <style>
+    body {
+      padding-top: calc(var(--nav-height) + var(--announcement-height));
+    }
+
+    /* HERO */
+    .hero {
+      background: linear-gradient(135deg, #fff0f0 0%, #ffe8e8 50%, #fff5f5 100%);
+      padding: 60px 0;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      right: -80px;
+      top: -80px;
+      width: 500px;
+      height: 500px;
+      background: var(--primary);
+      border-radius: 50%;
+      opacity: 0.06;
+    }
+
+    .hero-inner {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 40px;
+      align-items: center;
+    }
+
+    @media (min-width: 1024px) {
+      .hero-inner {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    .hero-content {
+      max-width: 520px;
+    }
+
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--primary);
+      color: #fff;
+      padding: 6px 16px;
+      border-radius: var(--radius-full);
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+
+    .hero h1 {
+      font-family: var(--font-heading);
+      font-size: clamp(2.2rem, 5vw, 3.8rem);
+      line-height: 1.1;
+      color: var(--text-dark);
+      margin-bottom: 16px;
+    }
+
+    .hero h1 span {
+      color: var(--primary);
+    }
+
+    .hero-desc {
+      font-size: 1rem;
+      color: var(--text-medium);
+      margin-bottom: 32px;
+      line-height: 1.7;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 32px;
+      margin-top: 40px;
+      flex-wrap: wrap;
+    }
+
+    .hero-stat strong {
+      display: block;
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--primary);
+    }
+
+    .hero-stat span {
+      font-size: 0.78rem;
+      color: var(--text-light);
+      font-weight: 500;
+    }
+
+    .hero-images {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .hero-img-main {
+      width: 340px;
+      height: 340px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 6px solid #fff;
+      box-shadow: 0 20px 60px rgba(230, 57, 70, 0.2);
+      animation: float 4s ease-in-out infinite;
+    }
+
+    @media (max-width: 640px) {
+      .hero-img-main {
+        width: 260px;
+        height: 260px;
+      }
+    }
+
+    @keyframes float {
+
+      0%,
+      100% {
+        transform: translateY(0)
+      }
+
+      50% {
+        transform: translateY(-14px)
+      }
+    }
+
+    .hero-img-badge {
+      position: absolute;
+      background: #fff;
+      border-radius: var(--radius-md);
+      padding: 10px 14px;
+      box-shadow: var(--shadow-md);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    .hero-img-badge.top-left {
+      top: 20px;
+      left: -10px;
+    }
+
+    .hero-img-badge.bottom-right {
+      bottom: 40px;
+      right: -10px;
+    }
+
+    .hero-img-badge .emoji {
+      font-size: 1.3rem;
+    }
+
+    .hero-img-badge small {
+      display: block;
+      color: var(--text-light);
+      font-size: 0.7rem;
+      font-weight: 400;
+    }
+
+    /* CATEGORIES */
+    .categories {
+      padding: 60px 0;
+    }
+
+    .cat-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+
+    @media (min-width: 640px) {
+      .cat-grid {
+        grid-template-columns: repeat(6, 1fr);
+      }
+    }
+
+    .cat-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+    }
+
+    .cat-img {
+      width: 100%;
+      aspect-ratio: 1/1;
+      border-radius: var(--radius-md);
+      object-fit: cover;
+      background: var(--bg);
+      transition: var(--transition);
+      border: 3px solid transparent;
+    }
+
+    .cat-item:hover .cat-img {
+      border-color: var(--primary);
+      transform: translateY(-4px);
+    }
+
+    .cat-item.active .cat-img {
+      border-color: var(--primary);
+    }
+
+    .cat-label {
+      font-size: 0.82rem;
+      font-weight: 600;
+      text-align: center;
+      color: var(--text-dark);
+    }
+
+    .cat-item.active .cat-label {
+      color: var(--primary);
+    }
+
+    /* BESTSELLERS */
+    .bestsellers {
+      padding: 20px 0 60px;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 28px;
+    }
+
+    .section-header h2 {
+      font-size: clamp(1.2rem, 2.5vw, 1.6rem);
+    }
+
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+
+    @media (min-width: 640px) {
+      .products-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .products-grid {
+        grid-template-columns: repeat(5, 1fr);
+      }
+    }
+
+    /* PROMISE */
+    .promise {
+      padding: 50px 0;
+    }
+
+    .promise-inner {
+      background: linear-gradient(135deg, #fff0f0 0%, #ffe8e8 100%);
+      border-radius: var(--radius-xl);
+      padding: 50px 40px;
+    }
+
+    .promise-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 32px;
+      margin-top: 40px;
+    }
+
+    @media (min-width: 768px) {
+      .promise-grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+
+    .promise-item {
+      text-align: center;
+    }
+
+    .promise-icon {
+      width: 70px;
+      height: 70px;
+      background: #fff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      margin: 0 auto 14px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .promise-item strong {
+      display: block;
+      font-size: 0.9rem;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .promise-item span {
+      font-size: 0.78rem;
+      color: var(--text-light);
+    }
+
+    /* MAGICAL TICKET */
+    .magical-ticket {
+      background: var(--primary);
+      border-radius: var(--radius-xl);
+      padding: 50px;
+      position: relative;
+      overflow: hidden;
+      margin: 0 0 60px;
+    }
+
+    .magical-ticket::before {
+      content: '';
+      position: absolute;
+      left: -60px;
+      top: -60px;
+      width: 300px;
+      height: 300px;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 50%;
+    }
+
+    .magical-ticket::after {
+      content: '';
+      position: absolute;
+      right: 100px;
+      bottom: -80px;
+      width: 250px;
+      height: 250px;
+      background: rgba(255, 255, 255, 0.06);
+      border-radius: 50%;
+    }
+
+    .ticket-inner {
+      display: flex;
+      align-items: center;
+      gap: 40px;
+      flex-wrap: wrap;
+    }
+
+    .ticket-stub {
+      background: rgba(255, 255, 255, 0.15);
+      border: 3px dashed rgba(255, 255, 255, 0.4);
+      border-radius: var(--radius-md);
+      padding: 24px 32px;
+      text-align: center;
+      flex-shrink: 0;
+    }
+
+    .ticket-stub h3 {
+      font-size: 1.3rem;
+      color: #fff;
+      font-family: var(--font-heading);
+    }
+
+    .ticket-content {
+      flex: 1;
+    }
+
+    .ticket-content h2 {
+      color: #fff;
+      font-family: var(--font-heading);
+      font-size: clamp(1.6rem, 3vw, 2.2rem);
+      margin-bottom: 10px;
+    }
+
+    .ticket-content p {
+      color: rgba(255, 255, 255, 0.8);
+      margin-bottom: 24px;
+    }
+
+    /* GALLERY */
+    .gallery {
+      padding: 20px 0 60px;
+    }
+
+    .gallery-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24px;
+    }
+
+    .social-icons {
+      display: flex;
+      gap: 10px;
+    }
+
+    .social-icon {
+      width: 36px;
+      height: 36px;
+      background: var(--primary);
+      color: #fff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      transition: var(--transition);
+    }
+
+    .social-icon:hover {
+      background: var(--primary-dark);
+      transform: translateY(-2px);
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    @media (min-width: 640px) {
+      .gallery-grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+
+    .gallery-item {
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      aspect-ratio: 1/1;
+      background: var(--bg);
+      position: relative;
+      cursor: pointer;
+    }
+
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s;
+    }
+
+    .gallery-item:hover img {
+      transform: scale(1.08);
+    }
+
+    .gallery-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(230, 57, 70, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.3s;
+      font-size: 2rem;
+      color: #fff;
+    }
+
+    .gallery-item:hover .gallery-overlay {
+      opacity: 1;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Announcement Bar -->
+  <div class="announcement-bar">🍫 Free Eagle Tray | E-commerce Homepage — Order Now & Get 10% Off!</div>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="container">
+      <div class="nav-inner">
+        <button class="hamburger" id="hamburger" aria-label="Menu">
+          <span></span><span></span><span></span>
+        </button>
+        <a href="index.html" class="nav-logo">Dakingo</a>
+        <nav class="nav-links">
+          <a href="index.html" class="nav-link active">Home</a>
+          <div class="nav-dropdown">
+            <a href="catalog.html" class="nav-link">Product</a>
+            <div class="dropdown-menu">
+              <a href="catalog.html" class="dropdown-item">🍰 All Products</a>
+              <a href="catalog.html?cat=classic" class="dropdown-item">🎂 Classic Cakes</a>
+              <a href="catalog.html?cat=gourmet" class="dropdown-item">✨ Gourmet</a>
+              <a href="catalog.html?cat=designer" class="dropdown-item">🎨 Designer</a>
+              <a href="catalog.html?cat=desserts" class="dropdown-item">🍮 Desserts</a>
+            </div>
+          </div>
+          <div class="nav-dropdown">
+            <a href="#" class="nav-link">Resources</a>
+            <div class="dropdown-menu">
+              <a href="#" class="dropdown-item">📖 Blog</a>
+              <a href="#" class="dropdown-item">📸 Gallery</a>
+            </div>
+          </div>
+          <div class="nav-dropdown">
+            <a href="contact.html" class="nav-link">Contact</a>
+            <div class="dropdown-menu">
+              <a href="contact.html" class="dropdown-item">📞 Contact Us</a>
+              <a href="#" class="dropdown-item">❓ FAQ</a>
+            </div>
+          </div>
+        </nav>
+        <div class="nav-spacer"></div>
+        <div class="nav-search">
+          <button>🔍</button>
+          <input type="text" placeholder="Search cakes...">
+        </div>
+        <div class="nav-icons">
+          <a href="profile.html" class="nav-icon-btn" title="Profile">👤</a>
+          <a href="#" class="nav-icon-btn" title="Wishlist">🤍</a>
+          <a href="checkout.html" class="nav-icon-btn" title="Cart">
+            🛒
+            <span class="nav-badge">3</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Mobile Nav -->
+  <div class="overlay" id="overlay"></div>
+  <div class="mobile-nav" id="mobileNav">
+    <div class="mobile-nav-header">
+      <span class="mobile-nav-logo">Dakingo</span>
+      <button class="mobile-nav-close" id="navClose">✕</button>
+    </div>
+    <div class="mobile-nav-links">
+      <a href="index.html" class="mobile-nav-link active"><span class="icon">🏠</span>Home</a>
+      <a href="catalog.html" class="mobile-nav-link"><span class="icon">🛍️</span>Catalog</a>
+      <a href="contact.html" class="mobile-nav-link"><span class="icon">📞</span>Contact</a>
+      <a href="profile.html" class="mobile-nav-link"><span class="icon">👤</span>Profile</a>
+      <a href="checkout.html" class="mobile-nav-link"><span class="icon">🛒</span>Cart (3)</a>
+      <a href="login.html" class="mobile-nav-link"><span class="icon">🔑</span>Login</a>
+      <a href="register.html" class="mobile-nav-link"><span class="icon">✏️</span>Register</a>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-inner">
+        <div class="hero-content">
+          <div class="hero-tag">🏆 #1 Bakery Online</div>
+          <h1><span>Dakingo's</span> Ultimate Chocolate Dream!</h1>
+          <p class="hero-desc">Indulge in pure cocoa bliss! Handcrafted cakes made with the finest ingredients,
+            delivered fresh to your door.</p>
+          <div class="hero-actions">
+            <a href="catalog.html" class="btn btn-primary btn-lg">🛍️ Shop Now</a>
+            <a href="#bestsellers" class="btn btn-outline btn-lg">View Menu</a>
+          </div>
+          <div class="hero-stats">
+            <div class="hero-stat"><strong>2 Cr+</strong><span>Happy Orders</span></div>
+            <div class="hero-stat"><strong>500+</strong><span>Designs</span></div>
+            <div class="hero-stat"><strong>4.9 ★</strong><span>Rating</span></div>
+          </div>
+        </div>
+        <div class="hero-images">
+          <div class="hero-img-badge top-left">
+            <span class="emoji">🚚</span>
+            <div><strong>Fast Delivery</strong><small>Within 2 hours</small></div>
+          </div>
+          <img src="assets/img/cake_hero.png" alt="Chocolate Cake with Berries" class="hero-img-main">
+          <div class="hero-img-badge bottom-right">
+            <span class="emoji">🧁</span>
+            <div><strong>Baked Fresh</strong><small>Every morning</small></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CATEGORIES -->
+  <section class="categories">
+    <div class="container">
+      <h2 class="section-title">Menu: What will you wish for?</h2>
+      <p class="section-subtitle">Choose from our wide variety of handcrafted creations</p>
+      <div class="cat-grid">
+        <div class="cat-item active">
+          <img src="assets/img/cake_truffle.png" alt="Classic" class="cat-img">
+          <span class="cat-label">Classic</span>
+        </div>
+        <div class="cat-item">
+          <img src="assets/img/cake_hero.png" alt="Classic" class="cat-img">
+          <span class="cat-label">Berries</span>
+        </div>
+        <div class="cat-item">
+          <img src="assets/img/cake_tropical.png" alt="Gourmet" class="cat-img">
+          <span class="cat-label">Gourmet</span>
+        </div>
+        <div class="cat-item">
+          <img src="assets/img/cake_butterscotch.png" alt="Designer" class="cat-img">
+          <span class="cat-label">Designer</span>
+        </div>
+        <div class="cat-item">
+          <img src="assets/img/cake_pineapple.png" alt="Desserts" class="cat-img">
+          <span class="cat-label">Desserts</span>
+        </div>
+        <div class="cat-item">
+          <img src="assets/img/cake_truffle.png" alt="Cookies" class="cat-img">
+          <span class="cat-label">Cookies</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BESTSELLERS -->
+  <section class="bestsellers" id="bestsellers">
+    <div class="container">
+      <div class="section-header">
+        <h2>India Loves: Bestsellers from across the country</h2>
+        <a href="catalog.html" class="btn btn-outline btn-sm">View All</a>
+      </div>
+      <div class="products-grid">
+        <!-- Card 1 -->
+        <div class="product-card">
+          <div class="product-card-img">
+            <img src="assets/img/cake_truffle.png" alt="Chocolate Truffle">
+            <div class="product-card-actions">
+              <button class="product-action-btn" title="Wishlist">🤍</button>
+              <button class="product-action-btn" title="Quick View">👁️</button>
+            </div>
+          </div>
+          <div class="product-card-body">
+            <p class="product-card-name">Chocolate Truffle</p>
+            <div class="product-card-rating">
+              <div class="stars">
+                <span class="star">★</span><span class="star">★</span><span class="star">★</span><span
+                  class="star">★</span><span class="star empty">★</span>
+              </div>
+              <span class="product-rating-num">4.0 (120)</span>
+            </div>
+            <div class="product-card-footer">
+              <div>
+                <span class="product-price-new">Rp 198.000</span>
+                <span class="product-price-old">Rp 280.000</span>
+              </div>
+              <button class="product-cart-btn" onclick="addToCart('Chocolate Truffle')">🛒</button>
+            </div>
+          </div>
+        </div>
+        <!-- Card 2 -->
+        <div class="product-card">
+          <div class="product-card-img">
+            <img src="assets/img/cake_hero.png" alt="Choco Berry">
+            <div class="product-card-actions">
+              <button class="product-action-btn" title="Wishlist">🤍</button>
+              <button class="product-action-btn" title="Quick View">👁️</button>
+            </div>
+          </div>
+          <div class="product-card-body">
+            <p class="product-card-name">Choco Berry</p>
+            <div class="product-card-rating">
+              <div class="stars">
+                <span class="star">★</span><span class="star">★</span><span class="star">★</span><span
+                  class="star">★</span><span class="star">★</span>
+              </div>
+              <span class="product-rating-num">4.5 (204)</span>
+            </div>
+            <div class="product-card-footer">
+              <div>
+                <span class="product-price-new">Rp 250.000</span>
+                <span class="product-price-old">Rp 380.000</span>
+              </div>
+              <button class="product-cart-btn" onclick="addToCart('Choco Berry')">🛒</button>
+            </div>
+          </div>
+        </div>
+        <!-- Card 3 -->
+        <div class="product-card">
+          <div class="product-card-img">
+            <img src="assets/img/cake_tropical.png" alt="Tropical Fruit">
+            <div class="product-card-actions">
+              <button class="product-action-btn" title="Wishlist">🤍</button>
+              <button class="product-action-btn" title="Quick View">👁️</button>
+            </div>
+          </div>
+          <div class="product-card-body">
+            <p class="product-card-name">Tropical Fruit</p>
+            <div class="product-card-rating">
+              <div class="stars">
+                <span class="star">★</span><span class="star">★</span><span class="star">★</span><span
+                  class="star">★</span><span class="star">★</span>
+              </div>
+              <span class="product-rating-num">4.5 (98)</span>
+            </div>
+            <div class="product-card-footer">
+              <div>
+                <span class="product-price-new">Rp 260.000</span>
+                <span class="product-price-old">Rp 340.000</span>
+              </div>
+              <button class="product-cart-btn" onclick="addToCart('Tropical Fruit')">🛒</button>
+            </div>
+          </div>
+        </div>
+        <!-- Card 4 -->
+        <div class="product-card">
+          <div class="product-card-img">
+            <img src="assets/img/cake_butterscotch.png" alt="Butterscotch">
+            <div class="product-card-actions">
+              <button class="product-action-btn" title="Wishlist">🤍</button>
+              <button class="product-action-btn" title="Quick View">👁️</button>
+            </div>
+          </div>
+          <div class="product-card-body">
+            <p class="product-card-name">Butterscotch</p>
+            <div class="product-card-rating">
+              <div class="stars">
+                <span class="star">★</span><span class="star">★</span><span class="star">★</span><span
+                  class="star">★</span><span class="star">★</span>
+              </div>
+              <span class="product-rating-num">4.8 (316)</span>
+            </div>
+            <div class="product-card-footer">
+              <div>
+                <span class="product-price-new">Rp 250.000</span>
+                <span class="product-price-old">Rp 350.000</span>
+              </div>
+              <button class="product-cart-btn" onclick="addToCart('Butterscotch')">🛒</button>
+            </div>
+          </div>
+        </div>
+        <!-- Card 5 -->
+        <div class="product-card">
+          <div class="product-card-img">
+            <img src="assets/img/cake_pineapple.png" alt="Pineapple">
+            <div class="product-card-actions">
+              <button class="product-action-btn" title="Wishlist">🤍</button>
+              <button class="product-action-btn" title="Quick View">👁️</button>
+            </div>
+          </div>
+          <div class="product-card-body">
+            <p class="product-card-name">Pineapple Fresh</p>
+            <div class="product-card-rating">
+              <div class="stars">
+                <span class="star">★</span><span class="star">★</span><span class="star">★</span><span
+                  class="star">★</span><span class="star empty">★</span>
+              </div>
+              <span class="product-rating-num">4.3 (178)</span>
+            </div>
+            <div class="product-card-footer">
+              <div>
+                <span class="product-price-new">Rp 200.000</span>
+                <span class="product-price-old">Rp 280.000</span>
+              </div>
+              <button class="product-cart-btn" onclick="addToCart('Pineapple')">🛒</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- OUR PROMISE -->
+  <section class="promise">
+    <div class="container">
+      <div class="promise-inner">
+        <h2 class="section-title">Our Promise</h2>
+        <p class="section-subtitle">We're committed to making every celebration special</p>
+        <div class="promise-grid">
+          <div class="promise-item">
+            <div class="promise-icon">🚚</div>
+            <strong>On-Time Delivery</strong>
+            <span>Delivered hot & fresh, right on time</span>
+          </div>
+          <div class="promise-item">
+            <div class="promise-icon">🎨</div>
+            <strong>500+ Designs</strong>
+            <span>Endless options for every occasion</span>
+          </div>
+          <div class="promise-item">
+            <div class="promise-icon">📦</div>
+            <strong>2 Cr+ Orders</strong>
+            <span>Trust us — over 20 million served!</span>
+          </div>
+          <div class="promise-item">
+            <div class="promise-icon">🧁</div>
+            <strong>Baked Fresh</strong>
+            <span>Made fresh every single morning</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MAGICAL TICKET -->
+  <section class="section-sm">
+    <div class="container">
+      <div class="magical-ticket">
+        <div class="ticket-inner">
+          <div class="ticket-stub">
+            <h3>The Magical<br>Ticket 🎟️</h3>
+          </div>
+          <div class="ticket-content">
+            <h2>The Magical Ticket</h2>
+            <p>Indulge in pure cocoa bliss! Unlock exclusive discounts, free delivery, and limited edition flavors.</p>
+            <a href="register.html" class="btn btn-white">🔓 UNLOCK NOW</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GALLERY -->
+  <section class="gallery">
+    <div class="container">
+      <div class="gallery-header">
+        <h2>What's In Your Heart? 💖</h2>
+        <div class="social-icons">
+          <a href="#" class="social-icon">f</a>
+          <a href="#" class="social-icon" style="font-style:italic">ig</a>
+        </div>
+      </div>
+      <div class="gallery-grid">
+        <div class="gallery-item">
+          <img src="assets/img/cake_truffle.png" alt="Gallery 1">
+          <div class="gallery-overlay">▶</div>
+        </div>
+        <div class="gallery-item">
+          <img src="assets/img/cake_hero.png" alt="Gallery 2">
+          <div class="gallery-overlay">▶</div>
+        </div>
+        <div class="gallery-item">
+          <img src="assets/img/cake_tropical.png" alt="Gallery 3">
+          <div class="gallery-overlay">▶</div>
+        </div>
+        <div class="gallery-item">
+          <img src="assets/img/cake_butterscotch.png" alt="Gallery 4">
+          <div class="gallery-overlay">▶</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Mobile Bottom Nav -->
+  <nav class="mobile-bottom-nav">
+    <div class="mbn-items">
+      <div class="mbn-group">
+        <a href="index.html" class="mbn-item active">
+          <span class="mbn-icon">🏠</span>
+          <span class="mbn-label">Home</span>
+        </a>
+        <a href="catalog.html" class="mbn-item">
+          <span class="mbn-icon">🛍️</span>
+          <span class="mbn-label">Katalog</span>
+        </a>
+      </div>
+      <div class="mbn-fab-space"></div>
+      <div class="mbn-group">
+        <a href="pesanan.html" class="mbn-item">
+          <span class="mbn-icon">📦</span>
+          <span class="mbn-label">Pesanan</span>
+        </a>
+        <a href="profile.html" class="mbn-item">
+          <span class="mbn-icon">👤</span>
+          <span class="mbn-label">Profil</span>
+        </a>
+      </div>
+    </div>
+    <a href="checkout.html" class="mbn-fab">
+      🛒<span class="mbn-badge">3</span>
+    </a>
+  </nav>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="logo">Dakingo</div>
+          <p>Sign up to our newsletter and enjoy delicious promotions and offers.</p>
+          <form class="newsletter-form" onsubmit="return false">
+            <input type="email" placeholder="Enter email address">
+            <button type="submit">Sign Up</button>
+          </form>
+        </div>
+        <div>
+          <p class="footer-heading">Newsletter</p>
+          <ul class="footer-links">
+            <li><a href="#">About Us</a></li>
+            <li><a href="#">Career</a></li>
+            <li><a href="#">Reception</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="footer-heading">Categories</p>
+          <ul class="footer-links">
+            <li><a href="#">About</a></li>
+            <li><a href="#">Cookies</a></li>
+            <li><a href="#">Blog</a></li>
+            <li><a href="#">Resala</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="footer-heading">Links</p>
+          <ul class="footer-links">
+            <li><a href="contact.html">Contact Us</a></li>
+            <li><a href="#">Terms & Conditions</a></li>
+            <li><a href="#">Site Map</a></li>
+            <li><a href="#">Cookie Policy</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>Copyright Dakingo. All rights reserved.</p>
+        <div class="footer-bottom-links">
+          <a href="#">Privacy</a>
+          <a href="#">Terms</a>
+          <a href="contact.html">Contact</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Back to Top -->
+  <button class="back-top" id="backTop">↑</button>
+
+  <!-- Toast -->
+  <div class="toast" id="toast">🛒 Added to cart!</div>
+
+  <script>
+    // Mobile Nav
+    const hamburger = document.getElementById('hamburger');
+    const mobileNav = document.getElementById('mobileNav');
+    const overlay = document.getElementById('overlay');
+    const navClose = document.getElementById('navClose');
+    function openNav() { mobileNav.classList.add('open'); overlay.classList.add('active'); hamburger.classList.add('open'); document.body.style.overflow = 'hidden'; }
+    function closeNav() { mobileNav.classList.remove('open'); overlay.classList.remove('active'); hamburger.classList.remove('open'); document.body.style.overflow = ''; }
+    hamburger.addEventListener('click', openNav);
+    navClose.addEventListener('click', closeNav);
+    overlay.addEventListener('click', closeNav);
+
+    // Category filter
+    document.querySelectorAll('.cat-item').forEach(item => {
+      item.addEventListener('click', () => {
+        document.querySelectorAll('.cat-item').forEach(i => i.classList.remove('active'));
+        item.classList.add('active');
+      });
+    });
+
+    // Toast
+    function addToCart(name) {
+      const toast = document.getElementById('toast');
+      toast.textContent = `🛒 ${name} added to cart!`;
+      toast.classList.add('show', 'toast-success');
+      setTimeout(() => toast.classList.remove('show', 'toast-success'), 2800);
+    }
+
+    // Back to top
+    const backTop = document.getElementById('backTop');
+    window.addEventListener('scroll', () => {
+      backTop.classList.toggle('show', window.scrollY > 300);
+    });
+    backTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+  </script>
+</body>
+
+</html>

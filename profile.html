@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Profil akun Dakingo kamu — kelola pesanan, alamat, dan info personal.">
+    <title>Profil Saya — Dakingo</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/components.css">
+    <style>
+        body {
+            padding-top: calc(var(--nav-height) + var(--announcement-height));
+        }
+
+        .profile-section {
+            padding: 40px 0 80px;
+        }
+
+        .profile-layout {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 28px;
+            align-items: start;
+        }
+
+        @media (min-width: 1024px) {
+            .profile-layout {
+                grid-template-columns: 260px 1fr;
+            }
+        }
+
+        /* Avatar */
+        .avatar-wrap {
+            text-align: center;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 16px;
+        }
+
+        .avatar-ring {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.2rem;
+            margin: 0 auto 10px;
+            position: relative;
+        }
+
+        .avatar-edit {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 26px;
+            height: 26px;
+            background: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            cursor: pointer;
+            border: 2px solid #fff;
+        }
+
+        .avatar-name {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 2px;
+        }
+
+        .avatar-email {
+            font-size: 0.78rem;
+            color: var(--text-light);
+        }
+
+        /* Content Card */
+        .content-card {
+            background: #fff;
+            border-radius: var(--radius-md);
+            padding: 28px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .content-card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .content-card-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+
+        /* Stats */
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-bottom: 28px;
+        }
+
+        .stat-box {
+            background: var(--bg);
+            border-radius: var(--radius-md);
+            padding: 16px;
+            text-align: center;
+        }
+
+        .stat-box .num {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--primary);
+            display: block;
+        }
+
+        .stat-box .lbl {
+            font-size: 0.72rem;
+            color: var(--text-light);
+            font-weight: 500;
+        }
+
+        /* Form layout */
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 0;
+        }
+
+        @media (min-width: 640px) {
+            .form-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 16px;
+            }
+        }
+
+        .form-grid .form-group {
+            margin-bottom: 0;
+        }
+
+        .section-gap {
+            margin-bottom: 20px;
+        }
+
+        /* Orders List */
+        .order-list {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .order-row-item {
+            background: var(--bg);
+            border-radius: var(--radius-md);
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .order-img {
+            width: 60px;
+            height: 60px;
+            border-radius: var(--radius-sm);
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+
+        .order-info {
+            flex: 1;
+        }
+
+        .order-id {
+            font-size: 0.75rem;
+            color: var(--text-light);
+            margin-bottom: 2px;
+        }
+
+        .order-name {
+            font-size: 0.9rem;
+            font-weight: 700;
+        }
+
+        .order-date {
+            font-size: 0.75rem;
+            color: var(--text-light);
+        }
+
+        .order-status {
+            padding: 4px 10px;
+            border-radius: var(--radius-full);
+            font-size: 0.72rem;
+            font-weight: 700;
+        }
+
+        .status-delivered {
+            background: #dcfce7;
+            color: #16a34a;
+        }
+
+        .status-processing {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .status-shipped {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .order-price {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--primary);
+            white-space: nowrap;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="announcement-bar">🍫 Free Eagle Tray | E-commerce Homepage — Order Now & Get 10% Off!</div>
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-inner">
+                <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+                <a href="index.html" class="nav-logo">Dakingo</a>
+                <nav class="nav-links">
+                    <a href="index.html" class="nav-link">Home</a>
+                    <div class="nav-dropdown">
+                        <a href="catalog.html" class="nav-link">Product</a>
+                        <div class="dropdown-menu">
+                            <a href="catalog.html" class="dropdown-item">🍰 All Products</a>
+                            <a href="catalog.html?cat=classic" class="dropdown-item">🎂 Classic Cakes</a>
+                            <a href="catalog.html?cat=gourmet" class="dropdown-item">✨ Gourmet</a>
+                            <a href="catalog.html?cat=designer" class="dropdown-item">🎨 Designer</a>
+                            <a href="catalog.html?cat=desserts" class="dropdown-item">🍮 Desserts</a>
+                        </div>
+                    </div>
+                    <div class="nav-dropdown">
+                        <a href="#" class="nav-link">Resources</a>
+                        <div class="dropdown-menu">
+                            <a href="#" class="dropdown-item">📖 Blog</a>
+                            <a href="#" class="dropdown-item">📸 Gallery</a>
+                        </div>
+                    </div>
+                    <div class="nav-dropdown">
+                        <a href="contact.html" class="nav-link">Contact</a>
+                        <div class="dropdown-menu">
+                            <a href="contact.html" class="dropdown-item">📞 Contact Us</a>
+                            <a href="#" class="dropdown-item">❓ FAQ</a>
+                        </div>
+                    </div>
+                </nav>
+                <div class="nav-spacer"></div>
+                <div class="nav-search">
+                    <button>🔍</button>
+                    <input type="text" placeholder="Search cakes...">
+                </div>
+                <div class="nav-icons">
+                    <a href="profile.html" class="nav-icon-btn" title="Profile" style="color:var(--primary)">👤</a>
+                    <a href="#" class="nav-icon-btn" title="Wishlist">🤍</a>
+                    <a href="checkout.html" class="nav-icon-btn" title="Cart">🛒<span class="nav-badge">3</span></a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <div class="overlay" id="overlay"></div>
+    <div class="mobile-nav" id="mobileNav">
+        <div class="mobile-nav-header"><span class="mobile-nav-logo">Dakingo</span><button class="mobile-nav-close"
+                id="navClose">✕</button></div>
+        <div class="mobile-nav-links">
+            <a href="index.html" class="mobile-nav-link"><span class="icon">🏠</span>Home</a>
+            <a href="catalog.html" class="mobile-nav-link"><span class="icon">🛍️</span>Catalog</a>
+            <a href="contact.html" class="mobile-nav-link"><span class="icon">📞</span>Contact</a>
+            <a href="profile.html" class="mobile-nav-link active"><span class="icon">👤</span>Profile</a>
+            <a href="checkout.html" class="mobile-nav-link"><span class="icon">🛒</span>Cart (3)</a>
+            <a href="login.html" class="mobile-nav-link"><span class="icon">🔑</span>Login</a>
+            <a href="register.html" class="mobile-nav-link"><span class="icon">✏️</span>Register</a>
+        </div>
+    </div>
+
+    <div class="page-header">
+        <div class="container">
+            <nav class="breadcrumb"><a href="index.html">Home</a> / <span>Profil Saya</span></nav>
+            <h1>Profil Saya 👋</h1>
+            <p>Kelola akun, pesanan, dan preferensi kamu</p>
+        </div>
+    </div>
+
+    <section class="profile-section">
+        <div class="container">
+            <div class="profile-layout">
+                <!-- Sidebar -->
+                <aside class="sidebar">
+                    <div class="avatar-wrap">
+                        <div class="avatar-ring">
+                            👤
+                            <div class="avatar-edit">✏️</div>
+                        </div>
+                        <div class="avatar-name">Sari Dewi</div>
+                        <div class="avatar-email">sari@email.com</div>
+                    </div>
+                    <nav class="sidebar-nav">
+                        <a href="profile.html" class="sidebar-link active"><span class="icon">👤</span>Profil Saya</a>
+                        <a href="#orders" class="sidebar-link" onclick="switchSection('orders')"><span
+                                class="icon">📦</span>Pesanan Saya</a>
+                        <a href="ganti-alamat.html" class="sidebar-link"><span class="icon">📍</span>Alamat</a>
+                        <a href="wishlist.html" class="sidebar-link"><span class="icon">🤍</span>Wishlist</a>
+                        <a href="#" class="sidebar-link"><span class="icon">🔔</span>Notifikasi</a>
+                        <a href="ubah-password.html" class="sidebar-link"><span class="icon">🔑</span>Ubah Password</a>
+                        <div class="divider"></div>
+                        <a href="login.html" class="sidebar-link danger"><span class="icon">🚪</span>Logout</a>
+                    </nav>
+                </aside>
+
+                <!-- Main Content -->
+                <div>
+                    <!-- Stats -->
+                    <div class="stats-row">
+                        <div class="stat-box"><span class="num">12</span><span class="lbl">Total Pesanan</span></div>
+                        <div class="stat-box"><span class="num">8</span><span class="lbl">Selesai</span></div>
+                        <div class="stat-box"><span class="num">Rp 2.4jt</span><span class="lbl">Total Belanja</span>
+                        </div>
+                    </div>
+
+                    <!-- Profile Form -->
+                    <div class="content-card section-gap" id="section-profile">
+                        <div class="content-card-header">
+                            <h2 class="content-card-title">Informasi Pribadi</h2>
+                            <button class="btn btn-outline btn-sm" onclick="toggleEdit()">✏️ Edit</button>
+                        </div>
+                        <form onsubmit="saveProfile(event)" id="profileForm">
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label class="form-label">Nama Depan</label>
+                                    <input class="form-input" type="text" value="Sari" id="fName" disabled>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Nama Belakang</label>
+                                    <input class="form-input" type="text" value="Dewi" id="lName" disabled>
+                                </div>
+                            </div>
+                            <div class="form-group" style="margin-top:16px">
+                                <label class="form-label">Email</label>
+                                <input class="form-input" type="email" value="sari@email.com" id="pemail" disabled>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Nomor Telepon</label>
+                                <input class="form-input" type="tel" value="0812-3456-7890" id="pphone" disabled>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Tanggal Lahir</label>
+                                <input class="form-input" type="date" value="1995-08-22" id="pbday" disabled>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Jenis Kelamin</label>
+                                <select class="form-input" id="pgender" disabled>
+                                    <option selected>Perempuan</option>
+                                    <option>Laki-laki</option>
+                                    <option>Tidak ingin menyebutkan</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-primary" id="saveBtn"
+                                style="display:none;margin-top:8px">💾 Simpan Perubahan</button>
+                        </form>
+                    </div>
+
+                    <!-- Orders -->
+                    <div class="content-card">
+                        <div class="content-card-header">
+                            <h2 class="content-card-title">Pesanan Terbaru</h2>
+                            <a href="#" class="btn btn-outline btn-sm">Lihat Semua</a>
+                        </div>
+                        <div class="order-list">
+                            <div class="order-row-item">
+                                <img src="assets/img/cake_truffle.png" alt="" class="order-img">
+                                <div class="order-info">
+                                    <div class="order-id">#ORD-2024-001</div>
+                                    <div class="order-name">Chocolate Truffle × 1</div>
+                                    <div class="order-date">28 Feb 2026</div>
+                                </div>
+                                <span class="order-status status-delivered">✓ Terkirim</span>
+                                <span class="order-price">Rp 198k</span>
+                            </div>
+                            <div class="order-row-item">
+                                <img src="assets/img/cake_tropical.png" alt="" class="order-img">
+                                <div class="order-info">
+                                    <div class="order-id">#ORD-2024-002</div>
+                                    <div class="order-name">Tropical Fruit × 2</div>
+                                    <div class="order-date">20 Feb 2026</div>
+                                </div>
+                                <span class="order-status status-shipped">🚚 Dikirim</span>
+                                <span class="order-price">Rp 520k</span>
+                            </div>
+                            <div class="order-row-item">
+                                <img src="assets/img/cake_butterscotch.png" alt="" class="order-img">
+                                <div class="order-info">
+                                    <div class="order-id">#ORD-2024-003</div>
+                                    <div class="order-name">Butterscotch × 1</div>
+                                    <div class="order-date">10 Feb 2026</div>
+                                </div>
+                                <span class="order-status status-processing">⏳ Diproses</span>
+                                <span class="order-price">Rp 250k</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mobile Bottom Nav -->
+    <nav class="mobile-bottom-nav">
+        <div class="mbn-items">
+            <div class="mbn-group">
+                <a href="index.html" class="mbn-item">
+                    <span class="mbn-icon">🏠</span>
+                    <span class="mbn-label">Home</span>
+                </a>
+                <a href="catalog.html" class="mbn-item">
+                    <span class="mbn-icon">🛍️</span>
+                    <span class="mbn-label">Katalog</span>
+                </a>
+            </div>
+            <div class="mbn-fab-space"></div>
+            <div class="mbn-group">
+                <a href="pesanan.html" class="mbn-item">
+                    <span class="mbn-icon">📦</span>
+                    <span class="mbn-label">Pesanan</span>
+                </a>
+                <a href="profile.html" class="mbn-item active">
+                    <span class="mbn-icon">👤</span>
+                    <span class="mbn-label">Profil</span>
+                </a>
+            </div>
+        </div>
+        <a href="checkout.html" class="mbn-fab">
+            🛒<span class="mbn-badge">3</span>
+        </a>
+    </nav>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <div class="logo">Dakingo</div>
+                    <p>Sign up to our newsletter.</p>
+                    <form class="newsletter-form" onsubmit="return false"><input type="email"
+                            placeholder="Enter email"><button>Sign Up</button></form>
+                </div>
+                <div>
+                    <p class="footer-heading">Links</p>
+                    <ul class="footer-links">
+                        <li><a href="catalog.html">Katalog</a></li>
+                        <li><a href="contact.html">Kontak</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <p class="footer-heading">Help</p>
+                    <ul class="footer-links">
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#">Terms</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <p class="footer-heading">Account</p>
+                    <ul class="footer-links">
+                        <li><a href="profile.html">Profil</a></li>
+                        <li><a href="ganti-alamat.html">Alamat</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>Copyright Dakingo.</p>
+            </div>
+        </div>
+    </footer>
+    <div class="toast" id="toast"></div>
+    <button class="back-top" id="backTop">↑</button>
+
+    <script>
+        const hamburger = document.getElementById('hamburger'); const mobileNav = document.getElementById('mobileNav'); const overlay = document.getElementById('overlay'); const navClose = document.getElementById('navClose');
+        hamburger.addEventListener('click', () => { mobileNav.classList.toggle('open'); overlay.classList.toggle('active'); hamburger.classList.toggle('open'); });
+        navClose.addEventListener('click', () => { mobileNav.classList.remove('open'); overlay.classList.remove('active'); hamburger.classList.remove('open'); });
+        overlay.addEventListener('click', () => { mobileNav.classList.remove('open'); overlay.classList.remove('active'); hamburger.classList.remove('open'); });
+        function toggleEdit() { const fields = document.querySelectorAll('#profileForm input, #profileForm select'); const btn = document.getElementById('saveBtn'); const isDisabled = fields[0].disabled; fields.forEach(f => f.disabled = !isDisabled); btn.style.display = isDisabled ? 'inline-flex' : 'none'; }
+        function saveProfile(e) { e.preventDefault(); const fields = document.querySelectorAll('#profileForm input, #profileForm select'); fields.forEach(f => f.disabled = true); document.getElementById('saveBtn').style.display = 'none'; const t = document.getElementById('toast'); t.textContent = '✅ Profil berhasil disimpan!'; t.className = 'toast show toast-success'; setTimeout(() => t.className = 'toast', 2500); }
+        const bt = document.getElementById('backTop'); window.addEventListener('scroll', () => bt.classList.toggle('show', window.scrollY > 300)); bt.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+    </script>
+</body>
+
+</html>

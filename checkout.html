@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Selesaikan pembelian kue Dakingo kamu dengan aman dan mudah.">
+    <title>Checkout — Dakingo</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/components.css">
+    <style>
+        body {
+            padding-top: calc(var(--nav-height) + var(--announcement-height));
+            background: var(--bg);
+        }
+
+        .checkout-section {
+            padding: 40px 0 80px;
+        }
+
+        .checkout-layout {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 28px;
+            align-items: start;
+        }
+
+        @media (min-width: 1024px) {
+            .checkout-layout {
+                grid-template-columns: 1fr 380px;
+            }
+        }
+
+        /* Content Card */
+        .checkout-card {
+            background: #fff;
+            border-radius: var(--radius-md);
+            padding: 28px;
+            box-shadow: var(--shadow-sm);
+            margin-bottom: 20px;
+        }
+
+        .checkout-card-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .checkout-card-num {
+            width: 32px;
+            height: 32px;
+            background: var(--primary);
+            color: #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.875rem;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .checkout-card-title {
+            font-size: 1.05rem;
+            font-weight: 700;
+        }
+
+        /* Address Select */
+        .addr-select-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        @media (min-width: 640px) {
+            .addr-select-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .addr-option {
+            border: 2px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 14px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .addr-option:hover {
+            border-color: var(--accent);
+        }
+
+        .addr-option.selected {
+            border-color: var(--primary);
+            background: var(--accent-light);
+        }
+
+        .addr-option-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 6px;
+        }
+
+        .addr-option-label {
+            font-size: 0.72rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            background: var(--accent-light);
+            color: var(--primary);
+            padding: 2px 8px;
+            border-radius: var(--radius-full);
+        }
+
+        .addr-option-radio {
+            accent-color: var(--primary);
+        }
+
+        .addr-name {
+            font-size: 0.875rem;
+            font-weight: 700;
+        }
+
+        .addr-line {
+            font-size: 0.8rem;
+            color: var(--text-medium);
+            line-height: 1.5;
+        }
+
+        /* Delivery Time */
+        .delivery-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 10px;
+        }
+
+        .delivery-opt {
+            border: 2px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 14px;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .delivery-opt:hover {
+            border-color: var(--accent);
+        }
+
+        .delivery-opt.selected {
+            border-color: var(--primary);
+            background: var(--accent-light);
+        }
+
+        .delivery-opt .icon {
+            font-size: 1.5rem;
+            margin-bottom: 6px;
+        }
+
+        .delivery-opt strong {
+            display: block;
+            font-size: 0.8rem;
+        }
+
+        .delivery-opt span {
+            font-size: 0.72rem;
+            color: var(--text-light);
+        }
+
+        .delivery-opt .price {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-top: 4px;
+        }
+
+        /* Payment Methods */
+        .payment-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+        }
+
+        .pay-opt {
+            border: 2px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 14px 18px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: var(--transition);
+        }
+
+        .pay-opt:hover {
+            border-color: var(--accent);
+        }
+
+        .pay-opt.selected {
+            border-color: var(--primary);
+            background: var(--accent-light);
+        }
+
+        .pay-icon {
+            font-size: 1.6rem;
+            flex-shrink: 0;
+        }
+
+        .pay-opt strong {
+            font-size: 0.9rem;
+            display: block;
+        }
+
+        .pay-opt span {
+            font-size: 0.75rem;
+            color: var(--text-light);
+        }
+
+        .pay-opt input[type="radio"] {
+            accent-color: var(--primary);
+            margin-left: auto;
+            flex-shrink: 0;
+        }
+
+        /* Bank detail collapsible */
+        .bank-detail {
+            background: var(--bg);
+            border-radius: var(--radius-sm);
+            padding: 14px;
+            margin-top: 10px;
+            display: none;
+        }
+
+        .bank-detail.show {
+            display: block;
+        }
+
+        .bank-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+            font-size: 0.875rem;
+        }
+
+        .bank-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .copy-btn {
+            background: none;
+            border: none;
+            color: var(--primary);
+            cursor: pointer;
+            font-size: 0.78rem;
+            font-weight: 600;
+        }
+
+        /* Coupon */
+        .coupon-row {
+            display: flex;
+            gap: 10px;
+        }
+
+        .coupon-row input {
+            flex: 1;
+        }
+
+        /* Note */
+        .note-input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius-sm);
+            font-size: 0.875rem;
+            resize: none;
+            min-height: 80px;
+            font-family: inherit;
+            color: var(--text-dark);
+        }
+
+        .note-input:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(230, 57, 70, 0.1);
+        }
+
+        /* Order Card (sticky) */
+        .order-card-sticky {
+            position: sticky;
+            top: calc(var(--nav-height) + var(--announcement-height) + 20px);
+        }
+
+        .cart-items {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .cart-item {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            padding: 10px;
+            background: var(--bg);
+            border-radius: var(--radius-sm);
+        }
+
+        .cart-item-img {
+            width: 56px;
+            height: 56px;
+            border-radius: var(--radius-sm);
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+
+        .cart-item-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .cart-item-name {
+            font-size: 0.85rem;
+            font-weight: 600;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .cart-item-variant {
+            font-size: 0.72rem;
+            color: var(--text-light);
+        }
+
+        .cart-item-qty {
+            font-size: 0.75rem;
+            color: var(--text-light);
+        }
+
+        .cart-item-price {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--primary);
+            white-space: nowrap;
+        }
+
+        .summary-rows {
+            border-top: 1px solid var(--border);
+            padding-top: 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .sum-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.875rem;
+            color: var(--text-medium);
+        }
+
+        .sum-row.discount {
+            color: #22c55e;
+        }
+
+        .sum-row.total {
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: var(--text-dark);
+            border-top: 1.5px solid var(--border);
+            padding-top: 12px;
+            margin-top: 4px;
+        }
+
+        .guarantee {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--bg);
+            border-radius: var(--radius-sm);
+            padding: 12px;
+            margin: 14px 0;
+            font-size: 0.78rem;
+            color: var(--text-medium);
+        }
+
+        /* Success Modal */
+        .success-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 300;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+        }
+
+        .success-overlay.show {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .success-modal {
+            background: #fff;
+            border-radius: var(--radius-xl);
+            padding: 48px 40px;
+            max-width: 420px;
+            width: 100%;
+            text-align: center;
+            transform: scale(0.9);
+            transition: transform 0.3s;
+        }
+
+        .success-overlay.show .success-modal {
+            transform: scale(1);
+        }
+
+        .success-icon {
+            font-size: 4rem;
+            margin-bottom: 16px;
+        }
+
+        .success-modal h2 {
+            margin-bottom: 10px;
+        }
+
+        .success-modal p {
+            color: var(--text-medium);
+            margin-bottom: 24px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="announcement-bar">🍫 Free Eagle Tray | E-commerce Homepage — Order Now & Get 10% Off!</div>
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-inner">
+                <a href="index.html" class="nav-logo">Dakingo</a>
+                <div class="nav-spacer"></div>
+                <!-- Steps in nav -->
+                <div class="steps" style="max-width:380px;flex:1;display:none" id="navSteps">
+                    <div class="step done">
+                        <div class="step-circle">✓</div><span class="step-label">Keranjang</span>
+                    </div>
+                    <div class="step active">
+                        <div class="step-circle">2</div><span class="step-label">Checkout</span>
+                    </div>
+                    <div class="step">
+                        <div class="step-circle">3</div><span class="step-label">Selesai</span>
+                    </div>
+                </div>
+                <div style="flex:1"></div>
+                <div class="nav-icons">
+                    <a href="profile.html" class="nav-icon-btn">👤</a>
+                    <a href="checkout.html" class="nav-icon-btn">🛒<span class="nav-badge">3</span></a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Steps Banner -->
+    <div style="background:#fff;border-bottom:1px solid var(--border);padding:14px 0">
+        <div class="container">
+            <div class="steps" style="max-width:500px;margin:0 auto">
+                <div class="step done">
+                    <div class="step-circle">✓</div><span class="step-label">Keranjang</span>
+                </div>
+                <div class="step active">
+                    <div class="step-circle">2</div><span class="step-label">Checkout</span>
+                </div>
+                <div class="step">
+                    <div class="step-circle">3</div><span class="step-label">Konfirmasi</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section class="checkout-section">
+        <div class="container">
+            <div class="checkout-layout">
+                <!-- LEFT COLUMN -->
+                <div>
+                    <!-- Delivery Address -->
+                    <div class="checkout-card">
+                        <div class="checkout-card-header">
+                            <div class="checkout-card-num">1</div>
+                            <h2 class="checkout-card-title">Alamat Pengiriman</h2>
+                        </div>
+                        <div class="addr-select-grid">
+                            <div class="addr-option selected" onclick="selectDelivery(this)">
+                                <div class="addr-option-header">
+                                    <span class="addr-option-label">🏠 Rumah</span>
+                                    <input type="radio" name="addr" checked class="addr-option-radio">
+                                </div>
+                                <div class="addr-name">Sari Dewi</div>
+                                <div class="addr-line">Jl. Mawar Indah No. 12, Kebayoran Baru, Jakarta Selatan 12180
+                                </div>
+                                <div class="addr-line" style="margin-top:4px;color:var(--text-light)">📞 0812-3456-7890
+                                </div>
+                            </div>
+                            <div class="addr-option" onclick="selectDelivery(this)">
+                                <div class="addr-option-header">
+                                    <span class="addr-option-label">🏢 Kantor</span>
+                                    <input type="radio" name="addr" class="addr-option-radio">
+                                </div>
+                                <div class="addr-name">Sari Dewi (Kantor)</div>
+                                <div class="addr-line">Gedung Graha Permata Lt. 8, Jl. Sudirman No. 77, Jakarta Pusat
+                                    10220</div>
+                            </div>
+                        </div>
+                        <a href="ganti-alamat.html" class="btn btn-outline btn-sm">📍 Tambah / Ubah Alamat</a>
+                    </div>
+
+                    <!-- Delivery Options -->
+                    <div class="checkout-card">
+                        <div class="checkout-card-header">
+                            <div class="checkout-card-num">2</div>
+                            <h2 class="checkout-card-title">Waktu Pengiriman</h2>
+                        </div>
+                        <div class="delivery-grid">
+                            <div class="delivery-opt selected" onclick="selectDelivOpt(this)">
+                                <div class="icon">⚡</div>
+                                <strong>Express</strong>
+                                <span>1-2 jam</span>
+                                <div class="price">Rp 25.000</div>
+                            </div>
+                            <div class="delivery-opt" onclick="selectDelivOpt(this)">
+                                <div class="icon">🚚</div>
+                                <strong>Reguler</strong>
+                                <span>2-4 jam</span>
+                                <div class="price">Gratis</div>
+                            </div>
+                            <div class="delivery-opt" onclick="selectDelivOpt(this)">
+                                <div class="icon">📅</div>
+                                <strong>Terjadwal</strong>
+                                <span>Pilih waktu</span>
+                                <div class="price">Rp 10.000</div>
+                            </div>
+                        </div>
+
+                        <!-- Date & Time picker (for scheduled) -->
+                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:16px">
+                            <div class="form-group" style="margin:0">
+                                <label class="form-label">Tanggal Pengiriman</label>
+                                <input class="form-input" type="date">
+                            </div>
+                            <div class="form-group" style="margin:0">
+                                <label class="form-label">Jam Pengiriman</label>
+                                <select class="form-input">
+                                    <option>09:00 – 11:00</option>
+                                    <option>11:00 – 13:00</option>
+                                    <option>13:00 – 15:00</option>
+                                    <option>15:00 – 17:00</option>
+                                    <option>17:00 – 19:00</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Payment -->
+                    <div class="checkout-card">
+                        <div class="checkout-card-header">
+                            <div class="checkout-card-num">3</div>
+                            <h2 class="checkout-card-title">Metode Pembayaran</h2>
+                        </div>
+                        <div class="payment-grid">
+                            <div class="pay-opt selected" onclick="selectPay(this, 'transfer')">
+                                <span class="pay-icon">🏦</span>
+                                <div><strong>Transfer Bank</strong><span>BCA, Mandiri, BNI, BRI</span></div>
+                                <input type="radio" name="pay" checked>
+                            </div>
+                            <div class="pay-opt" onclick="selectPay(this, 'gopay')">
+                                <span class="pay-icon">💚</span>
+                                <div><strong>GoPay</strong><span>Bayar via aplikasi Gojek</span></div>
+                                <input type="radio" name="pay">
+                            </div>
+                            <div class="pay-opt" onclick="selectPay(this, 'ovo')">
+                                <span class="pay-icon">💜</span>
+                                <div><strong>OVO</strong><span>Bayar via OVO</span></div>
+                                <input type="radio" name="pay">
+                            </div>
+                            <div class="pay-opt" onclick="selectPay(this, 'dana')">
+                                <span class="pay-icon">💙</span>
+                                <div><strong>DANA</strong><span>Bayar via DANA</span></div>
+                                <input type="radio" name="pay">
+                            </div>
+                            <div class="pay-opt" onclick="selectPay(this, 'qris')">
+                                <span class="pay-icon">📱</span>
+                                <div><strong>QRIS</strong><span>Scan QR code untuk bayar</span></div>
+                                <input type="radio" name="pay">
+                            </div>
+                            <div class="pay-opt" onclick="selectPay(this, 'cod')">
+                                <span class="pay-icon">💵</span>
+                                <div><strong>COD (Bayar di Tempat)</strong><span>Bayar saat kue tiba</span></div>
+                                <input type="radio" name="pay">
+                            </div>
+                        </div>
+
+                        <!-- Bank detail -->
+                        <div class="bank-detail show" id="bankDetail">
+                            <p style="font-size:0.8rem;font-weight:700;margin-bottom:10px;color:var(--text-dark)">
+                                Transfer ke rekening berikut:</p>
+                            <div class="bank-row"><span>BCA 1234567890 (Dakingo Bakery)</span><button class="copy-btn"
+                                    onclick="copyText('BCA 1234567890')">📋 Salin</button></div>
+                            <div class="bank-row"><span>Mandiri 0987654321 (Dakingo Bakery)</span><button
+                                    class="copy-btn" onclick="copyText('Mandiri 0987654321')">📋 Salin</button></div>
+                        </div>
+                    </div>
+
+                    <!-- Coupon & Note -->
+                    <div class="checkout-card">
+                        <div class="checkout-card-header">
+                            <div class="checkout-card-num">4</div>
+                            <h2 class="checkout-card-title">Kupon & Catatan</h2>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Kode Kupon</label>
+                            <div class="coupon-row">
+                                <input class="form-input" type="text" id="couponInput"
+                                    placeholder="Masukkan kode kupon..." style="margin:0">
+                                <button class="btn btn-outline" onclick="applyCoupon()">Pakai</button>
+                            </div>
+                        </div>
+                        <div class="form-group" style="margin-top:16px">
+                            <label class="form-label">Catatan untuk Pembuat Kue (opsional)</label>
+                            <textarea class="note-input"
+                                placeholder="Contoh: tuliskan 'Happy Birthday Mama' di kuenya, atau permintaan khusus lainnya..."></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- RIGHT COLUMN — Order Summary -->
+                <div class="order-card-sticky">
+                    <div class="checkout-card">
+                        <h3 style="margin-bottom:20px;font-size:1.05rem">Ringkasan Pesanan</h3>
+                        <div class="cart-items">
+                            <div class="cart-item">
+                                <img src="assets/img/cake_truffle.png" alt="" class="cart-item-img">
+                                <div class="cart-item-info">
+                                    <div class="cart-item-name">Chocolate Truffle</div>
+                                    <div class="cart-item-variant">1 kg · Dark Choco</div>
+                                    <div class="cart-item-qty">Qty: 1</div>
+                                </div>
+                                <div class="cart-item-price">Rp 198k</div>
+                            </div>
+                            <div class="cart-item">
+                                <img src="assets/img/cake_tropical.png" alt="" class="cart-item-img">
+                                <div class="cart-item-info">
+                                    <div class="cart-item-name">Tropical Fruit</div>
+                                    <div class="cart-item-variant">1.5 kg</div>
+                                    <div class="cart-item-qty">Qty: 1</div>
+                                </div>
+                                <div class="cart-item-price">Rp 260k</div>
+                            </div>
+                            <div class="cart-item">
+                                <img src="assets/img/cake_pineapple.png" alt="" class="cart-item-img">
+                                <div class="cart-item-info">
+                                    <div class="cart-item-name">Pineapple Fresh</div>
+                                    <div class="cart-item-variant">1 kg</div>
+                                    <div class="cart-item-qty">Qty: 1</div>
+                                </div>
+                                <div class="cart-item-price">Rp 200k</div>
+                            </div>
+                        </div>
+
+                        <div class="summary-rows">
+                            <div class="sum-row"><span>Subtotal (3 item)</span><span>Rp 658.000</span></div>
+                            <div class="sum-row"><span>Ongkos Kirim</span><span id="shippingCost">Gratis</span></div>
+                            <div class="sum-row discount" id="discountRow" style="display:none"><span>Diskon
+                                    Kupon</span><span>-Rp 50.000</span></div>
+                            <div class="sum-row"><span>Packaging Premium</span><span>Rp 15.000</span></div>
+                            <div class="sum-row total"><span>Total</span><span id="totalAmt">Rp 673.000</span></div>
+                        </div>
+
+                        <div class="guarantee">
+                            <span style="font-size:1.2rem">🛡️</span>
+                            <span>Pembelian dilindungi garansi Dakingo. Kue tidak fresh? Kami ganti!</span>
+                        </div>
+
+                        <button class="btn btn-primary btn-block btn-lg" onclick="placeOrder()">
+                            🎉 Buat Pesanan Sekarang
+                        </button>
+                        <a href="catalog.html" class="btn btn-outline btn-block" style="margin-top:10px">← Lanjut
+                            Belanja</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Success Modal -->
+    <div class="success-overlay" id="successOverlay">
+        <div class="success-modal">
+            <div class="success-icon">🎉</div>
+            <h2>Pesanan Berhasil!</h2>
+            <p>Terima kasih telah memesan di Dakingo. Kuenya akan segera dibuat dan dikirimkan ke lokasi kamu!</p>
+            <div
+                style="background:var(--bg);border-radius:var(--radius-md);padding:16px;margin-bottom:24px;font-size:0.875rem">
+                <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span>No.
+                        Pesanan</span><strong>#ORD-2026-00123</strong></div>
+                <div style="display:flex;justify-content:space-between"><span>Estimasi Tiba</span><strong>± 2
+                        jam</strong></div>
+            </div>
+            <a href="profile.html" class="btn btn-primary btn-block">📦 Lacak Pesanan</a>
+            <a href="index.html" class="btn btn-outline btn-block" style="margin-top:10px">🏠 Kembali ke Beranda</a>
+        </div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+        function selectDelivery(el) {
+            document.querySelectorAll('.addr-option').forEach(o => o.classList.remove('selected'));
+            el.classList.add('selected');
+            el.querySelector('input[type=radio]').checked = true;
+        }
+        function selectDelivOpt(el) {
+            document.querySelectorAll('.delivery-opt').forEach(o => o.classList.remove('selected'));
+            el.classList.add('selected');
+            const icon = el.querySelector('.icon').textContent;
+            const priceText = el.querySelector('.price').textContent;
+            const costEl = document.getElementById('shippingCost');
+            costEl.textContent = priceText;
+            // Recalc total
+            const base = 673000, ship = icon === '⚡' ? 25000 : (icon === '📅' ? 10000 : 0);
+            const discountRow = document.getElementById('discountRow');
+            const d = discountRow.style.display === 'flex' ? 50000 : 0;
+            document.getElementById('totalAmt').textContent = 'Rp ' + ((base - 15000 + ship - d).toLocaleString('id-ID'));
+        }
+        function selectPay(el, type) {
+            document.querySelectorAll('.pay-opt').forEach(o => o.classList.remove('selected'));
+            el.classList.add('selected');
+            el.querySelector('input[type=radio]').checked = true;
+            document.getElementById('bankDetail').className = type === 'transfer' ? 'bank-detail show' : 'bank-detail';
+        }
+        function applyCoupon() {
+            const val = document.getElementById('couponInput').value.trim().toUpperCase();
+            const row = document.getElementById('discountRow');
+            if (val === 'DAKINGO10' || val === 'DISKON50') {
+                row.style.display = 'flex';
+                showToast('🎉 Kupon berhasil dipakai! Hemat Rp 50.000');
+                document.getElementById('totalAmt').textContent = 'Rp 623.000';
+            } else {
+                showToast('❌ Kode kupon tidak valid!');
+            }
+        }
+        function copyText(text) { navigator.clipboard.writeText(text).then(() => showToast('📋 Disalin: ' + text)); }
+        function placeOrder() {
+            window.location.href = 'order-success.html';
+        }
+        function showToast(msg) { const t = document.getElementById('toast'); t.textContent = msg; t.className = 'toast show ' + (msg.startsWith('❌') ? 'toast-error' : 'toast-success'); setTimeout(() => t.className = 'toast', 3000); }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Jelajahi semua koleksi kue premium Dakingo — cokelat, buah, gourmet, dan banyak lagi.">
+    <title>Katalog Produk — Dakingo</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/components.css">
+    <style>
+        body {
+            padding-top: calc(var(--nav-height) + var(--announcement-height));
+        }
+
+        .catalog-section {
+            padding: 40px 0 80px;
+        }
+
+        .catalog-layout {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 28px;
+            align-items: start;
+        }
+
+        @media (min-width: 1024px) {
+            .catalog-layout {
+                grid-template-columns: 260px 1fr;
+            }
+        }
+
+        /* Filter Sidebar Mobile Toggle */
+        .filter-toggle {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 18px;
+            background: #fff;
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius-full);
+            font-size: 0.875rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-bottom: 16px;
+            color: var(--text-dark);
+        }
+
+        @media (min-width: 1024px) {
+            .filter-toggle {
+                display: none;
+            }
+        }
+
+        .filter-sidebar {
+            background: #fff;
+            border-radius: var(--radius-md);
+            padding: 20px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        @media (max-width: 1023px) {
+            .filter-sidebar {
+                display: none;
+            }
+
+            .filter-sidebar.open {
+                display: block;
+            }
+        }
+
+        /* Catalog Header */
+        .catalog-toolbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .catalog-count {
+            font-size: 0.875rem;
+            color: var(--text-light);
+        }
+
+        .catalog-sort {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .sort-select {
+            padding: 8px 14px;
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius-full);
+            font-size: 0.875rem;
+            background: #fff;
+            color: var(--text-dark);
+            cursor: pointer;
+        }
+
+        .sort-select:focus {
+            border-color: var(--primary);
+            outline: none;
+        }
+
+        /* Products Grid */
+        .catalog-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+        }
+
+        @media (min-width: 640px) {
+            .catalog-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (min-width: 1280px) {
+            .catalog-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        /* Active Filters */
+        .active-filters {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 16px;
+        }
+
+        .filter-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 5px 12px;
+            background: var(--accent-light);
+            color: var(--primary);
+            border-radius: var(--radius-full);
+            font-size: 0.78rem;
+            font-weight: 600;
+        }
+
+        .filter-tag button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--primary);
+            font-size: 0.9rem;
+            line-height: 1;
+        }
+
+        /* Pagination */
+        .pagination {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            margin-top: 48px;
+        }
+
+        .page-btn {
+            width: 38px;
+            height: 38px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            border: 1.5px solid var(--border);
+            font-size: 0.875rem;
+            font-weight: 600;
+            cursor: pointer;
+            background: #fff;
+            color: var(--text-medium);
+            transition: var(--transition);
+        }
+
+        .page-btn:hover,
+        .page-btn.active {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: #fff;
+        }
+
+        .page-btn.arrow {
+            font-size: 1.1rem;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="announcement-bar">🍫 Free Eagle Tray | E-commerce Homepage — Order Now & Get 10% Off!</div>
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-inner">
+                <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+                <a href="index.html" class="nav-logo">Dakingo</a>
+                <nav class="nav-links">
+                    <a href="index.html" class="nav-link">Home</a>
+                    <div class="nav-dropdown">
+                        <a href="catalog.html" class="nav-link active">Product</a>
+                        <div class="dropdown-menu">
+                            <a href="catalog.html" class="dropdown-item">🍰 All Products</a>
+                            <a href="catalog.html?cat=classic" class="dropdown-item">🎂 Classic Cakes</a>
+                            <a href="catalog.html?cat=gourmet" class="dropdown-item">✨ Gourmet</a>
+                            <a href="catalog.html?cat=designer" class="dropdown-item">🎨 Designer</a>
+                            <a href="catalog.html?cat=desserts" class="dropdown-item">🍮 Desserts</a>
+                        </div>
+                    </div>
+                    <div class="nav-dropdown">
+                        <a href="#" class="nav-link">Resources</a>
+                        <div class="dropdown-menu">
+                            <a href="#" class="dropdown-item">📖 Blog</a>
+                            <a href="#" class="dropdown-item">📸 Gallery</a>
+                        </div>
+                    </div>
+                    <div class="nav-dropdown">
+                        <a href="contact.html" class="nav-link">Contact</a>
+                        <div class="dropdown-menu">
+                            <a href="contact.html" class="dropdown-item">📞 Contact Us</a>
+                            <a href="#" class="dropdown-item">❓ FAQ</a>
+                        </div>
+                    </div>
+                </nav>
+                <div class="nav-spacer"></div>
+                <div class="nav-search">
+                    <button>🔍</button>
+                    <input type="text" placeholder="Search cakes...">
+                </div>
+                <div class="nav-icons">
+                    <a href="profile.html" class="nav-icon-btn" title="Profile">👤</a>
+                    <a href="#" class="nav-icon-btn" title="Wishlist">🤍</a>
+                    <a href="checkout.html" class="nav-icon-btn" title="Cart">🛒<span class="nav-badge">3</span></a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="overlay" id="overlay"></div>
+    <div class="mobile-nav" id="mobileNav">
+        <div class="mobile-nav-header">
+            <span class="mobile-nav-logo">Dakingo</span>
+            <button class="mobile-nav-close" id="navClose">✕</button>
+        </div>
+        <div class="mobile-nav-links">
+            <a href="index.html" class="mobile-nav-link"><span class="icon">🏠</span>Home</a>
+            <a href="catalog.html" class="mobile-nav-link active"><span class="icon">🛍️</span>Catalog</a>
+            <a href="contact.html" class="mobile-nav-link"><span class="icon">📞</span>Contact</a>
+            <a href="profile.html" class="mobile-nav-link"><span class="icon">👤</span>Profile</a>
+            <a href="checkout.html" class="mobile-nav-link"><span class="icon">🛒</span>Cart (3)</a>
+            <a href="login.html" class="mobile-nav-link"><span class="icon">🔑</span>Login</a>
+            <a href="register.html" class="mobile-nav-link"><span class="icon">✏️</span>Register</a>
+        </div>
+    </div>
+
+    <!-- Page Header -->
+    <div class="page-header">
+        <div class="container">
+            <nav class="breadcrumb">
+                <a href="index.html">Home</a> /
+                <span>Katalog</span>
+            </nav>
+            <h1>Katalog Produk 🎂</h1>
+            <p>Temukan kue impian kamu dari koleksi premium kami</p>
+        </div>
+    </div>
+
+    <section class="catalog-section">
+        <div class="container">
+            <!-- Mobile Filter Toggle -->
+            <button class="filter-toggle" onclick="toggleFilter()">🔧 Filter & Sort</button>
+
+            <!-- Active Filters -->
+            <div class="active-filters" id="activeFilters">
+                <span class="filter-tag">Cokelat <button onclick="removeFilter(this)">✕</button></span>
+                <span class="filter-tag">Rp 100k - Rp 300k <button onclick="removeFilter(this)">✕</button></span>
+            </div>
+
+            <div class="catalog-layout">
+                <!-- Sidebar Filter -->
+                <aside class="filter-sidebar" id="filterSidebar">
+                    <!-- Search -->
+                    <div class="filter-group">
+                        <input class="form-input" type="text" placeholder="🔍 Cari produk...">
+                    </div>
+
+                    <!-- Category -->
+                    <div class="filter-group">
+                        <p class="filter-title">Kategori</p>
+                        <div class="filter-options">
+                            <div class="filter-option">
+                                <label><input type="checkbox" checked> Classic Cakes <span
+                                        class="filter-count">(24)</span></label>
+                            </div>
+                            <div class="filter-option">
+                                <label><input type="checkbox"> Gourmet <span class="filter-count">(18)</span></label>
+                            </div>
+                            <div class="filter-option">
+                                <label><input type="checkbox"> Designer <span class="filter-count">(32)</span></label>
+                            </div>
+                            <div class="filter-option">
+                                <label><input type="checkbox"> Desserts <span class="filter-count">(15)</span></label>
+                            </div>
+                            <div class="filter-option">
+                                <label><input type="checkbox"> Cookies <span class="filter-count">(20)</span></label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Price -->
+                    <div class="filter-group">
+                        <p class="filter-title">Harga</p>
+                        <div class="price-range">
+                            <input type="number" class="price-input form-input" placeholder="Min" value="100000">
+                            <span>—</span>
+                            <input type="number" class="price-input form-input" placeholder="Max" value="500000">
+                        </div>
+                    </div>
+
+                    <!-- Rating -->
+                    <div class="filter-group">
+                        <p class="filter-title">Rating</p>
+                        <div class="filter-options">
+                            <div class="filter-option">
+                                <label><input type="radio" name="rating"> ★★★★★ (5)</label>
+                            </div>
+                            <div class="filter-option">
+                                <label><input type="radio" name="rating" checked> ★★★★ & up</label>
+                            </div>
+                            <div class="filter-option">
+                                <label><input type="radio" name="rating"> ★★★ & up</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Size -->
+                    <div class="filter-group" style="border-bottom:none;padding-bottom:0">
+                        <p class="filter-title">Ukuran</p>
+                        <div class="filter-options">
+                            <div class="filter-option"><label><input type="checkbox"> 0.5 kg</label></div>
+                            <div class="filter-option"><label><input type="checkbox" checked> 1 kg</label></div>
+                            <div class="filter-option"><label><input type="checkbox"> 1.5 kg</label></div>
+                            <div class="filter-option"><label><input type="checkbox"> 2 kg</label></div>
+                        </div>
+                    </div>
+
+                    <button class="btn btn-primary btn-block" style="margin-top:20px">Terapkan Filter</button>
+                    <button class="btn btn-outline btn-block" style="margin-top:8px">Reset</button>
+                </aside>
+
+                <!-- Main Content -->
+                <div>
+                    <!-- Toolbar -->
+                    <div class="catalog-toolbar">
+                        <p class="catalog-count">Menampilkan <strong>12</strong> dari <strong>109</strong> produk</p>
+                        <div class="catalog-sort">
+                            <label style="font-size:0.875rem;font-weight:600;color:var(--text-medium)">Urutkan:</label>
+                            <select class="sort-select">
+                                <option>Paling Populer</option>
+                                <option>Harga Terendah</option>
+                                <option>Harga Tertinggi</option>
+                                <option>Rating Tertinggi</option>
+                                <option>Terbaru</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Products -->
+                    <div class="catalog-grid">
+                        <div class="product-card">
+                            <div class="product-card-img"><img src="assets/img/cake_truffle.png"
+                                    alt="Chocolate Truffle">
+                                <div class="product-card-actions"><button class="product-action-btn">🤍</button><button
+                                        class="product-action-btn"
+                                        onclick="location.href='product-detail.html'">👁️</button></div>
+                            </div>
+                            <div class="product-card-body">
+                                <p class="product-card-name">Chocolate Truffle</p>
+                                <div class="product-card-rating">
+                                    <div class="stars"><span class="star">★</span><span class="star">★</span><span
+                                            class="star">★</span><span class="star">★</span><span
+                                            class="star empty">★</span></div><span class="product-rating-num">4.0</span>
+                                </div>
+                                <div class="product-card-footer">
+                                    <div><span class="product-price-new">Rp 198.000</span><span
+                                            class="product-price-old">Rp 280k</span></div><button
+                                        class="product-cart-btn" onclick="addCart('Chocolate Truffle')"><svg
+                                            class="cart-icon" viewBox="0 0 24 24" fill="none" stroke="#fff"
+                                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <circle cx="9" cy="21" r="1" />
+                                            <circle cx="20" cy="21" r="1" />
+                                            <path
+                                                d="M1 1h4l2.68 13.39a2 2 0 001.99 1.61h9.72a2 2 0 001.98-1.68L23 6H6" />
+                                        </svg></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="product-card">
+                            <div class="product-card-img"><img src="assets/img/cake_hero.png" alt="Choco Berry">
+                                <div class="product-card-actions"><button class="product-action-btn">🤍</button><button
+                                        class="product-action-btn"
+                                        onclick="location.href='product-detail.html'">👁️</button></div>
+                            </div>
+                            <div class="product-card-body">
+                                <p class="product-card-name">Choco Berry</p>
+                                <div class="product-card-rating">
+                                    <div class="stars"><span class="star">★</span><span class="star">★</span><span
+                                            class="star">★</span><span class="star">★</span><span class="star">★</span>
+                                    </div><span class="product-rating-num">4.5</span>
+                                </div>
+                                <div class="product-card-footer">
+                                    <div><span class="product-price-new">Rp 250.000</span><span
+                                            class="product-price-old">Rp 380k</span></div><button
+                                        class="product-cart-btn" onclick="addCart('Choco Berry')"><svg class="cart-icon"
+                                            viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round">
+                                            <circle cx="9" cy="21" r="1" />
+                                            <circle cx="20" cy="21" r="1" />
+                                            <path
+                                                d="M1 1h4l2.68 13.39a2 2 0 001.99 1.61h9.72a2 2 0 001.98-1.68L23 6H6" />
+                                        </svg></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="product-card">
+                            <div class="product-card-img"><img src="assets/img/cake_tropical.png" alt="Tropical Fruit">
+                                <div class="product-card-actions"><button class="product-action-btn">🤍</button><button
+                                        class="product-action-btn"
+                                        onclick="location.href='product-detail.html'">👁️</button></div>
+                            </div>
+                            <div class="product-card-body">
+                                <p class="product-card-name">Tropical Fruit</p>
+                                <div class="product-card-rating">
+                                    <div class="stars"><span class="star">★</span><span class="star">★</span><span
+                                            class="star">★</span><span class="star">★</span><span class="star">★</span>
+                                    </div><span class="product-rating-num">4.5</span>
+                                </div>
+                                <div class="product-card-footer">
+                                    <div><span class="product-price-new">Rp 260.000</span><span
+                                            class="product-price-old">Rp 340k</span></div><button
+                                        class="product-cart-btn" onclick="addCart('Tropical Fruit')"><svg
+                                            class="cart-icon" viewBox="0 0 24 24" fill="none" stroke="#fff"
+                                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <circle cx="9" cy="21" r="1" />
+                                            <circle cx="20" cy="21" r="1" />
+                                            <path
+                                                d="M1 1h4l2.68 13.39a2 2 0 001.99 1.61h9.72a2 2 0 001.98-1.68L23 6H6" />
+                                        </svg></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="product-card">
+                            <div class="product-card-img"><img src="assets/img/cake_butterscotch.png"
+                                    alt="Butterscotch">
+                                <div class="product-card-actions"><button class="product-action-btn">🤍</button><button
+                                        class="product-action-btn"
+                                        onclick="location.href='product-detail.html'">👁️</button></div>
+                            </div>
+                            <div class="product-card-body">
+                                <p class="product-card-name">Butterscotch</p>
+                                <div class="product-card-rating">
+                                    <div class="stars"><span class="star">★</span><span class="star">★</span><span
+                                            class="star">★</span><span class="star">★</span><span class="star">★</span>
+                                    </div><span class="product-rating-num">4.8</span>
+                                </div>
+                                <div class="product-card-footer">
+                                    <div><span class="product-price-new">Rp 250.000</span><span
+                                            class="product-price-old">Rp 350k</span></div><button
+                                        class="product-cart-btn" onclick="addCart('Butterscotch')"><svg
+                                            class="cart-icon" viewBox="0 0 24 24" fill="none" stroke="#fff"
+                                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <circle cx="9" cy="21" r="1" />
+                                            <circle cx="20" cy="21" r="1" />
+                                            <path
+                                                d="M1 1h4l2.68 13.39a2 2 0 001.99 1.61h9.72a2 2 0 001.98-1.68L23 6H6" />
+                                        </svg></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="product-card">
+                            <div class="product-card-img"><img src="assets/img/cake_pineapple.png" alt="Pineapple">
+                                <div class="product-card-actions"><button class="product-action-btn">🤍</button><button
+                                        class="product-action-btn"
+                                        onclick="location.href='product-detail.html'">👁️</button></div>
+                            </div>
+                            <div class="product-card-body">
+                                <p class="product-card-name">Pineapple Fresh</p>
+                                <div class="product-card-rating">
+                                    <div class="stars"><span class="star">★</span><span class="star">★</span><span
+                                            class="star">★</span><span class="star">★</span><span
+                                            class="star empty">★</span></div><span class="product-rating-num">4.3</span>
+                                </div>
+                                <div class="product-card-footer">
+                                    <div><span class="product-price-new">Rp 200.000</span><span
+                                            class="product-price-old">Rp 280k</span></div><button
+                                        class="product-cart-btn" onclick="addCart('Pineapple')"><svg class="cart-icon"
+                                            viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round">
+                                            <circle cx="9" cy="21" r="1" />
+                                            <circle cx="20" cy="21" r="1" />
+                                            <path
+                                                d="M1 1h4l2.68 13.39a2 2 0 001.99 1.61h9.72a2 2 0 001.98-1.68L23 6H6" />
+                                        </svg></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="product-card">
+                            <div class="product-card-img"><img src="assets/img/cake_truffle.png" alt="Dark Forest">
+                                <div class="product-card-actions"><button class="product-action-btn">🤍</button><button
+                                        class="product-action-btn"
+                                        onclick="location.href='product-detail.html'">👁️</button></div>
+                            </div>
+                            <div class="product-card-body">
+                                <p class="product-card-name">Dark Forest</p>
+                                <div class="product-card-rating">
+                                    <div class="stars"><span class="star">★</span><span class="star">★</span><span
+                                            class="star">★</span><span class="star">★</span><span class="star">★</span>
+                                    </div><span class="product-rating-num">4.7</span>
+                                </div>
+                                <div class="product-card-footer">
+                                    <div><span class="product-price-new">Rp 320.000</span><span
+                                            class="product-price-old">Rp 420k</span></div><button
+                                        class="product-cart-btn" onclick="addCart('Dark Forest')"><svg class="cart-icon"
+                                            viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round">
+                                            <circle cx="9" cy="21" r="1" />
+                                            <circle cx="20" cy="21" r="1" />
+                                            <path
+                                                d="M1 1h4l2.68 13.39a2 2 0 001.99 1.61h9.72a2 2 0 001.98-1.68L23 6H6" />
+                                        </svg></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="product-card">
+                            <div class="product-card-img"><img src="assets/img/cake_hero.png" alt="Berry Bliss">
+                                <div class="product-card-actions"><button class="product-action-btn">🤍</button><button
+                                        class="product-action-btn"
+                                        onclick="location.href='product-detail.html'">👁️</button></div>
+                            </div>
+                            <div class="product-card-body">
+                                <p class="product-card-name">Berry Bliss</p>
+                                <div class="product-card-rating">
+                                    <div class="stars"><span class="star">★</span><span class="star">★</span><span
+                                            class="star">★</span><span class="star">★</span><span
+                                            class="star empty">★</span></div><span class="product-rating-num">4.2</span>
+                                </div>
+                                <div class="product-card-footer">
+                                    <div><span class="product-price-new">Rp 280.000</span><span
+                                            class="product-price-old">Rp 370k</span></div><button
+                                        class="product-cart-btn" onclick="addCart('Berry Bliss')"><svg class="cart-icon"
+                                            viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round">
+                                            <circle cx="9" cy="21" r="1" />
+                                            <circle cx="20" cy="21" r="1" />
+                                            <path
+                                                d="M1 1h4l2.68 13.39a2 2 0 001.99 1.61h9.72a2 2 0 001.98-1.68L23 6H6" />
+                                        </svg></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="product-card">
+                            <div class="product-card-img"><img src="assets/img/cake_butterscotch.png"
+                                    alt="Caramel Dream">
+                                <div class="product-card-actions"><button class="product-action-btn">🤍</button><button
+                                        class="product-action-btn"
+                                        onclick="location.href='product-detail.html'">👁️</button></div>
+                            </div>
+                            <div class="product-card-body">
+                                <p class="product-card-name">Caramel Dream</p>
+                                <div class="product-card-rating">
+                                    <div class="stars"><span class="star">★</span><span class="star">★</span><span
+                                            class="star">★</span><span class="star">★</span><span class="star">★</span>
+                                    </div><span class="product-rating-num">4.9</span>
+                                </div>
+                                <div class="product-card-footer">
+                                    <div><span class="product-price-new">Rp 290.000</span><span
+                                            class="product-price-old">Rp 390k</span></div><button
+                                        class="product-cart-btn" onclick="addCart('Caramel Dream')"><svg
+                                            class="cart-icon" viewBox="0 0 24 24" fill="none" stroke="#fff"
+                                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <circle cx="9" cy="21" r="1" />
+                                            <circle cx="20" cy="21" r="1" />
+                                            <path
+                                                d="M1 1h4l2.68 13.39a2 2 0 001.99 1.61h9.72a2 2 0 001.98-1.68L23 6H6" />
+                                        </svg></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pagination -->
+                    <div class="pagination">
+                        <button class="page-btn arrow">‹</button>
+                        <button class="page-btn active">1</button>
+                        <button class="page-btn">2</button>
+                        <button class="page-btn">3</button>
+                        <span style="color:var(--text-light)">...</span>
+                        <button class="page-btn">9</button>
+                        <button class="page-btn arrow">›</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mobile Bottom Nav -->
+    <nav class="mobile-bottom-nav">
+        <div class="mbn-items">
+            <div class="mbn-group">
+                <a href="index.html" class="mbn-item">
+                    <span class="mbn-icon">🏠</span>
+                    <span class="mbn-label">Home</span>
+                </a>
+                <a href="catalog.html" class="mbn-item active">
+                    <span class="mbn-icon">🛍️</span>
+                    <span class="mbn-label">Katalog</span>
+                </a>
+            </div>
+            <div class="mbn-fab-space"></div>
+            <div class="mbn-group">
+                <a href="pesanan.html" class="mbn-item">
+                    <span class="mbn-icon">📦</span>
+                    <span class="mbn-label">Pesanan</span>
+                </a>
+                <a href="profile.html" class="mbn-item">
+                    <span class="mbn-icon">👤</span>
+                    <span class="mbn-label">Profil</span>
+                </a>
+            </div>
+        </div>
+        <a href="checkout.html" class="mbn-fab">
+            🛒<span class="mbn-badge">3</span>
+        </a>
+    </nav>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <div class="logo">Dakingo</div>
+                    <p>Sign up to our newsletter and enjoy delicious promotions.</p>
+                    <form class="newsletter-form" onsubmit="return false"><input type="email"
+                            placeholder="Enter email address"><button type="submit">Sign Up</button></form>
+                </div>
+                <div>
+                    <p class="footer-heading">Newsletter</p>
+                    <ul class="footer-links">
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Career</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <p class="footer-heading">Categories</p>
+                    <ul class="footer-links">
+                        <li><a href="#">Cookies</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Resala</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <p class="footer-heading">Links</p>
+                    <ul class="footer-links">
+                        <li><a href="contact.html">Contact Us</a></li>
+                        <li><a href="#">Terms</a></li>
+                        <li><a href="#">Site Map</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>Copyright Dakingo.</p>
+                <div class="footer-bottom-links"><a href="#">Privacy</a><a href="#">Terms</a></div>
+            </div>
+        </div>
+    </footer>
+
+    <div class="toast" id="toast"></div>
+    <button class="back-top" id="backTop">↑</button>
+
+    <script>
+        const hamburger = document.getElementById('hamburger');
+        const mobileNav = document.getElementById('mobileNav');
+        const overlay = document.getElementById('overlay');
+        const navClose = document.getElementById('navClose');
+        hamburger.addEventListener('click', () => { mobileNav.classList.toggle('open'); overlay.classList.toggle('active'); hamburger.classList.toggle('open'); });
+        navClose.addEventListener('click', () => { mobileNav.classList.remove('open'); overlay.classList.remove('active'); hamburger.classList.remove('open'); });
+        overlay.addEventListener('click', () => { mobileNav.classList.remove('open'); overlay.classList.remove('active'); hamburger.classList.remove('open'); });
+        function toggleFilter() { document.getElementById('filterSidebar').classList.toggle('open'); }
+        function removeFilter(btn) { btn.closest('.filter-tag').remove(); }
+        function addCart(name) {
+            const t = document.getElementById('toast');
+            t.textContent = `🛒 ${name} ditambahkan!`;
+            t.className = 'toast show toast-success';
+            setTimeout(() => t.className = 'toast', 2500);
+        }
+        const bt = document.getElementById('backTop');
+        window.addEventListener('scroll', () => bt.classList.toggle('show', window.scrollY > 300));
+        bt.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+        document.querySelectorAll('.page-btn').forEach(btn => {
+            btn.addEventListener('click', () => { document.querySelectorAll('.page-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); });
+        });
+    </script>
+</body>
+
+</html>

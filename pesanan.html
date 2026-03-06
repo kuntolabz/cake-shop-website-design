@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Lihat riwayat pesanan kamu di Dakingo.">
+    <title>Pesanan Saya — Dakingo</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/components.css">
+    <style>
+        body {
+            padding-top: calc(var(--nav-height) + var(--announcement-height));
+        }
+
+        .orders-section {
+            padding: 40px 0 80px;
+        }
+
+        .orders-layout {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 28px;
+            align-items: start;
+        }
+
+        @media (min-width: 1024px) {
+            .orders-layout {
+                grid-template-columns: 260px 1fr;
+            }
+        }
+
+        .avatar-wrap {
+            text-align: center;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 16px;
+        }
+
+        .avatar-ring {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin: 0 auto 10px;
+        }
+
+        .avatar-name {
+            font-size: 0.95rem;
+            font-weight: 700;
+            margin-bottom: 2px;
+        }
+
+        .avatar-email {
+            font-size: 0.75rem;
+            color: var(--text-light);
+        }
+
+        /* Filter Tabs */
+        .filter-tabs {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 24px;
+        }
+
+        .filter-tab {
+            padding: 8px 18px;
+            border-radius: var(--radius-full);
+            font-size: 0.8rem;
+            font-weight: 600;
+            border: 1.5px solid var(--border);
+            background: #fff;
+            color: var(--text-medium);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .filter-tab:hover,
+        .filter-tab.active {
+            background: var(--primary);
+            color: #fff;
+            border-color: var(--primary);
+        }
+
+        /* Order Card */
+        .order-card {
+            background: #fff;
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-sm);
+            margin-bottom: 16px;
+            overflow: hidden;
+            transition: var(--transition);
+        }
+
+        .order-card:hover {
+            box-shadow: var(--shadow-md);
+        }
+
+        .order-card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--border);
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .order-meta {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .order-id {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+
+        .order-date {
+            font-size: 0.78rem;
+            color: var(--text-light);
+        }
+
+        .order-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 4px 12px;
+            border-radius: var(--radius-full);
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .status-pending {
+            background: #FEF9C3;
+            color: #A16207;
+        }
+
+        .status-process {
+            background: #DBEAFE;
+            color: #1D4ED8;
+        }
+
+        .status-shipped {
+            background: #F3E8FF;
+            color: #7E22CE;
+        }
+
+        .status-done {
+            background: #DCFCE7;
+            color: #15803D;
+        }
+
+        .status-cancel {
+            background: #FEE2E2;
+            color: #B91C1C;
+        }
+
+        .order-card-body {
+            padding: 16px 20px;
+        }
+
+        .order-items-preview {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 14px;
+        }
+
+        .order-item-thumb {
+            width: 64px;
+            height: 64px;
+            border-radius: var(--radius-sm);
+            background: var(--bg);
+            object-fit: cover;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+        }
+
+        .order-item-info {
+            flex: 1;
+        }
+
+        .order-item-name {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 3px;
+        }
+
+        .order-item-qty {
+            font-size: 0.78rem;
+            color: var(--text-light);
+        }
+
+        .order-more-items {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 64px;
+            height: 64px;
+            border-radius: var(--radius-sm);
+            background: var(--accent-light);
+            color: var(--primary);
+            font-size: 0.78rem;
+            font-weight: 700;
+        }
+
+        .order-card-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 20px;
+            background: var(--bg);
+            border-top: 1px solid var(--border);
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .order-total-label {
+            font-size: 0.8rem;
+            color: var(--text-light);
+        }
+
+        .order-total-value {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .order-actions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        /* Empty State */
+        .empty-orders {
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .empty-orders-icon {
+            font-size: 4rem;
+            margin-bottom: 16px;
+        }
+
+        .empty-orders h3 {
+            font-size: 1.2rem;
+            margin-bottom: 8px;
+        }
+
+        .empty-orders p {
+            font-size: 0.875rem;
+            color: var(--text-light);
+            margin-bottom: 24px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="announcement-bar">🍫 Free Eagle Tray | E-commerce Homepage — Order Now & Get 10% Off!</div>
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-inner">
+                <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+                <a href="index.html" class="nav-logo">Dakingo</a>
+                <nav class="nav-links">
+                    <a href="index.html" class="nav-link">Home</a>
+                    <div class="nav-dropdown">
+                        <a href="catalog.html" class="nav-link">Product</a>
+                        <div class="dropdown-menu">
+                            <a href="catalog.html" class="dropdown-item">🍰 All Products</a>
+                            <a href="catalog.html?cat=classic" class="dropdown-item">🎂 Classic Cakes</a>
+                            <a href="catalog.html?cat=gourmet" class="dropdown-item">✨ Gourmet</a>
+                            <a href="catalog.html?cat=designer" class="dropdown-item">🎨 Designer</a>
+                            <a href="catalog.html?cat=desserts" class="dropdown-item">🍮 Desserts</a>
+                        </div>
+                    </div>
+                    <div class="nav-dropdown">
+                        <a href="#" class="nav-link">Resources</a>
+                        <div class="dropdown-menu">
+                            <a href="#" class="dropdown-item">📖 Blog</a>
+                            <a href="#" class="dropdown-item">📸 Gallery</a>
+                        </div>
+                    </div>
+                    <div class="nav-dropdown">
+                        <a href="contact.html" class="nav-link">Contact</a>
+                        <div class="dropdown-menu">
+                            <a href="contact.html" class="dropdown-item">📞 Contact Us</a>
+                            <a href="#" class="dropdown-item">❓ FAQ</a>
+                        </div>
+                    </div>
+                </nav>
+                <div class="nav-spacer"></div>
+                <div class="nav-search">
+                    <button>🔍</button>
+                    <input type="text" placeholder="Search cakes...">
+                </div>
+                <div class="nav-icons">
+                    <a href="profile.html" class="nav-icon-btn" title="Profile" style="color:var(--primary)">👤</a>
+                    <a href="#" class="nav-icon-btn" title="Wishlist">🤍</a>
+                    <a href="checkout.html" class="nav-icon-btn" title="Cart">🛒<span class="nav-badge">3</span></a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <div class="overlay" id="overlay"></div>
+    <div class="mobile-nav" id="mobileNav">
+        <div class="mobile-nav-header"><span class="mobile-nav-logo">Dakingo</span><button class="mobile-nav-close"
+                id="navClose">✕</button></div>
+        <div class="mobile-nav-links">
+            <a href="index.html" class="mobile-nav-link"><span class="icon">🏠</span>Home</a>
+            <a href="catalog.html" class="mobile-nav-link"><span class="icon">🛍️</span>Catalog</a>
+            <a href="contact.html" class="mobile-nav-link"><span class="icon">📞</span>Contact</a>
+            <a href="profile.html" class="mobile-nav-link"><span class="icon">👤</span>Profile</a>
+            <a href="pesanan.html" class="mobile-nav-link active"><span class="icon">📦</span>Pesanan</a>
+            <a href="checkout.html" class="mobile-nav-link"><span class="icon">🛒</span>Cart (3)</a>
+            <a href="login.html" class="mobile-nav-link"><span class="icon">🔑</span>Login</a>
+            <a href="register.html" class="mobile-nav-link"><span class="icon">✏️</span>Register</a>
+        </div>
+    </div>
+
+    <div class="page-header">
+        <div class="container">
+            <nav class="breadcrumb"><a href="index.html">Home</a> / <a href="profile.html">Profil</a> /
+                <span>Pesanan</span>
+            </nav>
+            <h1>Pesanan Saya 📦</h1>
+            <p>Lacak dan kelola semua pesanan kamu</p>
+        </div>
+    </div>
+
+    <section class="orders-section">
+        <div class="container">
+            <div class="orders-layout">
+                <!-- Sidebar -->
+                <aside class="sidebar">
+                    <div class="avatar-wrap">
+                        <div class="avatar-ring">👤</div>
+                        <div class="avatar-name">Sari Dewi</div>
+                        <div class="avatar-email">sari@email.com</div>
+                    </div>
+                    <nav class="sidebar-nav">
+                        <a href="profile.html" class="sidebar-link"><span class="icon">👤</span>Profil Saya</a>
+                        <a href="pesanan.html" class="sidebar-link active"><span class="icon">📦</span>Pesanan Saya</a>
+                        <a href="ganti-alamat.html" class="sidebar-link"><span class="icon">📍</span>Alamat</a>
+                        <a href="wishlist.html" class="sidebar-link"><span class="icon">🤍</span>Wishlist</a>
+                        <a href="ubah-password.html" class="sidebar-link"><span class="icon">🔑</span>Ubah Password</a>
+                        <div class="divider"></div>
+                        <a href="login.html" class="sidebar-link danger"><span class="icon">🚪</span>Logout</a>
+                    </nav>
+                </aside>
+
+                <!-- Main -->
+                <div>
+                    <!-- Filter Tabs -->
+                    <div class="filter-tabs" id="filterTabs">
+                        <button class="filter-tab active" onclick="filterOrders('all', this)">Semua</button>
+                        <button class="filter-tab" onclick="filterOrders('pending', this)">⏳ Menunggu</button>
+                        <button class="filter-tab" onclick="filterOrders('process', this)">🔄 Diproses</button>
+                        <button class="filter-tab" onclick="filterOrders('shipped', this)">🚚 Dikirim</button>
+                        <button class="filter-tab" onclick="filterOrders('done', this)">✅ Selesai</button>
+                        <button class="filter-tab" onclick="filterOrders('cancel', this)">❌ Dibatalkan</button>
+                    </div>
+
+                    <!-- Order List -->
+                    <div id="orderList">
+
+                        <!-- Order 1 -->
+                        <div class="order-card" data-status="shipped">
+                            <div class="order-card-header">
+                                <div class="order-meta">
+                                    <span class="order-id">#DKG-2024-00892</span>
+                                    <span class="order-date">📅 5 Mar 2024</span>
+                                </div>
+                                <span class="order-status status-shipped">🚚 Sedang Dikirim</span>
+                            </div>
+                            <div class="order-card-body">
+                                <div class="order-items-preview">
+                                    <div style="display:flex;gap:12px;align-items:center;width:100%">
+                                        <div class="order-item-thumb">🎂</div>
+                                        <div class="order-item-info">
+                                            <div class="order-item-name">Choco Lava Cake Premium</div>
+                                            <div class="order-item-qty">x2 • Uk. Medium</div>
+                                        </div>
+                                        <div class="order-more-items">+2 item</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="order-card-footer">
+                                <div>
+                                    <div class="order-total-label">Total Pembayaran</div>
+                                    <div class="order-total-value">Rp 248.000</div>
+                                </div>
+                                <div class="order-actions">
+                                    <a href="detail-pesanan.html" class="btn btn-primary btn-sm">📋 Detail</a>
+                                    <button class="btn btn-outline btn-sm">📍 Lacak</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Order 2 -->
+                        <div class="order-card" data-status="done">
+                            <div class="order-card-header">
+                                <div class="order-meta">
+                                    <span class="order-id">#DKG-2024-00781</span>
+                                    <span class="order-date">📅 18 Feb 2024</span>
+                                </div>
+                                <span class="order-status status-done">✅ Selesai</span>
+                            </div>
+                            <div class="order-card-body">
+                                <div class="order-items-preview">
+                                    <div style="display:flex;gap:12px;align-items:center;width:100%">
+                                        <div class="order-item-thumb">🍰</div>
+                                        <div class="order-item-info">
+                                            <div class="order-item-name">Strawberry Cheesecake</div>
+                                            <div class="order-item-qty">x1 • Uk. Large</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="order-card-footer">
+                                <div>
+                                    <div class="order-total-label">Total Pembayaran</div>
+                                    <div class="order-total-value">Rp 185.000</div>
+                                </div>
+                                <div class="order-actions">
+                                    <a href="detail-pesanan.html" class="btn btn-primary btn-sm">📋 Detail</a>
+                                    <button class="btn btn-outline btn-sm">⭐ Beri Ulasan</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Order 3 -->
+                        <div class="order-card" data-status="process">
+                            <div class="order-card-header">
+                                <div class="order-meta">
+                                    <span class="order-id">#DKG-2024-00923</span>
+                                    <span class="order-date">📅 6 Mar 2024</span>
+                                </div>
+                                <span class="order-status status-process">🔄 Sedang Diproses</span>
+                            </div>
+                            <div class="order-card-body">
+                                <div class="order-items-preview">
+                                    <div style="display:flex;gap:12px;align-items:center;width:100%">
+                                        <div class="order-item-thumb">🧁</div>
+                                        <div class="order-item-info">
+                                            <div class="order-item-name">Red Velvet Cupcake Box</div>
+                                            <div class="order-item-qty">x6 pcs</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="order-card-footer">
+                                <div>
+                                    <div class="order-total-label">Total Pembayaran</div>
+                                    <div class="order-total-value">Rp 132.000</div>
+                                </div>
+                                <div class="order-actions">
+                                    <a href="detail-pesanan.html" class="btn btn-primary btn-sm">📋 Detail</a>
+                                    <button class="btn btn-outline btn-sm"
+                                        onclick="showToast('❌ Permintaan pembatalan dikirim')">❌ Batalkan</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Order 4 - Pending -->
+                        <div class="order-card" data-status="pending">
+                            <div class="order-card-header">
+                                <div class="order-meta">
+                                    <span class="order-id">#DKG-2024-00934</span>
+                                    <span class="order-date">📅 6 Mar 2024</span>
+                                </div>
+                                <span class="order-status status-pending">⏳ Menunggu Pembayaran</span>
+                            </div>
+                            <div class="order-card-body">
+                                <div class="order-items-preview">
+                                    <div style="display:flex;gap:12px;align-items:center;width:100%">
+                                        <div class="order-item-thumb">🍫</div>
+                                        <div class="order-item-info">
+                                            <div class="order-item-name">Dark Chocolate Brownies</div>
+                                            <div class="order-item-qty">x3 pcs</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="info-box warning" style="margin-top:12px">
+                                    <span class="info-box-icon">⚠️</span>
+                                    <span>Selesaikan pembayaran sebelum <strong>07 Mar 2024, 13:00 WIB</strong></span>
+                                </div>
+                            </div>
+                            <div class="order-card-footer">
+                                <div>
+                                    <div class="order-total-label">Total Pembayaran</div>
+                                    <div class="order-total-value">Rp 96.000</div>
+                                </div>
+                                <div class="order-actions">
+                                    <button class="btn btn-primary btn-sm"
+                                        onclick="showToast('💳 Menuju halaman pembayaran...')">💳 Bayar</button>
+                                    <a href="detail-pesanan.html" class="btn btn-outline btn-sm">📋 Detail</a>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mobile Bottom Nav -->
+    <nav class="mobile-bottom-nav">
+        <div class="mbn-items">
+            <div class="mbn-group">
+                <a href="index.html" class="mbn-item">
+                    <span class="mbn-icon">🏠</span>
+                    <span class="mbn-label">Home</span>
+                </a>
+                <a href="catalog.html" class="mbn-item">
+                    <span class="mbn-icon">🛍️</span>
+                    <span class="mbn-label">Katalog</span>
+                </a>
+            </div>
+            <div class="mbn-fab-space"></div>
+            <div class="mbn-group">
+                <a href="pesanan.html" class="mbn-item active">
+                    <span class="mbn-icon">📦</span>
+                    <span class="mbn-label">Pesanan</span>
+                </a>
+                <a href="profile.html" class="mbn-item">
+                    <span class="mbn-icon">👤</span>
+                    <span class="mbn-label">Profil</span>
+                </a>
+            </div>
+        </div>
+        <a href="checkout.html" class="mbn-fab">
+            🛒<span class="mbn-badge">3</span>
+        </a>
+    </nav>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <div class="logo">Dakingo</div>
+                    <p>Sign up to our newsletter.</p>
+                    <form class="newsletter-form" onsubmit="return false"><input type="email"
+                            placeholder="Enter email"><button>Sign Up</button></form>
+                </div>
+                <div>
+                    <p class="footer-heading">Links</p>
+                    <ul class="footer-links">
+                        <li><a href="catalog.html">Katalog</a></li>
+                        <li><a href="profile.html">Profil</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <p class="footer-heading">Help</p>
+                    <ul class="footer-links">
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#">Terms</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <p class="footer-heading">Account</p>
+                    <ul class="footer-links">
+                        <li><a href="login.html">Login</a></li>
+                        <li><a href="register.html">Register</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>Copyright Dakingo.</p>
+            </div>
+        </div>
+    </footer>
+    <div class="toast" id="toast"></div>
+    <button class="back-top" id="backTop">↑</button>
+
+    <script>
+        const hamburger = document.getElementById('hamburger'); const mobileNav = document.getElementById('mobileNav'); const overlay = document.getElementById('overlay'); const navClose = document.getElementById('navClose');
+        hamburger.addEventListener('click', () => { mobileNav.classList.toggle('open'); overlay.classList.toggle('active'); hamburger.classList.toggle('open'); });
+        navClose.addEventListener('click', () => { mobileNav.classList.remove('open'); overlay.classList.remove('active'); hamburger.classList.remove('open'); });
+        overlay.addEventListener('click', () => { mobileNav.classList.remove('open'); overlay.classList.remove('active'); hamburger.classList.remove('open'); });
+
+        function filterOrders(status, btn) {
+            document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+            btn.classList.add('active');
+            document.querySelectorAll('.order-card').forEach(card => {
+                if (status === 'all' || card.dataset.status === status) {
+                    card.style.display = '';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        function showToast(msg) { const t = document.getElementById('toast'); t.textContent = msg; t.className = 'toast show toast-success'; setTimeout(() => t.className = 'toast', 2500); }
+        const bt = document.getElementById('backTop'); window.addEventListener('scroll', () => bt.classList.toggle('show', window.scrollY > 300)); bt.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+    </script>
+</body>
+
+</html>
